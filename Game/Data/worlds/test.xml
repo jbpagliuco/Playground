@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+
+<root>
+	<gameobject>
+		<name>Camera</name>
+		<transform>
+			<position>
+				<x>0</x>
+				<y>2</y>
+				<z>-10</z>
+			</position>
+			<rotation type="lookat"/>
+		</transform>
+		<components>
+			<component type="CameraComponent">
+				<fov>45</fov>
+				<near>0.1</near>
+				<far>100</far>
+			</component>
+		</components>
+	</gameobject>
+
+	<!-- Objects -->
+	<gameobject>
+		<name>Ground</name>
+		<transform>
+			<position>
+				<x>0</x>
+				<y>0</y>
+				<z>0</z>
+			</position>
+			<rotation>
+				<x>-2</x>
+			</rotation>
+			<scale>
+				<x>10</x>
+				<y>0.2</y>
+				<z>10</z>
+			</scale>
+		</transform>
+		<components>
+			<component type="StaticMeshComponent">
+				<mesh>cube.meshx</mesh>
+				<material>
+					tex_dyn.matx
+					<overrides>
+						<override name="DiffuseTexture" type="texture">ice.dds</override>
+					</overrides>
+				</material>
+			</component>
+			<component type="RigidbodyComponent">
+				<motionType>static</motionType>
+				<collisionType>box</collisionType>
+				<min>
+					<x>-5</x>
+					<y>-0.1</y>
+					<z>-5</z>
+				</min>
+				<max>
+					<x>5</x>
+					<y>0.1</y>
+					<z>5</z>
+				</max>
+			</component>
+		</components>
+	</gameobject>
+	
+	<gameobject>
+		<name>Sphere</name>
+		<transform>
+			<position>
+				<x>0</x>
+				<y>3</y>
+			</position>
+		</transform>
+		<components>
+			<component type="StaticMeshComponent">
+				<mesh>sphere.meshx</mesh>
+				<material>tex_map.matx</material>
+			</component>
+		</components>
+	</gameobject>
+	
+	<!-- Lights -->
+	<gameobject>
+		<name>PointLight</name>
+		<transform>
+			<position>
+				<x>1</x>
+				<y>2</y>
+				<z>3</z>
+			</position>
+			<scale>
+				<x>0.25</x>
+				<y>0.25</y>
+				<z>0.25</z>
+			</scale>
+		</transform>
+		<components>
+			<component type="PointLightComponent">
+				<color>white</color>
+				<intensity>0.75</intensity>
+				<constantAttenuation>1.0</constantAttenuation>
+				<linearAttenuation>0.5</linearAttenuation>
+			</component>
+			<component type="StaticMeshComponent">
+				<mesh>cube.meshx</mesh>
+				<material>gray.matx</material>
+			</component>
+		</components>
+	</gameobject>
+
+	<gameobject>
+		<name>DirectionalLight</name>
+		<transform>
+			<position>
+				<x>1</x>
+				<y>3</y>
+				<z>-10</z>
+			</position>
+			<rotation type="lookat">
+			</rotation>
+			<scale>
+				<x>0.25</x>
+				<y>0.25</y>
+				<z>0.25</z>
+			</scale>
+		</transform>
+		<components>
+			<component type="DirectionalLightComponent">
+				<color>maroon</color>
+				<intensity>0.5</intensity>
+				<constantAttenuation>1.0</constantAttenuation>
+				<linearAttenuation>0.5</linearAttenuation>
+			</component>
+			<component type="StaticMeshComponent">
+				<mesh>cube.meshx</mesh>
+				<material>gray.matx</material>
+			</component>
+		</components>
+	</gameobject>
+</root>

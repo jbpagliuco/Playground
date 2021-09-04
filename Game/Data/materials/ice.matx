@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<root>
+    <shaderFile>tex_map.shaderx</shaderFile>
+	<parameters>
+		<parameter name="diffuse" type="color">
+			<r>1.0</r>
+			<g>1.0</g>
+			<b>1.0</b>
+		</parameter>
+		<parameter name="specular" type="color">
+			<r>0.0</r>
+			<g>0.0</g>
+			<b>0.0</b>
+			<a>1.0</a>
+		</parameter>
+		<parameter name="DiffuseTexture" type="texture">
+			ice.dds
+		</parameter>
+	</parameters>
+</root>

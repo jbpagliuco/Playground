@@ -1,0 +1,12 @@
+// This file converts a .IncludesArray variable into a .Includes string variable for the compiler
+
+// Usage
+// .Config = [
+//		.Includes = ''
+//		.IncludesArray = { '../path/to/include1', '../path/to/include2' }
+//		#include ".../CreateIncludeStrings.bff"
+// ]
+
+ForEach(.include in .IncludesArray) {
+	^Includes + ' -I "$include$" '
+}

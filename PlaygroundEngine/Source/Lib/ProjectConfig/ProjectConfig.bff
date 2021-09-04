@@ -1,0 +1,18 @@
+#include "Common.bff"
+
+// Project Constants
+.ProjectName        = 'ProjectConfig'
+.ProjectBasePath    = '$PlaygroundLibPath$/$ProjectName$'
+.ProjectIncludePaths = { }
+.ProjectBinaryExtension = 'lib'
+
+#include "../ProjectConfig/PlatformConfig_x64.bff"
+
+.AllConfigs = .Allx64Configs
+
+VCXProject('$ProjectName$-proj')
+{
+    .ProjectOutput          = '$ProjectBasePath$/$ProjectName$.vcxproj'
+    .ProjectInputPaths      = { '$ProjectBasePath$' }
+    .ProjectConfigs         = .AllConfigs
+}

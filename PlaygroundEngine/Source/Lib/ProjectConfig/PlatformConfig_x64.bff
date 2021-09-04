@@ -1,0 +1,181 @@
+// This file contains configuration for the x64 platform.
+//
+// The following variables must be defined prior to including this file:
+//  .ProjectName - The name of this project.
+//  .PlaygroundProjectConfigPath - Path to the playground ProjectConfig folder.
+
+.PlaygroundBasePath                = '../../..'
+.PlaygroundProjectConfigPath       = '$PlaygroundBasePath$/Source/Lib/ProjectConfig'
+
+#include "Common.bff"
+
+.x64Libraries = {
+    'kernel32.lib'
+    'user32.lib'
+    'gdi32.lib'
+    'winspool.lib'
+    'comdlg32.lib'
+    'advapi32.lib'
+    'shell32.lib'
+    'ole32.lib'
+    'oleaut32.lib'
+    'uuid.lib'
+    'odbc32.lib'
+    'odbccp32.lib'
+}
+
+.x64DLLs = {
+    '$PlaygroundVendorPath$/PhysX/bin/win.x86_64.vc141.mt/debug/PhysX_64.dll'
+    '$PlaygroundVendorPath$/PhysX/bin/win.x86_64.vc141.mt/debug/PhysXCommon_64.dll'
+    '$PlaygroundVendorPath$/PhysX/bin/win.x86_64.vc141.mt/debug/PhysXDevice64.dll'
+    '$PlaygroundVendorPath$/PhysX/bin/win.x86_64.vc141.mt/debug/PhysXFoundation_64.dll'
+}
+
+.VendorIncludePaths = {
+    'DirectXTK/include'
+    'PhysX/include'
+}
+
+.PhysXDebugLibraryPath      = '$PlaygroundVendorPath$/PhysX/bin/win.x86_64.vc141.mt/debug'
+.PhysXReleaseLibraryPath    = '$PlaygroundVendorPath$/PhysX/bin/win.x86_64.vc141.mt/release'
+.PhysXLibraries = {
+    'PhysX_64.lib'
+    'PhysXCommon_64.lib'
+    'PhysXFoundation_64.lib'
+    'PhysXExtensions_static_64.lib'
+}
+
+.DirectXTKDebugLibraryPath      = '$PlaygroundVendorPath$/DirectXTK/Lib/x64/debug'
+.DirectXTKReleaseLibraryPath    = '$PlaygroundVendorPath$/DirectXTK/Lib/x64/release'
+.DirectXTKLibraries             = { 'directxtk.lib' }
+
+.DebugLibraryPaths = {
+    '$PhysXDebugLibraryPath$'
+    '$DirectXTKDebugLibraryPath$'
+}
+
+.ReleaseLibraryPaths = {
+    '$PhysXReleaseLibraryPath$'
+    '$DirectXTKReleaseLibraryPath$'
+}
+
+.LibrariesArray = .x64Libraries
+                + .PhysXLibraries
+                + .DirectXTKLibraries
+
+// Base config for x64 platform
+.x64BaseConfig = [
+    Using(.BaseConfig)
+
+    .Platform           = 'x64'
+
+    .Compiler           = 'Compiler-VS2019-x64'
+    .CompilerOptions    = '%1 /Fo%2 /c /Z7 /EHsc /std:c++17'
+
+    .Librarian          = '$VSLibrarianExe$'
+    .LibrarianOptions   = '/NODEFAULTLIB /OUT:%2 %1'
+
+    .Linker             = '$VSLinkerExe$'
+    .LinkerOptions      = ' /OUT:"%2"'     // Output
+                        + ' "%1"'          // Input
+                        + ' /WX'           // Warnings as errors
+                        + ' /NOLOGO'       // No linker spam
+                        + ' /DEBUG'        // Keep debug info when linking
+                        //+ ' /NODEFAULTLIB' // We'll specify the libs explicitly
+                        + ' /LIBPATH:"$WindowsSDKBasePath$/Lib"'
+                        + ' /LIBPATH:"$VSBasePath$/VC/lib"'
+
+
+    .DefinesArray           + { 'CORE_BFF_PLATFORM_PRIVATE_PC=1' }
+    .IncludesArray          + .VSIncPaths + .WindowsKitsIncPaths
+    .ProjectIncludePaths    + { '.', '..' }
+    .LibraryPathsArray      + { .WindowsSystem32Path } + .VSLibPaths + .WindowsKitsLibPaths
+]
+
+// x64 Debug Configuration
+.x64DebugConfig = [
+    Using(.x64BaseConfig)
+    Using(.DebugBaseConfig)
+
+    .DefinesArray + .ConfigDefinesArray
+    .LibraryPathsArray + .DebugLibraryPaths
+    .CompilerOptions + ' /MDd'
+]
+
+// x64 Release Configuration
+.x64ReleaseConfig = [
+    Using(.x64BaseConfig)
+    Using(.ReleaseBaseConfig)
+
+    .DefinesArray + .ConfigDefinesArray
+    .LibraryPathsArray + .ReleaseLibraryPaths
+    .CompilerOptions + ' /MD'
+]
+
+// List of x64 base configs
+.x64Configs = { .x64DebugConfig, .x64ReleaseConfig }
+
+// x64 DirectX 11 Configuration
+.x64DX11Config = [
+    Using(.DX11BaseConfig)
+]
+
+// x64 DirectX 12 Configuration
+.x64DX12Config = [
+    Using(.DX12BaseConfig)
+]
+
+// List of all x64 render configs
+.x64RenderConfigs = { .x64DX11Config, .x64DX12Config }
+
+.Allx64Configs = { }
+ForEach(.baseConfig in .x64Configs) {
+    ForEach(.renderConfig in .x64RenderConfigs) {
+        .Config = [
+            Using(.baseConfig)
+            Using(.renderConfig)
+                
+            .TargetName = '$ProjectName$-$Platform$-$RenderConfig$-$Config$'
+
+            .DefinesArray + .RenderConfigDefinesArray
+            #include "CreateDefineStrings.bff"
+            .CompilerOptions + .Defines
+
+            .SearchPaths = .IncludesArray + .ProjectIncludePaths
+            ForEach(.include in .SearchPaths) {
+                ^IncludeSearchPath + '$include$;'
+            }
+
+            ForEach(.include in .ProjectIncludePaths) {
+                ^IncludesArray + '$ProjectBasePath$/$include$'
+            }
+            #include "CreateIncludeStrings.bff"
+            .CompilerOptions + .Includes
+
+            #include "CreateLibraryPathStrings.bff"
+            .LinkerOptions + .LibraryPaths
+
+            .LibrariesString = ''
+            #include "CreateLibraryStrings.bff"
+            .LinkerOptions + .LibrariesString
+
+            .ExeOutputRelativeToProject = 'Output/$Platform$-$RenderConfig$/$Config$/$ProjectName$.exe'
+            .ExeOutput                  = '$ProjectBasePath$/$ExeOutputRelativeToProject$'
+
+            .CompilerInputPath      = '$ProjectBasePath$'
+            .CompilerOutputPath     = '$ProjectBasePath$/Output/$Platform$-$RenderConfig$/$Config$'
+            .LibrarianOutput        = '$ProjectBasePath$/Output/$Platform$-$RenderConfig$/$Config$/$ProjectName$.lib'
+            .LinkerOutput           = .ExeOutput
+
+            // VCXProject stuff
+            .Platform                   = '$Platform$-$RenderConfig$'
+            .ProjectInputPaths          = { '$ProjectBasePath$' }
+            .PreprocessorDefinitions    = '$PreprocessorDefinitions$'
+            .ProjectBuildCommand        = '$FBuildBaseCommand$ "$TargetName$"'
+            .ProjectRebuildCommand      = '$FBuildBaseCommand$ -clean "$TargetName$"'
+            .ProjectCleanCommand        = '$FBuildBaseCommand$ -clean "$TargetName$"'
+        ]
+
+        ^Allx64Configs + .Config
+    }
+}

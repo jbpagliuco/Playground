@@ -1,0 +1,38 @@
+#include "../ProjectConfig/Common.bff"
+
+// Project Constants
+.ProjectName        = 'Renderer'
+.ProjectBasePath    = '$PlaygroundLibPath$/$ProjectName$'
+.ProjectIncludePaths = {
+    '../Core'
+    '../../Vendor'
+}
+.ProjectBinaryExtension = 'lib'
+
+#include "../ProjectConfig/PlatformConfig_x64.bff"
+
+.AllConfigs = .Allx64Configs
+
+ForEach(.config in .AllConfigs) {
+    Using(.config)
+
+    Library('$TargetName$-lib') { }
+}
+
+ForEach(.config in .AllConfigs) {
+    Using(.config)
+
+    Alias('$TargetName$') {
+        .Targets = {
+            '$TargetName$-lib'
+        }
+    }
+}
+
+
+VCXProject('$ProjectName$-proj')
+{
+    .ProjectOutput          = '$ProjectBasePath$/$ProjectName$.vcxproj'
+    .ProjectInputPaths      = { '$ProjectBasePath$' }
+    .ProjectConfigs         = .AllConfigs
+}

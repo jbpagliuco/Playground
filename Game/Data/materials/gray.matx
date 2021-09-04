@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<root>
+    <shaderFile>red.shaderx</shaderFile>
+	<parameters>
+		<parameter name="diffuse" type="color">
+			<r>0.5</r>
+			<g>0.5</g>
+			<b>0.5</b>
+		</parameter>
+		<parameter name="specular" type="color">
+			<r>0.0</r>
+			<g>0.0</g>
+			<b>0.0</b>
+			<a>1.0</a>
+		</parameter>
+	</parameters>
+</root>

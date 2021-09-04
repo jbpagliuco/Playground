@@ -1,0 +1,12 @@
+// This file converts a .DefinesArray variable into a .Defines string variable and .PreprocessorDefinitions variable for the compiler
+
+// Usage
+// .Config = [
+//		.DefinesArray = { 'Define1', 'Define2' }
+//		#include ".../CreateDefineStrings.bff"
+// ]
+
+ForEach(.define in .DefinesArray) {
+	^Defines + ' -D "$define$" '
+	^PreprocessorDefinitions + '$define$;'
+}

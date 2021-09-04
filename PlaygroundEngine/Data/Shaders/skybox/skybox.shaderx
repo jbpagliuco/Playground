@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<root>
+	<header>
+		<version>2</version>
+	</header>
+	
+	<file>skybox.hlsl</file>
+
+	<vertexShader>
+		<inputs>
+			<input>
+				<type>float3</type>
+				<semanticName>POSITION</semanticName>
+			</input>
+		</inputs>
+	</vertexShader>
+
+    <pixelShader>
+    </pixelShader>
+</root>

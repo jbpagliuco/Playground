@@ -1,0 +1,65 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameData", "..\..\Data\GameData.vcxproj", "{97E102A7-6C94-4F93-BC2A-7F5284B7D434}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Game.vcxproj", "{CB573AC0-6C94-4F93-BC2A-7F5284B7D434}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core", "..\..\..\PlaygroundEngine\Source\Lib\Core\Core.vcxproj", "{6D6E56AA-6C94-4F93-BC2A-7F5284B7D434}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "..\..\..\PlaygroundEngine\Source\Lib\Engine\Engine.vcxproj", "{EE2EF905-6C94-4F93-BC2A-7F5284B7D434}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ProjectConfig", "..\..\..\PlaygroundEngine\Source\Lib\ProjectConfig\ProjectConfig.vcxproj", "{D810B37E-6C94-4F93-BC2A-7F5284B7D434}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Renderer", "..\..\..\PlaygroundEngine\Source\Lib\Renderer\Renderer.vcxproj", "{6245F607-6C94-4F93-BC2A-7F5284B7D434}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine Libraries", "Engine Libraries", "{863F8D68-6C94-4F93-BC2A-7F5284B7D434}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64-DX11 = Debug|x64-DX11
+		Debug|x64-DX12 = Debug|x64-DX12
+		Release|x64-DX11 = Release|x64-DX11
+		Release|x64-DX12 = Release|x64-DX12
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{97E102A7-6C94-4F93-BC2A-7F5284B7D434}.Debug|x64-DX11.ActiveCfg = Debug|x64-DX11
+		{97E102A7-6C94-4F93-BC2A-7F5284B7D434}.Debug|x64-DX12.ActiveCfg = Debug|x64-DX12
+		{97E102A7-6C94-4F93-BC2A-7F5284B7D434}.Release|x64-DX11.ActiveCfg = Release|x64-DX11
+		{97E102A7-6C94-4F93-BC2A-7F5284B7D434}.Release|x64-DX12.ActiveCfg = Release|x64-DX12
+		{CB573AC0-6C94-4F93-BC2A-7F5284B7D434}.Debug|x64-DX11.ActiveCfg = Debug|x64-DX11
+		{CB573AC0-6C94-4F93-BC2A-7F5284B7D434}.Debug|x64-DX11.Deploy.0 = Debug|x64-DX11
+		{CB573AC0-6C94-4F93-BC2A-7F5284B7D434}.Debug|x64-DX12.ActiveCfg = Debug|x64-DX12
+		{CB573AC0-6C94-4F93-BC2A-7F5284B7D434}.Debug|x64-DX12.Deploy.0 = Debug|x64-DX12
+		{CB573AC0-6C94-4F93-BC2A-7F5284B7D434}.Release|x64-DX11.ActiveCfg = Release|x64-DX11
+		{CB573AC0-6C94-4F93-BC2A-7F5284B7D434}.Release|x64-DX11.Deploy.0 = Release|x64-DX11
+		{CB573AC0-6C94-4F93-BC2A-7F5284B7D434}.Release|x64-DX12.ActiveCfg = Release|x64-DX12
+		{CB573AC0-6C94-4F93-BC2A-7F5284B7D434}.Release|x64-DX12.Deploy.0 = Release|x64-DX12
+		{6D6E56AA-6C94-4F93-BC2A-7F5284B7D434}.Debug|x64-DX11.ActiveCfg = Debug|x64-DX11
+		{6D6E56AA-6C94-4F93-BC2A-7F5284B7D434}.Debug|x64-DX12.ActiveCfg = Debug|x64-DX12
+		{6D6E56AA-6C94-4F93-BC2A-7F5284B7D434}.Release|x64-DX11.ActiveCfg = Release|x64-DX11
+		{6D6E56AA-6C94-4F93-BC2A-7F5284B7D434}.Release|x64-DX12.ActiveCfg = Release|x64-DX12
+		{EE2EF905-6C94-4F93-BC2A-7F5284B7D434}.Debug|x64-DX11.ActiveCfg = Debug|x64-DX11
+		{EE2EF905-6C94-4F93-BC2A-7F5284B7D434}.Debug|x64-DX12.ActiveCfg = Debug|x64-DX12
+		{EE2EF905-6C94-4F93-BC2A-7F5284B7D434}.Release|x64-DX11.ActiveCfg = Release|x64-DX11
+		{EE2EF905-6C94-4F93-BC2A-7F5284B7D434}.Release|x64-DX12.ActiveCfg = Release|x64-DX12
+		{D810B37E-6C94-4F93-BC2A-7F5284B7D434}.Debug|x64-DX11.ActiveCfg = Debug|x64-DX11
+		{D810B37E-6C94-4F93-BC2A-7F5284B7D434}.Debug|x64-DX12.ActiveCfg = Debug|x64-DX12
+		{D810B37E-6C94-4F93-BC2A-7F5284B7D434}.Release|x64-DX11.ActiveCfg = Release|x64-DX11
+		{D810B37E-6C94-4F93-BC2A-7F5284B7D434}.Release|x64-DX12.ActiveCfg = Release|x64-DX12
+		{6245F607-6C94-4F93-BC2A-7F5284B7D434}.Debug|x64-DX11.ActiveCfg = Debug|x64-DX11
+		{6245F607-6C94-4F93-BC2A-7F5284B7D434}.Debug|x64-DX12.ActiveCfg = Debug|x64-DX12
+		{6245F607-6C94-4F93-BC2A-7F5284B7D434}.Release|x64-DX11.ActiveCfg = Release|x64-DX11
+		{6245F607-6C94-4F93-BC2A-7F5284B7D434}.Release|x64-DX12.ActiveCfg = Release|x64-DX12
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6D6E56AA-6C94-4F93-BC2A-7F5284B7D434} = {863F8D68-6C94-4F93-BC2A-7F5284B7D434}
+		{EE2EF905-6C94-4F93-BC2A-7F5284B7D434} = {863F8D68-6C94-4F93-BC2A-7F5284B7D434}
+		{D810B37E-6C94-4F93-BC2A-7F5284B7D434} = {863F8D68-6C94-4F93-BC2A-7F5284B7D434}
+		{6245F607-6C94-4F93-BC2A-7F5284B7D434} = {863F8D68-6C94-4F93-BC2A-7F5284B7D434}
+	EndGlobalSection
+EndGlobal

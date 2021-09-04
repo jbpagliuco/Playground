@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="Common.bff">
+    </CustomBuild>
+    <CustomBuild Include="CreateDefineStrings.bff">
+    </CustomBuild>
+    <CustomBuild Include="CreateIncludeStrings.bff">
+    </CustomBuild>
+    <CustomBuild Include="CreateLibraryPathStrings.bff">
+    </CustomBuild>
+    <CustomBuild Include="CreateLibraryStrings.bff">
+    </CustomBuild>
+    <CustomBuild Include="PlatformConfig_x64.bff">
+    </CustomBuild>
+    <CustomBuild Include="ProjectConfig.bff">
+    </CustomBuild>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="config.xml">
+    </CustomBuild>
+    <CustomBuild Include="materials\brick.matx">
+    </CustomBuild>
+    <CustomBuild Include="materials\earth.matx">
+    </CustomBuild>
+    <CustomBuild Include="materials\gray.matx">
+    </CustomBuild>
+    <CustomBuild Include="materials\ice.matx">
+    </CustomBuild>
+    <CustomBuild Include="materials\normal_debug.matx">
+    </CustomBuild>
+    <CustomBuild Include="materials\red.matx">
+    </CustomBuild>
+    <CustomBuild Include="materials\render_depth.matx">
+    </CustomBuild>
+    <CustomBuild Include="materials\tex_debug.matx">
+    </CustomBuild>
+    <CustomBuild Include="materials\tex_dyn.matx">
+    </CustomBuild>
+    <CustomBuild Include="materials\tex_map.matx">
+    </CustomBuild>
+    <CustomBuild Include="meshes\cube.meshx">
+    </CustomBuild>
+    <CustomBuild Include="meshes\cube.obj">
+    </CustomBuild>
+    <CustomBuild Include="meshes\point.obj">
+    </CustomBuild>
+    <CustomBuild Include="meshes\quad.meshx">
+    </CustomBuild>
+    <CustomBuild Include="meshes\quad.obj">
+    </CustomBuild>
+    <CustomBuild Include="meshes\sphere.meshx">
+    </CustomBuild>
+    <CustomBuild Include="meshes\sycamore.obj">
+    </CustomBuild>
+    <CustomBuild Include="render_targets\test_render_target.rtx">
+    </CustomBuild>
+    <CustomBuild Include="shaders\normal_debug\normal_debug.hlsl">
+    </CustomBuild>
+    <CustomBuild Include="shaders\normal_debug\normal_debug.shaderx">
+    </CustomBuild>
+    <CustomBuild Include="shaders\normal_map\normal_map.hlsl">
+    </CustomBuild>
+    <CustomBuild Include="shaders\normal_map\normal_map.shaderx">
+    </CustomBuild>
+    <CustomBuild Include="shaders\red\red.hlsl">
+    </CustomBuild>
+    <CustomBuild Include="shaders\red\red.shaderx">
+    </CustomBuild>
+    <CustomBuild Include="shaders\render_depth\render_depth.hlsl">
+    </CustomBuild>
+    <CustomBuild Include="shaders\render_depth\render_depth.shaderx">
+    </CustomBuild>
+    <CustomBuild Include="shaders\tex_debug\tex_debug.hlsl">
+    </CustomBuild>
+    <CustomBuild Include="shaders\tex_debug\tex_debug.shaderx">
+    </CustomBuild>
+    <CustomBuild Include="shaders\tex_map\tex_map.hlsl">
+    </CustomBuild>
+    <CustomBuild Include="shaders\tex_map\tex_map.shaderx">
+    </CustomBuild>
+    <CustomBuild Include="skyboxes\desert.skyx">
+    </CustomBuild>
+    <CustomBuild Include="skyboxes\grass.skyx">
+    </CustomBuild>
+    <CustomBuild Include="skyboxes\snow.skyx">
+    </CustomBuild>
+    <CustomBuild Include="skyboxes\sunset.skyx">
+    </CustomBuild>
+    <CustomBuild Include="textures\brick_diff.dds">
+    </CustomBuild>
+    <CustomBuild Include="textures\brick_norm.dds">
+    </CustomBuild>
+    <CustomBuild Include="textures\cubemaps\desertcube1024.dds">
+    </CustomBuild>
+    <CustomBuild Include="textures\cubemaps\grasscube1024.dds">
+    </CustomBuild>
+    <CustomBuild Include="textures\cubemaps\snowcube1024.dds">
+    </CustomBuild>
+    <CustomBuild Include="textures\cubemaps\sunsetcube1024.dds">
+    </CustomBuild>
+    <CustomBuild Include="textures\earth2k.dds">
+    </CustomBuild>
+    <CustomBuild Include="textures\floor.dds">
+    </CustomBuild>
+    <CustomBuild Include="textures\ice.dds">
+    </CustomBuild>
+    <CustomBuild Include="textures\stone.dds">
+    </CustomBuild>
+    <CustomBuild Include="worlds\test.xml">
+    </CustomBuild>
+    <CustomBuild Include="worlds\test_physics.xml">
+    </CustomBuild>
+    <CustomBuild Include="worlds\test_shader2.xml">
+    </CustomBuild>
+    <CustomBuild Include="worlds\world.xml">
+    </CustomBuild>
+  </ItemGroup>
+</Project>

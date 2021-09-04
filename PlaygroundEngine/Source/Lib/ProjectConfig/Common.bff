@@ -1,0 +1,143 @@
+// This file contains common configuration for all bff files.
+//
+// The following variables must be defined prior to including this file:
+//  .PlaygroundBasePath - Path to the PlaygroundEngine folder.
+
+#once
+
+// Name Constants
+.AllPlatformNames = { 'x64-DX11', 'x64-DX12' }
+.AllConfigNames = { 'Debug', 'Release' }
+
+// Playground Constants
+.PlaygroundLibPath                 = '$PlaygroundBasePath$/Source/Lib'
+.PlaygroundProjectConfigPath       = '$PlaygroundBasePath$/Source/Lib/ProjectConfig'
+.PlaygroundVendorPath              = '$PlaygroundBasePath$/Source/Vendor'
+.PlaygroundEngineLibs = {
+    'Core'
+    'Engine'
+    'Renderer'
+    'Vendor'
+}
+.PlaygroundEngineLibTargets = {}
+ForEach(.library in .PlaygroundEngineLibs) {
+    ForEach(.platform in .AllPlatformNames) {
+        ForEach(.config in .AllConfigNames) {
+            ^PlaygroundEngineLibTargets + '$library$-$platform$-$config$-lib'
+        }
+    }
+}
+
+// Vendor Constants
+.FBuildExe                         = '$PlaygroundVendorPath$/FastBuild/FBuild.exe'
+.FBuildBaseCommand                 = 'cd ^$(SolutionDir) &amp; "$FBuildExe$" -ide '
+
+// VisualStudio Constants (2019 x64 Compiler)
+.VSBasePath         = 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Community'
+.VSVersion          = '14.28.29910'
+.VSIncPaths = {
+    '$VSBasePath$/VC/Tools/MSVC/$VSVersion$/include'
+    '$VSBasePath$/VC/Tools/MSVC/$VSVersion$/atlmfc/include'
+    '$VSBasePath$/VC/Auxiliary/VS/include'
+}
+.VSLibPaths = {
+    '$VSBasePath$/VC/Tools/MSVC/$VSVersion$/lib/x64'
+    '$VSBasePath$/VC/Tools/MSVC/$VSVersion$/atlmfc/lib/x64'
+    '$VSBasePath$/VC/Tools/Auxiliary/VS/lib/x64'
+}
+.VSBinPath          = '$VSBasePath$/VC/Tools/MSVC/$VSVersion$/bin/Hostx64/x64'
+.VSCompilerExe      = '$VSBinPath$/cl.exe'
+.VSLibrarianExe     = '$VSBinPath$/lib.exe'
+.VSLinkerExe        = '$VSBinPath$/link.exe'
+
+// Windows SDK Constants
+.WindowsSDKBasePath = 'C:/Program Files (x86)/Microsoft SDKs/Windows/v10.0A'
+.WindowsSystem32Path = 'C:/Windows/System32'
+
+// Windows Kits Constants
+.WindowsKitsVersion          = '10.0.18362.0'
+.WindowsKitsNETFXSDKBasePath = 'C:/Program Files (x86)/Windows Kits/NETFXSDK/4.8'
+.WindowsKitsIncBasePath      = 'C:/Program Files (x86)/Windows Kits/10/Include/$WindowsKitsVersion$'
+.WindowsKitsIncPaths = {
+    '$WindowsKitsIncBasePath$/ucrt'
+    '$WindowsKitsIncBasePath$/um'
+    '$WindowsKitsIncBasePath$/shared'
+    '$WindowsKitsIncBasePath$/winrt'
+    '$WindowsKitsIncBasePath$/cppwinrt'
+    '$WindowsKitsNETFXSDKBasePath$/Include/um'
+}
+.WindowsKitsLibBasePath     = 'C:/Program Files (x86)/Windows Kits/10/Lib/$WindowsKitsVersion$'
+.WindowsKitsLibPaths = {
+    '$WindowsKitsLibBasePath$/ucrt/x64'
+    '$WindowsKitsLibBasePath$/um/x64'
+    '$WindowsKitsNETFXSDKBasePath$/lib/um/x64'
+}
+
+// VS2019 Compiler Definition
+Compiler( 'Compiler-VS2019-x64' )
+{
+    .Root       = '$VSBinPath$'
+        .Executable = '$VSCompilerExe$'
+        .ExtraFiles = {
+        '$Root$/c1.dll'
+        '$Root$/c1xx.dll',
+        '$Root$/c2.dll',
+        '$Root$/atlprov.dll', // Only needed if using ATL
+        '$Root$/msobj140.dll'
+        '$Root$/mspdb140.dll'
+        '$Root$/mspdbcore.dll'
+        '$Root$/mspdbsrv.exe'
+        '$Root$/mspft140.dll'
+        '$Root$/msvcp140.dll'
+        '$Root$/msvcp140_atomic_wait.dll' // Required circa 16.8.3 (14.28.29333)
+        '$Root$/tbbmalloc.dll' // Required as of 16.2 (14.22.27905)
+        '$Root$/vcruntime140.dll'
+        '$Root$/vcruntime140_1.dll' // Required as of 16.5.1 (14.25.28610)
+        '$Root$/1033/clui.dll'
+        '$Root$/1033/mspft140ui.dll' // Localized messages for static analysis
+    }
+}
+
+// Configs
+.BaseConfig = [
+    .Defines = ''
+    .DefinesArray = { 'UNICODE', '_UNICODE' }
+
+    .Includes = ''
+    .IncludesArray = { }
+    .IncludeSearchPath = ''
+
+    .PreprocessorDefinitions = ''
+
+    .LibraryPaths = ''
+    .LibraryPathsArray = { }
+]
+
+.DebugBaseConfig = [
+    .Config = 'Debug'
+    .ConfigDefinesArray = { 'CORE_BFF_CONFIG_PRIVATE_DEBUG=1', '_DEBUG' }
+]
+
+.ReleaseBaseConfig = [
+    .Config = 'Release'
+    .ConfigDefinesArray = { 'CORE_BFF_CONFIG_PRIVATE_RELEASE=1', 'NDEBUG' }
+]
+
+.DX11BaseConfig = [
+    .RenderConfig = 'DX11'
+    .RenderConfigDefinesArray = { 'CORE_BFF_RENDER_API_PRIVATE_DX11=1' }
+]
+
+.DX12BaseConfig = [
+    .RenderConfig = 'DX12'
+    .RenderConfigDefinesArray = { 'CORE_BFF_RENDER_API_PRIVATE_DX12=1' }
+]
+
+Settings
+{
+    .Environment = { 
+        "PATH=$VSBasePath$/Common7/IDE/;$VSBasePath$/VC/bin/",
+        "TMP=C:/Windows/Temp",
+        "SystemRoot=C:/Windows"
+    }
+}

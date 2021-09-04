@@ -1,0 +1,42 @@
+#include "../Lib/ProjectConfig/Common.bff"
+
+// Project Constants
+.ProjectName        = 'Vendor'
+.ProjectBasePath    = '$PlaygroundVendorPath$'
+.ProjectIncludePaths = {
+    'imgui'
+}
+.ProjectBinaryExtension = 'lib'
+
+#include "../Lib/ProjectConfig/PlatformConfig_x64.bff"
+
+.AllConfigs = .Allx64Configs
+
+//.VendorConfigs = {}
+//ForEach(.config in .AllConfigs) {
+//    .Config = [
+//        Using(.config)
+//        .CompilerInputFiles = {
+//            '$ProjectBasePath$/imgui/imgui.cpp'
+//            '$ProjectBasePath$/imgui/examples/imgui_impl_dx11.cpp'
+//        }
+//        .CompilerInputPattern = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+//        .ProjectInputPaths = .CompilerInputFiles
+//    ]
+//
+//    ^VendorConfigs + .Config
+//}
+
+//
+//ForEach(.config in .AllConfigs) {
+//    Using(.config)
+//
+//    Library('$TargetName$-lib') { }
+//}
+
+VCXProject('$ProjectName$-proj')
+{
+    .ProjectOutput          = '$ProjectBasePath$/$ProjectName$.vcxproj'
+    .ProjectInputPaths      = { '$ProjectBasePath$' }
+    .ProjectConfigs         = .AllConfigs
+}

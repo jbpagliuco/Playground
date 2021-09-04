@@ -1,0 +1,12 @@
+// This file converts a .LibrariesArray variable into a .LibrariesString string variable for the compiler
+
+// Usage
+// .Config = [
+//		.LibrariesString = ''
+//		.LibrariesArray = { 'lib1.lib', 'lib2.lib' }
+//		#include ".../CreateLibraryStrings.bff"
+// ]
+
+ForEach(.library in .LibrariesArray) {
+	^LibrariesString + ' $library$ '
+}

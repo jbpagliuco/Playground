@@ -1,0 +1,12 @@
+// This file converts a .LibraryPathsArray variable into a .LibraryPaths string variable for the compiler
+
+// Usage
+// .Config = [
+//		.LibraryPaths = ''
+//		.LibraryPathsArray = { '../path/to/lib1', '../path/to/lib2' }
+//		#include ".../CreateLibraryStrings.bff"
+// ]
+
+ForEach(.libraryPath in .LibraryPathsArray) {
+	^LibraryPaths + ' /LIBPATH:"$libraryPath$" '
+}

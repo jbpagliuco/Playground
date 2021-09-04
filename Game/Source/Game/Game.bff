@@ -1,0 +1,147 @@
+// Playground Engine Constants
+.PlaygroundBasePath                = '../../../PlaygroundEngine'
+.PlaygroundProjectConfigPath       = '$PlaygroundBasePath$/Source/Lib/ProjectConfig'
+
+// Game Constants
+.GameBasePath                      = '../..'
+.GameSourcePath                    = '$GameBasePath$/Source/Game'
+.GameDataPath                      = '$GameBasePath$/Data'
+
+// Project Constants
+.ProjectName        = 'Game'
+.ProjectBasePath    = '$GameSourcePath$'
+.ProjectIncludePaths = {
+    '../../../PlaygroundEngine/Source/Lib'
+    '../../../PlaygroundEngine/Source/Lib/Core'
+    '../../../PlaygroundEngine/Source/Lib/Engine'
+    '../../../PlaygroundEngine/Source/Lib/Renderer'
+}
+.ProjectLibraryPaths = {
+    '$PlaygroundBasePath$/Source/Vendor'
+}
+.ProjectBinaryExtension = 'exe'
+
+#include "../../../PlaygroundEngine/Source/Lib/ProjectConfig/Common.bff"
+#include "../../../PlaygroundEngine/Source/Lib/ProjectConfig/PlatformConfig_x64.bff"
+
+.AllConfigs = .Allx64Configs
+
+.AllProjectConfigs = {}
+ForEach(.config in .AllConfigs) {
+    .ProjectConfig = [
+        Using(.config)
+
+        .LocalDebuggerCommand           = '^$(ProjectDir)$ExeOutputRelativeToProject$'
+        .LocalDebuggerWorkingDirectory  = .GameBasePath
+    ]
+
+    ^AllProjectConfigs + .ProjectConfig
+}
+
+Copy('$ProjectName$-Copy-DLLs')
+{
+    .Source = .x64DLLs
+    .Dest = .GameBasePath
+}
+
+// Executables
+ForEach(.config in .AllConfigs) {
+    Using(.config)
+
+    ObjectList('$TargetName$-lib') { }
+
+    Executable('$TargetName$-exe')
+    { 
+        .Libraries = {
+            'Core-$Platform$-$Config$-lib'
+            'Renderer-$Platform$-$Config$-lib'
+            'Engine-$Platform$-$Config$-lib'
+            'Game-$Platform$-$Config$-lib'
+        }
+        // .LinkerLinkObjects = true
+    }
+}
+
+ForEach(.config in .AllConfigs) {
+    Using(.config)
+
+    Alias('$TargetName$') {
+        .Targets = {
+            '$TargetName$-exe',
+            '$ProjectName$-Copy-DLLs',
+        }
+    }
+}
+
+// VCXProject
+VCXProject('$ProjectName$-proj')
+{
+    .ProjectOutput          = '$ProjectBasePath$/$ProjectName$.vcxproj'
+    .ProjectInputPaths      = { '$ProjectBasePath$' }
+    .ProjectConfigs         = .AllProjectConfigs
+}
+
+// GameData VCXProject
+VCXProject('GameData-proj')
+{
+    .ProjectOutput          = '$GameDataPath$/GameData.vcxproj'
+    .ProjectInputPaths      = { '$GameDataPath$' }
+    .ProjectConfigs         = .AllProjectConfigs
+    
+    .ProjectAllowedFileExtensions = {
+        '*.xml'
+        
+        '*.matx'
+        '*.shaderx'
+        '*.hlsl'
+
+        '*.texx'
+        '*.rtx'
+        '*.skyx'
+        '*.dds'
+        
+        '*.meshx'
+        '*.obj'
+        '*.fbx'
+    }
+}
+
+VSSolution('Playground-sln')
+{
+    .SolutionName       = 'Playground'
+    .SolutionBasePath   = '$GameSourcePath$/'
+
+    .SolutionOutput     = '$SolutionBasePath$/$SolutionName$.sln'
+
+    .SolutionConfigs    = { }
+    ForEach(.platform in .AllPlatformNames) {
+        ForEach(.config in .AllConfigNames) {
+            .SolutionConfig = [ .Platform = .platform .Config = .config ]
+            ^SolutionConfigs + .SolutionConfig
+        }
+    }
+
+    .SolutionProjects = {
+        'Game-proj'
+        'GameData-proj'
+    }
+
+    .EngineFolder = [
+        .Path       = 'Engine Libraries'
+        .Projects   = { 
+            'Core-proj'
+            'Engine-proj'
+            'ProjectConfig-proj'
+            'Renderer-proj'
+        }
+    ]
+    .SolutionFolders = { .EngineFolder }
+
+    .SolutionBuildProjects = '$ProjectName$-proj'
+    .SolutionDeployProjects = '$ProjectName$-proj'
+}
+
+
+// All
+//------------------------------------------------------------------------------
+Alias( 'sln' ) { .Targets = { 'Playground-sln' } }

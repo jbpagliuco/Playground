@@ -1,0 +1,16 @@
+// Playground Engine Constants
+.PlaygroundBasePath                = '../../../PlaygroundEngine'
+.PlaygroundProjectConfigPath       = '$PlaygroundBasePath$/Source/Lib/ProjectConfig'
+
+// Game Constants
+.GameBasePath                      = '../..'
+.GameSourcePath                    = '$GameBasePath$/Source/Game'
+
+#include "../../../PlaygroundEngine/Source/Lib/ProjectConfig/Common.bff"
+
+#include "../../../PlaygroundEngine/Source/Lib/ProjectConfig/ProjectConfig.bff"
+#include "../../../PlaygroundEngine/Source/Lib/Core/Core.bff"
+#include "../../../PlaygroundEngine/Source/Lib/Renderer/Renderer.bff"
+#include "../../../PlaygroundEngine/Source/Lib/Engine/Engine.bff"
+
+#include "Game.bff"

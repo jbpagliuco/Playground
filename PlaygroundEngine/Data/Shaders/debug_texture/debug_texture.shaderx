@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<root>
+	<header>
+		<version>2</version>
+	</header>
+	
+	<file>debug_texture.hlsl</file>
+
+	<vertexShader>
+		<inputs>
+			<input>
+				<type>float3</type>
+				<semanticName>POSITION</semanticName>
+			</input>
+			<input>
+				<type>float3</type>
+				<semanticName>NORMAL</semanticName>
+			</input>
+			<input>
+				<type>float2</type>
+				<semanticName>TEXCOORD</semanticName>
+			</input>
+		</inputs>
+	</vertexShader>
+
+    <pixelShader>
+    </pixelShader>
+</root>

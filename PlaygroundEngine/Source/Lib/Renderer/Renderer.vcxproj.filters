@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="ImguiRenderer.cpp">
+    </CustomBuild>
+    <CustomBuild Include="ImguiRenderer.h">
+    </CustomBuild>
+    <CustomBuild Include="Light.cpp">
+    </CustomBuild>
+    <CustomBuild Include="Light.h">
+    </CustomBuild>
+    <CustomBuild Include="Material\DynamicMaterial.cpp">
+      <Filter>Material</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Material\DynamicMaterial.h">
+      <Filter>Material</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Material\Material.cpp">
+      <Filter>Material</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Material\Material.h">
+      <Filter>Material</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Material\MaterialContainer.cpp">
+      <Filter>Material</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Material\MaterialContainer.h">
+      <Filter>Material</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Material\StaticMaterial.cpp">
+      <Filter>Material</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Material\StaticMaterial.h">
+      <Filter>Material</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Mesh.cpp">
+    </CustomBuild>
+    <CustomBuild Include="Mesh.h">
+    </CustomBuild>
+    <CustomBuild Include="NGA\DX11\NGACommandContextDX11.cpp">
+      <Filter>NGA\DX11</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\DX11\NGACoreDX11.cpp">
+      <Filter>NGA\DX11</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\DX11\NGACoreInternalDX11.cpp">
+      <Filter>NGA\DX11</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\DX11\NGACoreInternalDX11.h">
+      <Filter>NGA\DX11</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\DX11\NGAInputLayoutDX11.cpp">
+      <Filter>NGA\DX11</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\DX11\NGAPipelineStateDX11.cpp">
+      <Filter>NGA\DX11</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\DX11\NGAResourcesDX11.cpp">
+      <Filter>NGA\DX11</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\DX11\NGAResourceViewsDX11.cpp">
+      <Filter>NGA\DX11</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\DX11\NGASamplerState.cpp">
+      <Filter>NGA\DX11</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\DX11\NGAShaderDX11.cpp">
+      <Filter>NGA\DX11</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\DX11\NGASwapChainDX11.cpp">
+      <Filter>NGA\DX11</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\NGACommandContext.h">
+      <Filter>NGA</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\NGACommon.cpp">
+      <Filter>NGA</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\NGACommon.h">
+      <Filter>NGA</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\NGACore.h">
+      <Filter>NGA</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\NGADefs.h">
+      <Filter>NGA</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\NGAInputLayout.h">
+      <Filter>NGA</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\NGAPipelineState.h">
+      <Filter>NGA</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\NGAPipelineStateDefs.h">
+      <Filter>NGA</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\NGAResources.h">
+      <Filter>NGA</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\NGAResourceViews.h">
+      <Filter>NGA</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\NGASamplerState.h">
+      <Filter>NGA</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\NGAShader.h">
+      <Filter>NGA</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\NGAShapes.h">
+      <Filter>NGA</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\NGASwapChain.h">
+      <Filter>NGA</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Pipelines\DebugTexture.cpp">
+      <Filter>Pipelines</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Pipelines\DebugTexture.h">
+      <Filter>Pipelines</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Pipelines\ShadowMap.cpp">
+      <Filter>Pipelines</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Pipelines\ShadowMap.h">
+      <Filter>Pipelines</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Pipelines\SkyboxPipeline.cpp">
+      <Filter>Pipelines</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Pipelines\SkyboxPipeline.h">
+      <Filter>Pipelines</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Rect.h">
+    </CustomBuild>
+    <CustomBuild Include="RenderDefs.h">
+    </CustomBuild>
+    <CustomBuild Include="Renderer.bff">
+    </CustomBuild>
+    <CustomBuild Include="Renderer.cpp">
+    </CustomBuild>
+    <CustomBuild Include="Renderer.h">
+    </CustomBuild>
+    <CustomBuild Include="RenderingSystem.cpp">
+    </CustomBuild>
+    <CustomBuild Include="RenderingSystem.h">
+    </CustomBuild>
+    <CustomBuild Include="Resources\ConstantBuffer.cpp">
+      <Filter>Resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Resources\ConstantBuffer.h">
+      <Filter>Resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Resources\IndexBuffer.cpp">
+      <Filter>Resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Resources\IndexBuffer.h">
+      <Filter>Resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Resources\RenderTarget.cpp">
+      <Filter>Resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Resources\RenderTarget.h">
+      <Filter>Resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Resources\Skybox.cpp">
+      <Filter>Resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Resources\Skybox.h">
+      <Filter>Resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Resources\Texture.cpp">
+      <Filter>Resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Resources\Texture.h">
+      <Filter>Resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Resources\VertexBuffer.cpp">
+      <Filter>Resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Resources\VertexBuffer.h">
+      <Filter>Resources</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Scene\Camera.cpp">
+      <Filter>Scene</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Scene\Camera.h">
+      <Filter>Scene</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Scene\ForwardRenderer.cpp">
+      <Filter>Scene</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Scene\ForwardRenderer.h">
+      <Filter>Scene</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Scene\Renderables\MeshInstance.cpp">
+      <Filter>Scene\Renderables</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Scene\Renderables\MeshInstance.h">
+      <Filter>Scene\Renderables</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Scene\Renderables\RenderableInstance.h">
+      <Filter>Scene\Renderables</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Scene\Scene.cpp">
+      <Filter>Scene</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Scene\Scene.h">
+      <Filter>Scene</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Scene\SceneEntity.cpp">
+      <Filter>Scene</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Scene\SceneEntity.h">
+      <Filter>Scene</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Scene\SceneRenderer.h">
+      <Filter>Scene</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Shader\Shader.cpp">
+      <Filter>Shader</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Shader\Shader.h">
+      <Filter>Shader</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Shader\ShaderConstants.h">
+      <Filter>Shader</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Shader\ShaderProgram.cpp">
+      <Filter>Shader</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Shader\ShaderProgram.h">
+      <Filter>Shader</Filter>
+    </CustomBuild>
+    <CustomBuild Include="StateManager.cpp">
+    </CustomBuild>
+    <CustomBuild Include="StateManager.h">
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Material">
+      <UniqueIdentifier>{7322b0d2-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="NGA\DX11">
+      <UniqueIdentifier>{f8158ec2-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="NGA">
+      <UniqueIdentifier>{589f8da5-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Pipelines">
+      <UniqueIdentifier>{10ac01db-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{cde65fe0-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{ce58422a-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Scene\Renderables">
+      <UniqueIdentifier>{b32fe7a8-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{c565ed05-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
