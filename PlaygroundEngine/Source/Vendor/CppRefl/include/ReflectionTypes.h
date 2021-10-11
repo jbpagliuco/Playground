@@ -5,8 +5,6 @@
 
 namespace refl
 {
-	#undef VOID
-
 	// All supported data types.
 	enum class DataType : uint8_t
 	{
@@ -29,9 +27,11 @@ namespace refl
 
 		UNION,
 
-		CLASS, // struct, class, record, whatever
-
-		VOID, // for function return values
+		// struct, class, record, whatever
+		CLASS,
+		
+		// void return type (can't just be VOID because windows has a macro for that :))))))) )
+		VOID_TYPE,
 		
 		// Special markers
 		POD_MIN = BOOL,

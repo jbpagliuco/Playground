@@ -75,7 +75,7 @@ namespace refl
 
 	public:
 		// Return value type of this function (only primitive data types are supported).
-		DataType mReturnType = DataType::VOID;
+		DataType mReturnType = DataType::VOID_TYPE;
 
 		// Parameter type information.
 		std::vector<TypeInfo> mParameterTypes;
