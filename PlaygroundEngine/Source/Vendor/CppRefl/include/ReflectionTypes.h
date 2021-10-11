@@ -5,6 +5,8 @@
 
 namespace refl
 {
+	#undef VOID
+
 	// All supported data types.
 	enum class DataType : uint8_t
 	{

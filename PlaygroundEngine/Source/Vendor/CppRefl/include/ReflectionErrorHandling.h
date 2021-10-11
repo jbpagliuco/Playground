@@ -6,6 +6,8 @@
 
 namespace refl
 {
+	#undef ERROR
+
 	enum class ErrorType
 	{
 		WARNING = 0,
