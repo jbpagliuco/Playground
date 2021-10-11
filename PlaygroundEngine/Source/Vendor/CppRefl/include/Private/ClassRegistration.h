@@ -51,6 +51,10 @@ namespace refl
 		// Class size (in bytes)
 		uint32_t mSize;
 
+		// Constructor/Destructor
+		ClassConstructor mConstructor;
+		ClassDestructor mDestructor;
+
 		// Class members
 		std::vector<FieldRegistration> mFields;
 		std::vector<FunctionRegistration> mFunctions;

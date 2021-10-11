@@ -6,6 +6,9 @@
 
 namespace refl
 {
+	typedef void (*ClassConstructor)(void* obj);
+	typedef void (*ClassDestructor)(void* obj);
+
 	// Represents a reflected class or struct.
 	class Class : public Element
 	{
@@ -24,6 +27,18 @@ namespace refl
 		const Function* GetFunction(const std::string& functionName)const;
 		Function* GetFunction(const std::string& functionName);
 
+		// Construct an object of this type over the given memory.
+		void* Construct(void* obj)const;
+
+		template <typename T>
+		T* Construct(void* obj)const
+		{
+			return static_cast<T*>(Construct(obj));
+		}
+
+		// Destruct an object of this type over the given memory.
+		void Destruct(void* obj)const;
+
 		// Read or write this element.
 		virtual void Serialize(class FileIO& io) override;
 
@@ -40,5 +55,12 @@ namespace refl
 
 		// This size of this class.
 		size_t mSize;
+
+		// Constructor/Destructor
+	private:
+		ClassConstructor mConstructor;
+		ClassDestructor mDestructor;
+
+		friend class Registry;
 	};
 }
