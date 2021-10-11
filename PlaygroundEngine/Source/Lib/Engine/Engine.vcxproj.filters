@@ -78,6 +78,18 @@
     </CustomBuild>
     <CustomBuild Include="EngineReflection.cpp">
     </CustomBuild>
+    <CustomBuild Include="GeneratedCode\CameraComponent.reflgen.cpp">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\CameraComponent.reflgen.h">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\EngineReflection_Debug.reflgen.cpp">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\EngineReflection_Debug.reflgen.h">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
     <CustomBuild Include="Input\Input.cpp">
       <Filter>Input</Filter>
     </CustomBuild>

@@ -7,6 +7,8 @@
 #include "Engine/Engine.h"
 #include "Engine/World/World.h"
 
+#include "GameReflection_Debug.reflgen.h"
+
 #if CORE_BUILD_TYPE(TOOLS)
 #include "Tools.h"
 #endif
@@ -21,6 +23,9 @@ static int GameMain()
 	if (playground::InitializeEngine() == false) {
 		return EXIT_FAILURE;
 	}
+
+	// Initialize reflection
+	GameReflection_Debug_InitReflection();
 	
 	playground::LoadWorldFromFile(config["world"].AsString());
 

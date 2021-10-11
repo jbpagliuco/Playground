@@ -8,7 +8,7 @@
 
 #include "ReflectionRegistry.h"
 
-void EngineReflection_Debug_InitReflection(refl::Registry& registry = refl::GetSystemRegistry());
+void GameReflection_Debug_InitReflection(refl::Registry& registry = refl::GetSystemRegistry());
 
 #endif // !defined(REFL_BUILD_REFLECTION)
 

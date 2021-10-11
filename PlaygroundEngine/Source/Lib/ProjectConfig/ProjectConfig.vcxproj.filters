@@ -3,6 +3,8 @@
   <ItemGroup>
     <CustomBuild Include="Common.bff">
     </CustomBuild>
+    <CustomBuild Include="CreateCompilerOptions.bff">
+    </CustomBuild>
     <CustomBuild Include="CreateDefineStrings.bff">
     </CustomBuild>
     <CustomBuild Include="CreateIncludeStrings.bff">
@@ -15,9 +17,7 @@
     </CustomBuild>
     <CustomBuild Include="ProjectConfig.bff">
     </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="CreateCompilerOptions.bff" />
-    <None Include="Reflection.bff" />
+    <CustomBuild Include="Reflection.bff">
+    </CustomBuild>
   </ItemGroup>
 </Project>

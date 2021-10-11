@@ -9,7 +9,7 @@
 #include "Components/CameraComponent.h"
 
 
-void playground::CameraComponent::__ReflRegisterClass(refl::Registry* registry)
+void playground::CameraComponent::__ReflRegisterClass(refl::Registry& registry)
 {
 	// Class data
 	refl::ClassRegistration classRegistration(CameraComponent::CLASS_QUALIFIED_NAME, sizeof(CameraComponent));
@@ -21,7 +21,7 @@ void playground::CameraComponent::__ReflRegisterClass(refl::Registry* registry)
 	
 
 	// Finalize runtime specific data
-	registry->FinalizeClass(classRegistration);
+	registry.FinalizeClass(classRegistration);
 }
 
 

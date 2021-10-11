@@ -140,6 +140,8 @@
     </CustomBuild>
     <CustomBuild Include="Renderer.h">
     </CustomBuild>
+    <CustomBuild Include="RendererReflection.cpp">
+    </CustomBuild>
     <CustomBuild Include="RenderingSystem.cpp">
     </CustomBuild>
     <CustomBuild Include="RenderingSystem.h">

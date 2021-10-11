@@ -26,7 +26,7 @@
 		static constexpr const char* CLASS_QUALIFIED_NAME	= "playground::CameraComponent";									\
 																															\
 		/* Called by generated code to hook up runtime specific data */														\
-		static void __ReflRegisterClass(class refl::Registry* registry);													\
+		static void __ReflRegisterClass(class refl::Registry& registry);													\
 																															\
 		static inline const refl::Class& StaticClass() { return *refl::StaticClass<CameraComponent>(); }					\
 																															\

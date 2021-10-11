@@ -11,10 +11,13 @@
 .ProjectName        = 'Game'
 .ProjectBasePath    = '$GameSourcePath$'
 .ProjectIncludePaths = {
+    '.'
+    'GeneratedCode'
     '../../../PlaygroundEngine/Source/Lib'
     '../../../PlaygroundEngine/Source/Lib/Core'
     '../../../PlaygroundEngine/Source/Lib/Engine'
     '../../../PlaygroundEngine/Source/Lib/Renderer'
+    '../../../PlaygroundEngine/Source/Vendor/CppRefl/include'
 }
 .ProjectLibraryPaths = {
     '$PlaygroundBasePath$/Source/Vendor'
@@ -23,6 +26,7 @@
 
 #include "../../../PlaygroundEngine/Source/Lib/ProjectConfig/Common.bff"
 #include "../../../PlaygroundEngine/Source/Lib/ProjectConfig/PlatformConfig_x64.bff"
+#include "../../../PlaygroundEngine/Source/Lib/ProjectConfig/Reflection.bff"
 
 .AllConfigs = .Allx64Configs
 
@@ -62,11 +66,18 @@ ForEach(.config in .AllConfigs) {
     }
 }
 
+ForEach(.config in .AllReflConfigs) {
+    Using(.config)
+
+    Exec('$TargetName$-refl') { }
+}
+
 ForEach(.config in .AllConfigs) {
     Using(.config)
 
     Alias('$TargetName$') {
         .Targets = {
+            '$ProjectName$-$Config$-refl'
             '$TargetName$-exe',
             '$ProjectName$-Copy-DLLs',
         }

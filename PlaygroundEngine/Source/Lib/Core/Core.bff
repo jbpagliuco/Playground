@@ -4,12 +4,17 @@
 .ProjectName        = 'Core'
 .ProjectBasePath    = '$PlaygroundLibPath$/$ProjectName$'
 .ProjectIncludePaths = {
+    '.'
+    'GeneratedCode'
+    '..'
     '../../Vendor'
+    '../../Vendor/CppRefl/include'
     '../../Vendor/imgui'
 }
 .ProjectBinaryExtension = 'lib'
 
 #include "../ProjectConfig/PlatformConfig_x64.bff"
+#include "../ProjectConfig/Reflection.bff"
 
 .AllConfigs = .Allx64Configs
 
@@ -19,11 +24,18 @@ ForEach(.config in .AllConfigs) {
     Library('$TargetName$-lib') { }
 }
 
+ForEach(.config in .AllReflConfigs) {
+    Using(.config)
+
+    Exec('$TargetName$-refl') { }
+}
+
 ForEach(.config in .AllConfigs) {
     Using(.config)
 
     Alias('$TargetName$') {
         .Targets = {
+            '$ProjectName$-$Config$-refl'
             '$TargetName$-lib'
         }
     }

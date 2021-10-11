@@ -6,23 +6,19 @@
 
 #include "ReflectionRegistry.h"
 
-#include "EngineReflection.reflgen.h"
+#include "CoreReflection_Debug.reflgen.h"
 
-#include "EngineReflection.cpp"
+#include "CoreReflection.cpp"
 
-void EngineReflection_InitReflection(refl::Registry* registry)
+void CoreReflection_Debug_InitReflection(refl::Registry& registry)
 {
-	if (registry == nullptr) {
-		registry = refl::GetSystemRegistry();
-	}
-
 	// Registers every reflected class in this project.
-	playground::CameraComponent::__ReflRegisterClass(registry);
+	
 
 	// Registers every reflected global function in this project.
 	
 
-	registry->Finalize();
+	registry.Finalize();
 }
 
 #endif // !defined(REFL_BUILD_REFLECTION)

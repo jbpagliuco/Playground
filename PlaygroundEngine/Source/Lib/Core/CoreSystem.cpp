@@ -7,10 +7,15 @@
 #include "Memory/Memory.h"
 #include "Streaming/Stream.h"
 
+#include "CoreReflection_Debug.reflgen.h"
+
 namespace playground
 {
 	bool BaseSystemInit()
 	{
+		// Initialize reflection before anything else.
+		CoreReflection_Debug_InitReflection();
+
 #define SYSTEM_INIT(name, f) LogInfo(BASE_LOG_FILTER, "Initializing %s", name); if (!f()) { CORE_ASSERT_RETURN_VALUE(false, false, "Failed to initialize %s", name); }
 
 		SYSTEM_INIT("Streaming system", StreamSystemInit);

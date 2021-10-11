@@ -6,12 +6,9 @@
 
 #if !defined(REFL_BUILD_REFLECTION)
 
-// Forward declare.
-namespace refl {
-	class Registry;
-}
+#include "ReflectionRegistry.h"
 
-void EngineReflection_InitReflection(refl::Registry* registry = nullptr);
+void RendererReflection_Debug_InitReflection(refl::Registry& registry = refl::GetSystemRegistry());
 
 #endif // !defined(REFL_BUILD_REFLECTION)
 

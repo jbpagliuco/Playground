@@ -11,6 +11,8 @@
     </CustomBuild>
     <CustomBuild Include="Core.h">
     </CustomBuild>
+    <CustomBuild Include="CoreReflection.cpp">
+    </CustomBuild>
     <CustomBuild Include="CoreSystem.cpp">
     </CustomBuild>
     <CustomBuild Include="CoreSystem.h">
@@ -44,6 +46,12 @@
     </CustomBuild>
     <CustomBuild Include="File\File.inl">
       <Filter>File</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\CoreReflection_Debug.reflgen.cpp">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\CoreReflection_Debug.reflgen.h">
+      <Filter>GeneratedCode</Filter>
     </CustomBuild>
     <CustomBuild Include="Math\MathUtil.h">
       <Filter>Math</Filter>
@@ -163,6 +171,11 @@
   <ItemGroup>
     <Filter Include="File">
       <UniqueIdentifier>{e762fe21-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="GeneratedCode">
+      <UniqueIdentifier>{56bea851-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

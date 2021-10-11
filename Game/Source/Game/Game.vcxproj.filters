@@ -5,11 +5,24 @@
     </CustomBuild>
     <CustomBuild Include="Game.bff">
     </CustomBuild>
+    <CustomBuild Include="GameReflection.cpp">
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\GameReflection_Debug.reflgen.cpp">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\GameReflection_Debug.reflgen.h">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
     <CustomBuild Include="Main.cpp">
     </CustomBuild>
     <CustomBuild Include="Tools.cpp">
     </CustomBuild>
     <CustomBuild Include="Tools.h">
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="GeneratedCode">
+      <UniqueIdentifier>{56bea851-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

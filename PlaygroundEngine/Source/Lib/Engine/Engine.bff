@@ -5,9 +5,9 @@
 .ProjectBasePath    = '$PlaygroundLibPath$/$ProjectName$'
 .ProjectIncludePaths = {
     '.'
+    'GeneratedCode'
     '..'
     '../Core'
-    '../Engine/GeneratedCode'
     '../Renderer'
     '../../Vendor'
     '../../Vendor/CppRefl/include'

@@ -20,6 +20,8 @@
 #include "Engine/Physics/Physics.h"
 #include "Engine/World/World.h"
 
+#include "EngineReflection_Debug.reflgen.h"
+
 namespace playground
 {
 	struct SystemRegistration
@@ -162,6 +164,9 @@ namespace playground
 
 	bool InitializeEngine()
 	{
+		// Register reflection data before anything else.
+		EngineReflection_Debug_InitReflection();
+
 		RegisterSystems();
 
 		LogInfo(ENGINE_LOG_FILTER, "=============================================");

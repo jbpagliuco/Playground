@@ -20,16 +20,16 @@
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Common.bff" />
+    <CustomBuild Include="CreateCompilerOptions.bff" />
     <CustomBuild Include="CreateDefineStrings.bff" />
     <CustomBuild Include="CreateIncludeStrings.bff" />
     <CustomBuild Include="CreateLibraryPathStrings.bff" />
     <CustomBuild Include="CreateLibraryStrings.bff" />
     <CustomBuild Include="PlatformConfig_x64.bff" />
     <CustomBuild Include="ProjectConfig.bff" />
+    <CustomBuild Include="Reflection.bff" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="CreateCompilerOptions.bff" />
-    <None Include="Reflection.bff" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{d810b37e-6c94-4f93-bc2a-7f5284b7d434}</ProjectGuid>

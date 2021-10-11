@@ -6,14 +6,14 @@
 
 #include "ReflectionRegistry.h"
 
-#include "EngineReflection_Debug.reflgen.h"
+#include "GameReflection_Debug.reflgen.h"
 
-#include "EngineReflection.cpp"
+#include "GameReflection.cpp"
 
-void EngineReflection_Debug_InitReflection(refl::Registry& registry)
+void GameReflection_Debug_InitReflection(refl::Registry& registry)
 {
 	// Registers every reflected class in this project.
-	playground::CameraComponent::__ReflRegisterClass(registry);
+	
 
 	// Registers every reflected global function in this project.
 	
