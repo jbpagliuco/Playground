@@ -7,11 +7,6 @@
 
 namespace playground
 {
-	void SkyboxComponent::DeserializePost(const DeserializationParameterMap& params)
-	{
-		mSkyboxID = RequestAsset(params["skybox"].AsFilepath());
-	}
-
 	void SkyboxComponent::Activate()
 	{
 		CameraComponent* camera = GetOwner()->GetComponentOfType<CameraComponent>();
