@@ -1,0 +1,23 @@
+// This file adds compiler options based on predetermined variables.
+
+// Usage
+// .Config = [
+//		#include ".../CreateCompilerOptions.bff"
+// ]
+
+// Adds define flags to the compiler options.
+#include "CreateDefineStrings.bff"
+.CompilerOptions + .Defines
+
+// Adds include paths to intellisense.
+.SearchPaths = .IncludesArray + .ProjectIncludePaths
+ForEach(.include in .SearchPaths) {
+    ^IncludeSearchPath + '$include$;'
+}
+
+// Adds include paths to the compiler options.
+ForEach(.include in .ProjectIncludePaths) {
+    ^IncludesArray + '$ProjectBasePath$/$include$'
+}
+#include "CreateIncludeStrings.bff"
+.CompilerOptions + .Includes

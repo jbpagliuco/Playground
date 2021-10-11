@@ -1,0 +1,49 @@
+#include "Common.bff"
+
+// Creates base refl configs.
+.AllReflConfigs = { }
+ForEach(.baseConfig in .AllBaseConfigs) {
+	.Config = [
+		Using(.BaseConfig)
+		Using(.baseConfig)
+		Using(.DX11BaseConfig)
+
+		.DefinesArray + .ConfigDefinesArray
+		.DefinesArray + .RenderConfigDefinesArray
+
+		//.CompilerOptions + '%2 '
+		//.CompilerOptions + '-entry %1 '
+		//.CompilerOptions + '-generatedOutput $ProjectBasePath$\GeneratedCode '
+		//.CompilerOptions + '-projectPath $ProjectBasePath$ '
+		//.CompilerOptions + '-projectName $ProjectName$Reflection '
+		//.CompilerOptions + '-clang '
+		//#include "CreateCompilerOptions.bff"
+
+		.TargetName = '$ProjectName$-$Config$'
+
+		.Compiler = 'Compiler-CppReflCompiler'
+		.CompilerInputFiles = { '$ProjectBasePath$/$ProjectName$Reflection.cpp' }
+		.CompilerOutputExtension = '.refl'
+		.CompilerOutputPath = '$ProjectBasePath$/temp'
+
+		.AllowCaching = false
+		.AllowDistribution = false
+
+		.ReflFilestem = '$ProjectName$Reflection_$Config$'
+
+		.ExecExecutable = '$PlaygroundVendorPath$/CppRefl/Lib/Release/CppReflCompiler.exe'
+		.ExecInput = '$ProjectBasePath$/$ProjectName$Reflection.cpp'
+		.ExecOutput = '$ProjectBasePath$/$ReflFilestem$.refl'
+
+		.ExecArguments = '%2 '
+		.ExecArguments + '-entry %1 '
+		.ExecArguments + '-generatedOutput $ProjectBasePath$\GeneratedCode '
+		.ExecArguments + '-projectPath $ProjectBasePath$ '
+		.ExecArguments + '-projectName $ReflFilestem$ '
+		.ExecArguments + '-clang '
+		#include "CreateCompilerOptions.bff"
+		.ExecArguments + .CompilerOptions
+	]
+
+	^AllReflConfigs + .Config
+}

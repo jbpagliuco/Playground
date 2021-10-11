@@ -28,6 +28,8 @@
     <CustomBuild Include="ProjectConfig.bff" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="CreateCompilerOptions.bff" />
+    <None Include="Reflection.bff" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{d810b37e-6c94-4f93-bc2a-7f5284b7d434}</ProjectGuid>

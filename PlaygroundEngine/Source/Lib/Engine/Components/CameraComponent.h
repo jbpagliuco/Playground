@@ -1,14 +1,20 @@
 #pragma once
 
+#include "ReflectionMarkup.h"
+
 #include "GameComponent.h"
 
 #include "Renderer/Resources/Texture.h"
 #include "Renderer/Scene/Camera.h"
 
+#include "CameraComponent.reflgen.h"
+
 namespace playground
 {
-	class CameraComponent : public GameComponentBase<GameComponentType::CAMERA>
+	class REFLECTED CameraComponent : public GameComponentBase<GameComponentType::CAMERA>
 	{
+		GENERATED_REFLECTION_CODE();
+
 	public:
 		virtual void Deserialize(DeserializationParameterMap &params) override;
 

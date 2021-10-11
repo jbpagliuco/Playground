@@ -32,9 +32,18 @@
 }
 
 .VendorIncludePaths = {
+    'CppRefl/include'
     'DirectXTK/include'
     'PhysX/include'
 }
+
+.CppReflDebugLibraryPath      = '$PlaygroundVendorPath$/CppRefl/Lib/debug'
+.CppReflReleaseLibraryPath    = '$PlaygroundVendorPath$/CppRefl/Lib/release'
+.CppReflLibraries             = { 'CppRefl.lib' }
+
+.DirectXTKDebugLibraryPath      = '$PlaygroundVendorPath$/DirectXTK/Lib/x64/debug'
+.DirectXTKReleaseLibraryPath    = '$PlaygroundVendorPath$/DirectXTK/Lib/x64/release'
+.DirectXTKLibraries             = { 'directxtk.lib' }
 
 .PhysXDebugLibraryPath      = '$PlaygroundVendorPath$/PhysX/bin/win.x86_64.vc141.mt/debug'
 .PhysXReleaseLibraryPath    = '$PlaygroundVendorPath$/PhysX/bin/win.x86_64.vc141.mt/release'
@@ -45,23 +54,22 @@
     'PhysXExtensions_static_64.lib'
 }
 
-.DirectXTKDebugLibraryPath      = '$PlaygroundVendorPath$/DirectXTK/Lib/x64/debug'
-.DirectXTKReleaseLibraryPath    = '$PlaygroundVendorPath$/DirectXTK/Lib/x64/release'
-.DirectXTKLibraries             = { 'directxtk.lib' }
-
 .DebugLibraryPaths = {
-    '$PhysXDebugLibraryPath$'
+    '$CppReflDebugLibraryPath$'
     '$DirectXTKDebugLibraryPath$'
+    '$PhysXDebugLibraryPath$'
 }
 
 .ReleaseLibraryPaths = {
-    '$PhysXReleaseLibraryPath$'
+    '$CppReflReleaseLibraryPath$'
     '$DirectXTKReleaseLibraryPath$'
+    '$PhysXReleaseLibraryPath$'
 }
 
 .LibrariesArray = .x64Libraries
                 + .PhysXLibraries
                 + .DirectXTKLibraries
+                + .CppReflLibraries
 
 // Base config for x64 platform
 .x64BaseConfig = [

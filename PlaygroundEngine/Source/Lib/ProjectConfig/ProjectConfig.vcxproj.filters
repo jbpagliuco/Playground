@@ -16,4 +16,8 @@
     <CustomBuild Include="ProjectConfig.bff">
     </CustomBuild>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="CreateCompilerOptions.bff" />
+    <None Include="Reflection.bff" />
+  </ItemGroup>
 </Project>
