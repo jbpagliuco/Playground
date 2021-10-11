@@ -7,7 +7,7 @@
 #include "ReflectionRegistry.h"
 
 #include "Core/Debug/Assert.h"
-#include "Core/Util/Serialize.h"
+#include "Core/Reflection/ReflSerialize.h"
 
 #include "Engine/World/GameObject.h"
 #include "Engine/Components/GameComponent.h"

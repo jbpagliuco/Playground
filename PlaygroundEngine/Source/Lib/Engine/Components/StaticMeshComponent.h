@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core/Reflection/ReflMarkup.h"
 #include "Renderer/Scene/Renderables/MeshInstance.h"
 
 #include "GameComponent.h"
@@ -23,7 +24,9 @@ namespace playground
 		virtual void UpdateLate(float deltaTime) override;
 
 	private:
-		AssetID mMeshID;
+		AssetID mMeshID			REFLECTED REFL_NAME("mesh") = INVALID_ASSET_ID;
+		AssetID mMaterialID		REFLECTED REFL_NAME("material") = INVALID_ASSET_ID;
+
 		MaterialAsset *mMaterialAsset;
 
 		MeshInstance mMeshInstance;

@@ -12,14 +12,14 @@
 
 namespace playground
 {
-	AssetID INVALID_ASSET_ID = 0;
+	AssetID INVALID_ASSET_ID = { (uint64_t)-1 };
 	AssetRecord INVALID_ASSET_RECORD;
 
 	static std::map<std::string, AssetType> AssetTypes;
 
 	static std::map<AssetID, AssetRecord> AssetRecords;
 	static std::map<std::string, AssetID> AssetIDs;
-	static AssetID NextAssetID = 1;
+	static AssetID NextAssetID = { 1 };
 
 
 	CONSOLE_BOOL(resources, Resources_debug, false);
@@ -30,7 +30,7 @@ namespace playground
 		AssetID id = GetAssetID(filename);
 		if (id == INVALID_ASSET_ID) {
 			id = NextAssetID;
-			++NextAssetID;
+			++NextAssetID.mID;
 
 			AssetIDs[filename] = id;
 		}

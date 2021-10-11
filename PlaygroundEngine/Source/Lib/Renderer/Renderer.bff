@@ -8,6 +8,7 @@
     'GeneratedCode'
     '..'
     '../Core'
+    '../Core/GeneratedCode'
     '../../Vendor'
     '../../Vendor/CppRefl/include'
 }

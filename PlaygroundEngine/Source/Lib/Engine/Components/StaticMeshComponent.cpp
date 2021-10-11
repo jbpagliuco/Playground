@@ -14,10 +14,7 @@ namespace playground
 {
 	void StaticMeshComponent::DeserializePost(const DeserializationParameterMap& params)
 	{
-		mMeshID = RequestAsset(params["mesh"].AsFilepath());
-
-		AssetID materialID = RequestAsset(params["material"].AsFilepath());
-		mMaterialAsset = GetMaterialByAssetID(materialID);
+		mMaterialAsset = GetMaterialByAssetID(mMaterialID);
 		
 		Mesh* mesh = Mesh::Get(mMeshID);
 		MaterialContainer& materialContainer = mMaterialAsset->GetMaterialContainer();

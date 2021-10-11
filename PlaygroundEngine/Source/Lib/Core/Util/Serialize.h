@@ -97,7 +97,4 @@ namespace playground
 	
 	DeserializationParameterMap ParseNode(pugi::xml_node &parent);
 	DeserializationParameterMap ParseFile(const std::string &filename);
-
-	// Deserialize a parameter map into an object, according to its reflected data.
-	void ReflectionDeserialize(const refl::Class& reflClass, void* obj, const DeserializationParameterMap& parameters);
 }

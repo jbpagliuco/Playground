@@ -15,8 +15,11 @@
     'GeneratedCode'
     '../../../PlaygroundEngine/Source/Lib'
     '../../../PlaygroundEngine/Source/Lib/Core'
+    '../../../PlaygroundEngine/Source/Lib/Core/GeneratedCode'
     '../../../PlaygroundEngine/Source/Lib/Engine'
+    '../../../PlaygroundEngine/Source/Lib/Engine/GeneratedCode'
     '../../../PlaygroundEngine/Source/Lib/Renderer'
+    '../../../PlaygroundEngine/Source/Lib/Renderer/GeneratedCode'
     '../../../PlaygroundEngine/Source/Vendor/CppRefl/include'
 }
 .ProjectLibraryPaths = {

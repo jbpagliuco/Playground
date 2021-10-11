@@ -3,6 +3,10 @@
 #include <stdint.h>
 #include <string>
 
+#include "Reflection/ReflMarkup.h"
+
+#include "Stream.reflgen.h"
+
 #define CORE_SAFE_RELEASE_ASSET_OBJECT(obj) ReleaseAsset(obj->GetID()); obj = nullptr
 
 namespace playground
@@ -12,7 +16,14 @@ namespace playground
 		int mVersion = 1;
 	};
 
-	typedef uint64_t AssetID;
+	struct REFLECTED AssetID
+	{
+		GENERATED_REFLECTION_CODE();
+
+		uint64_t mID;
+
+		operator uint64_t()const { return mID; }
+	};
 	extern AssetID INVALID_ASSET_ID;
 
 	struct AssetType
