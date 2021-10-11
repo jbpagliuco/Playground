@@ -4,12 +4,16 @@
 
 #include "GameComponent.h"
 
+#include "StaticMeshComponent.reflgen.h"
+
 namespace playground
 {
 	class MaterialAsset;
 
-	class StaticMeshComponent : public GameComponentBase<GameComponentType::STATIC_MESH>
+	class REFLECTED StaticMeshComponent : public GameComponentBase<GameComponentType::STATIC_MESH>
 	{
+		GENERATED_REFLECTION_CODE();
+
 	public:
 		virtual void Deserialize(DeserializationParameterMap &params) override;
 

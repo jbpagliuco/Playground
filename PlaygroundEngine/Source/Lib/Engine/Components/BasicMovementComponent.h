@@ -5,10 +5,14 @@
 #include "Renderer/Resources/Texture.h"
 #include "Renderer/Scene/Camera.h"
 
+#include "BasicMovementComponent.reflgen.h"
+
 namespace playground
 {
-	class BasicMovementComponent : public GameComponentBase<GameComponentType::BASIC_MOVEMENT>
+	class REFLECTED BasicMovementComponent : public GameComponentBase<GameComponentType::BASIC_MOVEMENT>
 	{
+		GENERATED_REFLECTION_CODE();
+
 	public:
 		virtual void Deserialize(DeserializationParameterMap &params) override;
 

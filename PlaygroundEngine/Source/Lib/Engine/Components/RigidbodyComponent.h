@@ -6,10 +6,14 @@
 #include "Engine/Physics/PhysicsShape.h"
 #include "Engine/Physics/PhysicsMaterial.h"
 
+#include "RigidbodyComponent.reflgen.h"
+
 namespace playground
 {
-	class RigidbodyComponent : public GameComponentBase<GameComponentType::RIGIDBODY>
+	class REFLECTED RigidbodyComponent : public GameComponentBase<GameComponentType::RIGIDBODY>
 	{
+		GENERATED_REFLECTION_CODE();
+
 	public:
 		virtual void Deserialize(DeserializationParameterMap &params) override;
 

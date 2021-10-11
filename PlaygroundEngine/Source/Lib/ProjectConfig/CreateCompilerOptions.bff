@@ -5,6 +5,8 @@
 //		#include ".../CreateCompilerOptions.bff"
 // ]
 
+.CompilerOptions + ' -std=c++1z '
+
 // Adds define flags to the compiler options.
 #include "CreateDefineStrings.bff"
 .CompilerOptions + .Defines

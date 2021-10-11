@@ -3,6 +3,7 @@
 #if !defined(REFL_GEN_DISABLE)
 
 // This must be defined before we include the private macros so GENERATED_REFLECTION_CODE() works correctly.
+#undef REFL_INTERNAL_FILE_ID
 #define REFL_INTERNAL_FILE_ID CameraComponent
 
 #if defined(CameraComponent_REFLGEN_H)
@@ -20,7 +21,7 @@
 
 #if !defined(REFL_BUILD_REFLECTION)
 // Macro to be added inside the definition of a reflected class.
-#define GENERATED_REFLECTION_CODE_CameraComponent16()															\
+#define GENERATED_REFLECTION_CODE_CameraComponent14()															\
 	public:																													\
 		static constexpr const char* CLASS_NAME				= "CameraComponent";											\
 		static constexpr const char* CLASS_QUALIFIED_NAME	= "playground::CameraComponent";									\
@@ -35,7 +36,7 @@
 #else // !defined(REFL_BUILD_REFLECTION)
 
 // Define empty macro when building reflection.
-#define GENERATED_REFLECTION_CODE_CameraComponent16()
+#define GENERATED_REFLECTION_CODE_CameraComponent14()
 
 #endif // !defined(REFL_BUILD_REFLECTION)
 

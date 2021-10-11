@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <CustomBuild Include="GeneratedCode\RendererReflection_Debug.reflgen.cpp" />
+    <CustomBuild Include="GeneratedCode\RendererReflection_Debug.reflgen.h" />
     <CustomBuild Include="ImguiRenderer.cpp" />
     <CustomBuild Include="ImguiRenderer.h" />
     <CustomBuild Include="Light.cpp" />

@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <CustomBuild Include="GeneratedCode\RendererReflection_Debug.reflgen.cpp">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\RendererReflection_Debug.reflgen.h">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
     <CustomBuild Include="ImguiRenderer.cpp">
     </CustomBuild>
     <CustomBuild Include="ImguiRenderer.h">
@@ -237,6 +243,11 @@
     </CustomBuild>
     <CustomBuild Include="StateManager.h">
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="GeneratedCode">
+      <UniqueIdentifier>{56bea851-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Material">

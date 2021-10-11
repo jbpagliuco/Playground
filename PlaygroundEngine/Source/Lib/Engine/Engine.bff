@@ -38,7 +38,7 @@ ForEach(.config in .AllConfigs) {
 
     Alias('$TargetName$') {
         .Targets = {
-            '$ProjectName$-$Config$-refl'
+            '$ProjectName$-$Config$-refl',
             '$TargetName$-lib'
         }
     }

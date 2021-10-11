@@ -105,6 +105,13 @@ Compiler('Compiler-CppReflCompiler')
     .CompilerFamily = 'clang'
 }
 
+// Reflection Compiler
+Compiler('Compiler-CppReflCompiler-Debug')
+{
+    .Executable = '$PlaygroundVendorPath$/CppRefl/Lib/Debug/CppReflCompiler.exe'
+        .CompilerFamily = 'clang'
+}
+
 // Configs
 .BaseConfig = [
     .Defines = ''

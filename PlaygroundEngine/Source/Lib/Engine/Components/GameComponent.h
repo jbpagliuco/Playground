@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ReflectionMarkup.h"
+
 #include "Core/Memory/Memory.h"
 #include "Core/Util/Serialize.h"
 

@@ -64,12 +64,6 @@
     <CustomBuild Include="Components\StaticMeshComponent.h">
       <Filter>Components</Filter>
     </CustomBuild>
-    <CustomBuild Include="Components\TestComponent.cpp">
-      <Filter>Components</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Components\TestComponent.h">
-      <Filter>Components</Filter>
-    </CustomBuild>
     <CustomBuild Include="Engine.bff">
     </CustomBuild>
     <CustomBuild Include="Engine.cpp">
@@ -77,6 +71,9 @@
     <CustomBuild Include="Engine.h">
     </CustomBuild>
     <CustomBuild Include="EngineReflection.cpp">
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\BasicMovementComponent.reflgen.h">
+      <Filter>GeneratedCode</Filter>
     </CustomBuild>
     <CustomBuild Include="GeneratedCode\CameraComponent.reflgen.cpp">
       <Filter>GeneratedCode</Filter>
@@ -88,6 +85,21 @@
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
     <CustomBuild Include="GeneratedCode\EngineReflection_Debug.reflgen.h">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\LightComponent.reflgen.h">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\RigidbodyComponent.reflgen.h">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\SkyboxComponent.reflgen.h">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\StaticMeshComponent.reflgen.h">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\TestComponent.reflgen.h">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
     <CustomBuild Include="Input\Input.cpp">

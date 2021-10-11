@@ -2,6 +2,8 @@
 
 #include "GameComponent.h"
 
+#include "LightComponent.reflgen.h"
+
 namespace playground
 {
 	struct Light;
@@ -20,20 +22,26 @@ namespace playground
 		Light *mLight;
 	};
 
-	class DirectionalLightComponent : public LightComponent<GameComponentType::DIRECTIONAL_LIGHT>
+	class REFLECTED DirectionalLightComponent : public LightComponent<GameComponentType::DIRECTIONAL_LIGHT>
 	{
+		GENERATED_REFLECTION_CODE();
+
 	public:
 		virtual void Deserialize(DeserializationParameterMap &params) override;
 	};
 
-	class PointLightComponent : public LightComponent<GameComponentType::POINT_LIGHT>
+	class REFLECTED PointLightComponent : public LightComponent<GameComponentType::POINT_LIGHT>
 	{
+		GENERATED_REFLECTION_CODE();
+
 	public:
 		virtual void Deserialize(DeserializationParameterMap &params) override;
 	};
 
-	class SpotLightComponent : public LightComponent<GameComponentType::SPOT_LIGHT>
+	class REFLECTED SpotLightComponent : public LightComponent<GameComponentType::SPOT_LIGHT>
 	{
+		GENERATED_REFLECTION_CODE();
+
 	public:
 		virtual void Deserialize(DeserializationParameterMap &params) override;
 	};

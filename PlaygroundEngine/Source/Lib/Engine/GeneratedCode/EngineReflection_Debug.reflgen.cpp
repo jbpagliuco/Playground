@@ -13,7 +13,14 @@
 void EngineReflection_Debug_InitReflection(refl::Registry& registry)
 {
 	// Registers every reflected class in this project.
+	playground::BasicMovementComponent::__ReflRegisterClass(registry);
 	playground::CameraComponent::__ReflRegisterClass(registry);
+	playground::DirectionalLightComponent::__ReflRegisterClass(registry);
+	playground::PointLightComponent::__ReflRegisterClass(registry);
+	playground::RigidbodyComponent::__ReflRegisterClass(registry);
+	playground::SkyboxComponent::__ReflRegisterClass(registry);
+	playground::SpotLightComponent::__ReflRegisterClass(registry);
+	playground::StaticMeshComponent::__ReflRegisterClass(registry);
 
 	// Registers every reflected global function in this project.
 	
