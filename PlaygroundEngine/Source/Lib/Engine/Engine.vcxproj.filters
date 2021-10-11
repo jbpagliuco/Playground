@@ -72,6 +72,11 @@
     </CustomBuild>
     <CustomBuild Include="EngineReflection.cpp">
     </CustomBuild>
+    <CustomBuild Include="EngineReflection.h">
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\BasicMovementComponent.reflgen.cpp">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
     <CustomBuild Include="GeneratedCode\BasicMovementComponent.reflgen.h">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
@@ -87,13 +92,25 @@
     <CustomBuild Include="GeneratedCode\EngineReflection_Debug.reflgen.h">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
+    <CustomBuild Include="GeneratedCode\LightComponent.reflgen.cpp">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
     <CustomBuild Include="GeneratedCode\LightComponent.reflgen.h">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\RigidbodyComponent.reflgen.cpp">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
     <CustomBuild Include="GeneratedCode\RigidbodyComponent.reflgen.h">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
+    <CustomBuild Include="GeneratedCode\SkyboxComponent.reflgen.cpp">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
     <CustomBuild Include="GeneratedCode\SkyboxComponent.reflgen.h">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\StaticMeshComponent.reflgen.cpp">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
     <CustomBuild Include="GeneratedCode\StaticMeshComponent.reflgen.h">

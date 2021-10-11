@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include "ReflectionRegistry.h"
+
 #include "Core/Debug/Assert.h"
 #include "Engine/Engine.h"
 #include "Engine/World/GameObject.h"
@@ -17,28 +19,8 @@
 
 #define FOREACH_COMPONENT(func, ...) for (auto &iter : ComponentTable) { for (auto &component : iter.second) { component->func(__VA_ARGS__); } }
 
-#define GENERATE_INSTANTIATOR(type) { #type, &InstantiateGameComponent<type> }
-
 namespace playground
 {
-	template <typename T>
-	GameComponent* InstantiateGameComponent()
-	{
-		void *mem = CORE_ALLOC(sizeof(T));
-		return new (mem) T();
-	}
-
-	static std::map<std::string, GameComponent*(*)()> ComponentInstantiators = {
-		GENERATE_INSTANTIATOR(BasicMovementComponent),
-		GENERATE_INSTANTIATOR(CameraComponent),
-		GENERATE_INSTANTIATOR(DirectionalLightComponent),
-		GENERATE_INSTANTIATOR(PointLightComponent),
-		GENERATE_INSTANTIATOR(RigidbodyComponent),
-		GENERATE_INSTANTIATOR(SkyboxComponent),
-		GENERATE_INSTANTIATOR(SpotLightComponent),
-		GENERATE_INSTANTIATOR(StaticMeshComponent)
-	};
-
 	typedef std::vector<GameComponent*> ComponentList;
 	static std::map<std::string, ComponentList> ComponentTable;
 
@@ -105,14 +87,18 @@ namespace playground
 
 	GameComponent* CreateComponentFromType(const std::string &type)
 	{
-		CORE_ASSERT_RETURN_VALUE(ComponentInstantiators.find(type) != ComponentInstantiators.end(), nullptr, "Failed to find instantiator for component type '%s'. Did you forget to add it to this file?", type.c_str());
-		GameComponent *component = ComponentInstantiators[type]();
-		CORE_ASSERT_RETURN_VALUE(component != nullptr, nullptr, "Failed to create component of type '%s'", type.c_str());
+		// Find reflected class info.
+		const refl::Class* reflClass = refl::GetSystemRegistry().GetClass(type);
+		CORE_ASSERT_RETURN_VALUE(reflClass != nullptr, nullptr, "Component class '%s' is not reflected.", type.c_str());
 
+		// Allocate and construct object
+		void *obj = CORE_ALLOC(reflClass->mSize);
+		GameComponent* component = reflClass->Construct<GameComponent>(obj);
+
+		// Add to component list
 		if (ComponentTable.find(type) == ComponentTable.end()) {
 			ComponentTable[type] = ComponentList();
 		}
-
 		ComponentTable[type].push_back(component);
 
 		return component;
