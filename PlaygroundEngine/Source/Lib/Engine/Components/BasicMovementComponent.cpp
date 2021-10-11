@@ -36,7 +36,6 @@ namespace playground
 		delta.x = (IsKeyDown('D') - IsKeyDown('A')) * deltaTime * baseSpeed * fastModifier;
 		delta.y = (IsKeyDown('E') - IsKeyDown('Q')) * deltaTime * baseSpeed * fastModifier;
 		delta.z = (IsKeyDown('W') - IsKeyDown('S')) * deltaTime * baseSpeed * fastModifier;
-		LogInfo("test", "Delta=(%.2f,%.2f,%.2f)", delta.x, delta.y, delta.z);
 
 		mTransform->mRotation = Quaternion::FromEuler(mPitch, mYaw, mRoll);
 		mTransform->mPosition = Vector(mTransform->mPosition.AsVector3() + (mTransform->mRotation * delta));
