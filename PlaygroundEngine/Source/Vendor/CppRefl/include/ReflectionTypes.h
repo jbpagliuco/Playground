@@ -32,6 +32,12 @@ namespace refl
 		CLASS, // struct, class, record, whatever
 
 		VOID, // for function return values
+		
+		// Special markers
+		POD_MIN = BOOL,
+		POD_MAX = LONG_DOUBLE,
+		INT_TYPE_MIN = UINT8,
+		INT_TYPE_MAX = INT64,
 	};
 
 	// Contains info about a type (e.g. data type, constness, etc.)
@@ -83,5 +89,23 @@ namespace refl
 
 		// Is this type a templated type?
 		bool IsTemplated()const { return !mTemplateTypes.empty(); }
+
+		// Is this type an integer type?
+		bool IsInteger()const;
+
+		// Is this type an unsigned type?
+		bool IsUnsigned()const;
+
+		// Is this type a real number type (i.e. float or double)?
+		bool IsReal()const;
+
+		// Is this type a class?
+		bool IsClass()const;
+
+		// Is this type an enum?
+		bool IsEnum()const;
+
+		// Is this type a piece of data type?
+		bool IsPOD()const;
 	};
 }

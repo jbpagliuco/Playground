@@ -27,7 +27,7 @@ namespace playground
 		GENERATED_REFLECTION_CODE();
 
 	public:
-		virtual void Deserialize(DeserializationParameterMap &params) override;
+		virtual void DeserializePost(const DeserializationParameterMap& params) override;
 	};
 
 	class REFLECTED PointLightComponent : public LightComponent<GameComponentType::POINT_LIGHT>
@@ -35,7 +35,7 @@ namespace playground
 		GENERATED_REFLECTION_CODE();
 
 	public:
-		virtual void Deserialize(DeserializationParameterMap &params) override;
+		virtual void DeserializePost(const DeserializationParameterMap& params) override;
 	};
 
 	class REFLECTED SpotLightComponent : public LightComponent<GameComponentType::SPOT_LIGHT>
@@ -43,7 +43,7 @@ namespace playground
 		GENERATED_REFLECTION_CODE();
 
 	public:
-		virtual void Deserialize(DeserializationParameterMap &params) override;
+		virtual void DeserializePost(const DeserializationParameterMap& params) override;
 	};
 }
 

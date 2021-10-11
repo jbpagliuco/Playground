@@ -14,7 +14,7 @@ namespace playground
 		GENERATED_REFLECTION_CODE();
 
 	public:
-		virtual void Deserialize(DeserializationParameterMap &params) override;
+		virtual void DeserializePost(const DeserializationParameterMap& params) override;
 
 		virtual void Activate() override;
 		virtual void Deactivate() override;

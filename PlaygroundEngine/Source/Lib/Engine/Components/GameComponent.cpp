@@ -35,7 +35,7 @@ namespace playground
 		return mOwner;
 	}
 
-	void GameComponent::Deserialize(DeserializationParameterMap &params)
+	void GameComponent::DeserializePost(const DeserializationParameterMap&)
 	{
 	}
 

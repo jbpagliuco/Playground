@@ -18,13 +18,14 @@
 
 static int GameMain()
 {
-	playground::DeserializationParameterMap config = playground::ParseFile("data/config.xml");
-
 	// Initialize reflection
 	const bool imported = refl::GetSystemRegistry().Import("Source/Game/GameReflection_Debug.refl");
 	CORE_ASSERT_RETURN_VALUE(imported, 1, "Failed to import reflection.");
 
 	GameReflection_Debug_InitReflection();
+
+	// Load config
+	playground::DeserializationParameterMap config = playground::ParseFile("data/config.xml");
 
 	// Initialize engine
 	if (playground::InitializeEngine() == false) {

@@ -7,7 +7,7 @@
 
 namespace playground
 {
-	void DirectionalLightComponent::Deserialize(DeserializationParameterMap &params)
+	void DirectionalLightComponent::DeserializePost(const DeserializationParameterMap& params)
 	{
 		Light *pLight = CreateLight(LightType::DIRECTIONAL);
 		
@@ -22,7 +22,7 @@ namespace playground
 	}
 
 
-	void PointLightComponent::Deserialize(DeserializationParameterMap &params)
+	void PointLightComponent::DeserializePost(const DeserializationParameterMap& params)
 	{
 		Light *pLight = CreateLight(LightType::POINT);
 
@@ -38,7 +38,7 @@ namespace playground
 	}
 
 
-	void SpotLightComponent::Deserialize(DeserializationParameterMap &params)
+	void SpotLightComponent::DeserializePost(const DeserializationParameterMap& params)
 	{
 		Light *pLight = CreateLight(LightType::SPOT);
 

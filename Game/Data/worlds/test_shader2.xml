@@ -23,7 +23,7 @@
 				<far>100</far>
 			</component>
 			<component type="BasicMovementComponent">
-				<sensitivity>0.1</sensitivity>
+				<mSensitivity>0.1</mSensitivity>
 			</component>
 			<component type="SkyboxComponent">
 				<skybox>desert.skyx</skybox>

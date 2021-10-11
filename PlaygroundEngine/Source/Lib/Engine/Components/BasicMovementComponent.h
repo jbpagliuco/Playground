@@ -14,20 +14,20 @@ namespace playground
 		GENERATED_REFLECTION_CODE();
 
 	public:
-		virtual void Deserialize(DeserializationParameterMap &params) override;
+		virtual void DeserializePost(const DeserializationParameterMap& params) override;
 
 		virtual void Activate() override;
 
 		virtual void Update(float deltaTime) override;
 
 	private:
-		float mPitch;
-		float mYaw;
-		float mRoll;
+		float mPitch REFLECTED;
+		float mYaw REFLECTED;
+		float mRoll REFLECTED;
 
-		float mSensitivity;
+		float mSensitivity REFLECTED;
 
-		bool mStayFocused;
+		bool mStayFocused REFLECTED;
 		Tuple3f mFocusPoint;
 	};
 }

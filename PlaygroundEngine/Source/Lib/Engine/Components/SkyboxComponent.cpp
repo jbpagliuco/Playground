@@ -7,7 +7,7 @@
 
 namespace playground
 {
-	void SkyboxComponent::Deserialize(DeserializationParameterMap& params)
+	void SkyboxComponent::DeserializePost(const DeserializationParameterMap& params)
 	{
 		mSkyboxID = RequestAsset(params["skybox"].AsFilepath());
 	}

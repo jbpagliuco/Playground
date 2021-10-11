@@ -32,7 +32,8 @@ namespace playground
 
 		virtual GameComponentType GetType()const = 0;
 
-		virtual void Deserialize(DeserializationParameterMap &params);
+		// Called after reflection serialization.
+		virtual void DeserializePost(const DeserializationParameterMap& params);
 
 		virtual void Activate();
 		virtual void Deactivate();

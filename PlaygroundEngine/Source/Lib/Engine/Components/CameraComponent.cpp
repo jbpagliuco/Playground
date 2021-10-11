@@ -9,7 +9,7 @@
 
 namespace playground
 {
-	void CameraComponent::Deserialize(DeserializationParameterMap& params)
+	void CameraComponent::DeserializePost(const DeserializationParameterMap& params)
 	{
 		mCamera.mEnabled = params["enabled"].AsBool();
 		mCamera.mFOV = ToRadians(params["fov"].AsFloat());

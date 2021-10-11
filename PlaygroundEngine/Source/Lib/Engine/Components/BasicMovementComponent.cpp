@@ -7,10 +7,8 @@
 
 namespace playground
 {
-	void BasicMovementComponent::Deserialize(DeserializationParameterMap& params)
+	void BasicMovementComponent::DeserializePost(const DeserializationParameterMap& params)
 	{
-		mSensitivity = params["sensitivity"].AsFloat(3.0f);
-
 		mStayFocused = false;
 		if (params.HasChild("focus")) {
 			mStayFocused = true;

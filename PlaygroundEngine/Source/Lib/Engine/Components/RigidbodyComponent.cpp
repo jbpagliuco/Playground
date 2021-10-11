@@ -10,7 +10,7 @@
 
 namespace playground
 {
-	void RigidbodyComponent::Deserialize(DeserializationParameterMap &params)
+	void RigidbodyComponent::DeserializePost(const DeserializationParameterMap& params)
 	{
 		const std::string motionType = params["motionType"].AsString();
 		if (motionType == "dynamic") {

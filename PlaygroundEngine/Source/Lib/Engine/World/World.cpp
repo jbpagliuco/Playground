@@ -4,6 +4,7 @@
 #include <map>
 
 #include "pugixml-1.9/pugixml.hpp"
+#include "ReflectionRegistry.h"
 
 #include "Core/Debug/Assert.h"
 #include "Core/Util/Serialize.h"
@@ -115,12 +116,17 @@ namespace playground
 			pugi::xml_node componentsArrayXML = gameObjectXML.child("components");
 			for (auto &componentXML : componentsArrayXML.children("component")) {
 				// Create the component
-				const std::string componentType = componentXML.attribute("type").value();
+				const std::string componentType = "playground::" + std::string(componentXML.attribute("type").value());
+				
+				const refl::Class* componentClass = refl::GetSystemRegistry().GetClass(componentType);
+				CORE_ASSERT_CONTINUE(componentClass != nullptr, "Unknown component type: %s", componentType.c_str());
+
 				GameComponent *component = CreateComponentFromType(componentType);
 
 				// Deserialize the component
 				DeserializationParameterMap params = ParseNode(componentXML);
-				component->Deserialize(params);
+				ReflectionDeserialize(*componentClass, component, params);
+				component->DeserializePost(params);
 
 				// Add the component to this game objects
 				obj->AddComponent(component);

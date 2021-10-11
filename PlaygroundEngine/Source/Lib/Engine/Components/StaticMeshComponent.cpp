@@ -12,7 +12,7 @@
 
 namespace playground
 {
-	void StaticMeshComponent::Deserialize(DeserializationParameterMap &params)
+	void StaticMeshComponent::DeserializePost(const DeserializationParameterMap& params)
 	{
 		mMeshID = RequestAsset(params["mesh"].AsFilepath());
 
@@ -31,13 +31,13 @@ namespace playground
 			materialContainer.CreateDynamicMaterialInstance();
 
 			for (auto &overrideParam : materialParams["overrides"].childrenArray) {
-				const std::string type = overrideParam.meta["type"];
+				const std::string type = overrideParam.GetAttribute("type");
 
 				if (type == "texture") {
-					mMaterialAsset->SetTextureParameter(overrideParam.meta["name"], overrideParam.AsFilepath());
+					mMaterialAsset->SetTextureParameter(overrideParam.GetAttribute("name"), overrideParam.AsFilepath());
 				}
 				else if (type == "renderTarget") {
-					mMaterialAsset->SetRenderTargetParameter(overrideParam.meta["name"], overrideParam.AsFilepath(), overrideParam.meta["map"] == "color");
+					mMaterialAsset->SetRenderTargetParameter(overrideParam.GetAttribute("name"), overrideParam.AsFilepath(), overrideParam.GetAttribute("map") == "color");
 				}
 				else {
 					CORE_ASSERT(false, "Type %s not implemented.", type.c_str());
