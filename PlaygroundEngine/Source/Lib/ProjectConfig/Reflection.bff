@@ -22,8 +22,7 @@ ForEach(.baseConfig in .AllBaseConfigs) {
 		.ExecInput = '$ProjectBasePath$/$ProjectName$Reflection.cpp'
 		.ExecOutput = '$ProjectBasePath$/$ReflFilestem$.refl'
 
-		.ExecArguments = '%2 '
-		.ExecArguments + '-entry %1 '
+		.ExecArguments = '-entry %1 '
 		.ExecArguments + '-generatedOutput $ProjectBasePath$\GeneratedCode '
 		.ExecArguments + '-projectPath $ProjectBasePath$ '
 		.ExecArguments + '-projectName $ReflFilestem$ '
