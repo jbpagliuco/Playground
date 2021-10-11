@@ -77,19 +77,12 @@ namespace refl
 		std::map<std::string, Function> mFunctions;
 	};
 
-	// Sets the system registry.
-	void SetSystemRegistry(Registry* registry);
 	// Returns the reflection registry that describes this program.
-	Registry* GetSystemRegistry();
+	Registry& GetSystemRegistry();
 
 	template <typename ClassType>
-	const Class* StaticClass(const Registry* registry = GetSystemRegistry())
+	const Class* StaticClass(const Registry& registry = GetSystemRegistry())
 	{
-		if (registry == nullptr) {
-			REFL_INTERNAL_RAISE_WARNING("Tried to access null registry.");
-			return nullptr;
-		}
-
-		return registry->GetClass(ClassType::CLASS_QUALIFIED_NAME);
+		return registry.GetClass(ClassType::CLASS_QUALIFIED_NAME);
 	}
 }

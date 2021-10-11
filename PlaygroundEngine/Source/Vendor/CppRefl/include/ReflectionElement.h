@@ -49,8 +49,5 @@ namespace refl
 
 		// Reflected attributes of this element.
 		std::map<std::string, std::string> mAttributes;
-
-		// Pointer to the registry that contains this element.
-		const class Registry* mRegistry;
 	};
 }
