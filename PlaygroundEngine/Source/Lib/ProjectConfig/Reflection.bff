@@ -4,30 +4,17 @@
 .AllReflConfigs = { }
 ForEach(.baseConfig in .AllBaseConfigs) {
 	.Config = [
+		// Include base config
 		Using(.BaseConfig)
+
+		// Include build/render configs (just use DX11 for all platforms, doesn't really matter right now)
 		Using(.baseConfig)
 		Using(.DX11BaseConfig)
 
 		.DefinesArray + .ConfigDefinesArray
 		.DefinesArray + .RenderConfigDefinesArray
 
-		//.CompilerOptions + '%2 '
-		//.CompilerOptions + '-entry %1 '
-		//.CompilerOptions + '-generatedOutput $ProjectBasePath$\GeneratedCode '
-		//.CompilerOptions + '-projectPath $ProjectBasePath$ '
-		//.CompilerOptions + '-projectName $ProjectName$Reflection '
-		//.CompilerOptions + '-clang '
-		//#include "CreateCompilerOptions.bff"
-
 		.TargetName = '$ProjectName$-$Config$'
-
-		.Compiler = 'Compiler-CppReflCompiler'
-		.CompilerInputFiles = { '$ProjectBasePath$/$ProjectName$Reflection.cpp' }
-		.CompilerOutputExtension = '.refl'
-		.CompilerOutputPath = '$ProjectBasePath$/temp'
-
-		.AllowCaching = false
-		.AllowDistribution = false
 
 		.ReflFilestem = '$ProjectName$Reflection_$Config$'
 
