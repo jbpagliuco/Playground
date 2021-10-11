@@ -69,7 +69,14 @@ ForEach(.config in .AllConfigs) {
 ForEach(.config in .AllReflConfigs) {
     Using(.config)
 
-    Exec('$TargetName$-refl') { }
+    Exec('$TargetName$-refl') { 
+        .OldExecArguments = .ExecArguments
+        .ExecArguments = '-registries '
+        .ExecArguments + '../../../PlaygroundEngine/Source/Lib/Core/CoreReflection_$Config$.refl;'
+        .ExecArguments + '../../../PlaygroundEngine/Source/Lib/Engine/EngineReflection_$Config$.refl;'
+        .ExecArguments + '../../../PlaygroundEngine/Source/Lib/Renderer/RendererReflection_$Config$.refl '
+        .ExecArguments + .OldExecArguments
+    }
 }
 
 ForEach(.config in .AllConfigs) {

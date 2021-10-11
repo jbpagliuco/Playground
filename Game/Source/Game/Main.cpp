@@ -2,6 +2,7 @@
 
 #include <Windows.h>
 
+#include "Core/Debug/Assert.h"
 #include "Core/Debug/Log.h"
 #include "Core/Util/Serialize.h"
 #include "Engine/Engine.h"
@@ -19,13 +20,16 @@ static int GameMain()
 {
 	playground::DeserializationParameterMap config = playground::ParseFile("data/config.xml");
 
-	// Initialize
+	// Initialize reflection
+	const bool imported = refl::GetSystemRegistry().Import("Source/Game/GameReflection_Debug.refl");
+	CORE_ASSERT_RETURN_VALUE(imported, 1, "Failed to import reflection.");
+
+	GameReflection_Debug_InitReflection();
+
+	// Initialize engine
 	if (playground::InitializeEngine() == false) {
 		return EXIT_FAILURE;
 	}
-
-	// Initialize reflection
-	GameReflection_Debug_InitReflection();
 	
 	playground::LoadWorldFromFile(config["world"].AsString());
 
