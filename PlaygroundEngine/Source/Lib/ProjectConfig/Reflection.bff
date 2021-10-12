@@ -30,7 +30,7 @@ ForEach(.baseConfig in .AllBaseConfigs) {
 		#include "CreateCompilerOptions.bff"
 		.ExecArguments + .CompilerOptions
 
-		.ExecAlways = true
+		.ExecAlways = false
 	]
 
 	^AllReflConfigs + .Config
@@ -56,14 +56,14 @@ ForEach(.baseConfig in .AllBaseConfigs) {
 
 		.Compiler = 'Compiler-CppReflCompiler'
 		.CompilerInputFiles = { '$ProjectBasePath$/$ProjectName$Reflection.cpp' }
-		.CompilerOutputPath = '$ProjectBasePath$/temp'
+		.CompilerOutputPath = '$ProjectBasePath$'
 		.CompilerOutputExtension = '.refl'
 			
 		#include "CreateCompilerOptions.bff"
 		.ClangOptions = .CompilerOptions
 
-		//.Preprocessor = 'X:\llvm\llvm-project\build\Release\bin\clang.exe'
-		//.PreprocessorOptions = '%1 -D "REFL_BUILD_REFLECTION" ' + .ClangOptions
+		// .Preprocessor = 'X:\llvm\llvm-project\build\Release\bin\clang.exe'
+		// .PreprocessorOptions = '%1 -D "REFL_BUILD_REFLECTION" ' + .ClangOptions
 
 		.CompilerOptions = '%1 %2 -entry $ProjectBasePath$/$ProjectName$Reflection.cpp '
 		// .CompilerOptions = '%2 -entry "%1" '

@@ -53,6 +53,12 @@
     <CustomBuild Include="GeneratedCode\CoreReflection_Debug.reflgen.h">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
+    <CustomBuild Include="GeneratedCode\Stream.reflgen.cpp">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\Stream.reflgen.h">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
     <CustomBuild Include="Math\MathUtil.h">
       <Filter>Math</Filter>
     </CustomBuild>
@@ -97,6 +103,15 @@
     </CustomBuild>
     <CustomBuild Include="OS\OSWin32.h">
       <Filter>OS</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Reflection\ReflMarkup.h">
+      <Filter>Reflection</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Reflection\ReflSerialize.cpp">
+      <Filter>Reflection</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Reflection\ReflSerialize.h">
+      <Filter>Reflection</Filter>
     </CustomBuild>
     <CustomBuild Include="Streaming\AssetFactory.h">
       <Filter>Streaming</Filter>
@@ -194,6 +209,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <Filter Include="Reflection">
+      <UniqueIdentifier>{2328d787-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
     <Filter Include="Streaming">
       <UniqueIdentifier>{79218339-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
     </Filter>
@@ -202,12 +222,5 @@
     <Filter Include="Util">
       <UniqueIdentifier>{d0aa5700-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Reflection\ReflSerialize.h" />
-    <ClInclude Include="Reflection\ReflMarkup.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Reflection\ReflSerialize.cpp" />
   </ItemGroup>
 </Project>

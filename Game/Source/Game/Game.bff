@@ -51,24 +51,6 @@ Copy('$ProjectName$-Copy-DLLs')
     .Dest = .GameBasePath
 }
 
-// Executables
-ForEach(.config in .AllConfigs) {
-    Using(.config)
-
-    ObjectList('$TargetName$-lib') { }
-
-    Executable('$TargetName$-exe')
-    { 
-        .Libraries = {
-            'Core-$Platform$-$Config$-lib'
-            'Renderer-$Platform$-$Config$-lib'
-            'Engine-$Platform$-$Config$-lib'
-            'Game-$Platform$-$Config$-lib'
-        }
-        // .LinkerLinkObjects = true
-    }
-}
-
 ForEach(.config in .AllReflConfigs) {
     Using(.config)
 
@@ -79,6 +61,26 @@ ForEach(.config in .AllReflConfigs) {
         .ExecArguments + '../../../PlaygroundEngine/Source/Lib/Engine/EngineReflection_$Config$.refl;'
         .ExecArguments + '../../../PlaygroundEngine/Source/Lib/Renderer/RendererReflection_$Config$.refl '
         .ExecArguments + .OldExecArguments
+    }
+}
+
+// Executables
+ForEach(.config in .AllConfigs) {
+    Using(.config)
+
+    ObjectList('$TargetName$-lib') {
+        .PreBuildDependencies = '$ProjectName$-$Config$-refl'
+    }
+
+    Executable('$TargetName$-exe')
+    { 
+        .Libraries = {
+            'Core-$Platform$-$Config$'
+            'Renderer-$Platform$-$Config$'
+            'Engine-$Platform$-$Config$'
+            '$TargetName$-lib'
+        }
+        // .LinkerLinkObjects = true
     }
 }
 

@@ -5,6 +5,8 @@
 #include <map>
 #include <string>
 
+#include <assert.h>
+
 #include "ReflectionClass.h"
 
 namespace refl
@@ -26,7 +28,7 @@ namespace refl
 				char* buf = (char*)alloca(size + 1);
 				ReadBytes(buf, size);
 				buf[size] = 0;
-				value = buf;
+				value = std::string(buf);
 			}
 			else {
 				WriteBytes(value.c_str(), size);

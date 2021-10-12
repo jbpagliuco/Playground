@@ -11,7 +11,7 @@
 
 namespace playground
 {
-	enum class REFLECTED LightType : int32_t
+	enum class LightType : int32_t
 	{
 		DIRECTIONAL = 0,
 		POINT = 1,
@@ -25,7 +25,7 @@ namespace playground
 		LightType mType REFLECTED;
 		int32_t mEnabled REFLECTED;
 		float mIntensity REFLECTED;
-		int32_t mShadowCastingIndex REFLECTED = -1;
+		int32_t mShadowCastingIndex REFLECTED;
 
 		Tuple3<float> mPosition;
 		float _padding1;

@@ -23,12 +23,6 @@
 
 .AllConfigs = .Allx64Configs
 
-ForEach(.config in .AllConfigs) {
-    Using(.config)
-
-    Library('$TargetName$-lib') { }
-}
-
 ForEach(.config in .AllReflConfigs) {
     Using(.config)
 
@@ -38,9 +32,16 @@ ForEach(.config in .AllReflConfigs) {
 ForEach(.config in .AllConfigs) {
     Using(.config)
 
+    Library('$TargetName$-lib') { 
+        .PreBuildDependencies = '$ProjectName$-$Config$-refl'
+    }
+}
+
+ForEach(.config in .AllConfigs) {
+    Using(.config)
+
     Alias('$TargetName$') {
         .Targets = {
-            '$ProjectName$-$Config$-refl',
             '$TargetName$-lib'
         }
     }
