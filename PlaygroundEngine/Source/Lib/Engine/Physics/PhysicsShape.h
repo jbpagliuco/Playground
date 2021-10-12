@@ -1,34 +1,44 @@
 #pragma once
 
+#include "Core/Reflection/ReflMarkup.h"
+#include "Core/Math/Vector.h"
 #include "Core/Util/Util.h"
+
+#include "PhysicsShape.reflgen.h"
 
 namespace playground
 {
-	enum class PhysicsShapeType
+	enum class REFLECTED PhysicsShapeType : uint8_t
 	{
 		SPHERE = 0,
 		BOX
 	};
 
-	struct PhysicsSphereInfo
+	struct REFLECTED PhysicsSphereInfo
 	{
-		float mRadius;
+		GENERATED_REFLECTION_CODE();
+
+	public:
+		float mRadius			REFLECTED;
 	};
 
-	struct PhysicsBoxInfo
+	struct REFLECTED PhysicsBoxInfo
 	{
-		Vector3f mMin;
-		Vector3f mMax;
+		GENERATED_REFLECTION_CODE();
+
+	public:
+		Vector3f mMin			REFLECTED;
+		Vector3f mMax			REFLECTED;
 	};
 
-	struct PhysicsShapeInfo
+	struct REFLECTED PhysicsShapeInfo
 	{
-		PhysicsShapeType mType;
+		GENERATED_REFLECTION_CODE();
 
-		union
-		{
-			PhysicsSphereInfo mSphereParams;
-			PhysicsBoxInfo mBoxParams;
-		};
+	public:
+		PhysicsShapeType mType			REFLECTED;
+
+		PhysicsSphereInfo mSphereParams		REFLECTED;
+		PhysicsBoxInfo mBoxParams			REFLECTED;
 	};
 }

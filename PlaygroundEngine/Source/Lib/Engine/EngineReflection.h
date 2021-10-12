@@ -4,3 +4,5 @@
 #include "Components/RigidbodyComponent.h"
 #include "Components/SkyboxComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "Physics/PhysicsRigidBody.h"
+#include "Physics/PhysicsShape.h"

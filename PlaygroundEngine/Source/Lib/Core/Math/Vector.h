@@ -11,6 +11,7 @@
 #include "MathUtil.h"
 
 #include "Core/Memory/Memory.h"
+#include "Core/Reflection/ReflMarkup.h"
 #include "Core/Util/Util.h"
 
 #define CORE_MM_SHUFFLE_PARAM(x, y, z, w) ((x) | (y << 2) | (z << 4) | (w << 6))
@@ -21,6 +22,8 @@
 #define CORE_MM_REPLICATE_W_PS(v) _mm_shuffle_ps((v), (v), CORE_MM_SHUFFLE_PARAM(3, 3, 3, 3))
 
 #define CORE_MM_MADD_PS(v1, v2, v3) _mm_add_ps(_mm_mul_ps((v1), (v2)), (v3))
+
+#include "Vector.reflgen.h"
 
 namespace playground
 {
@@ -59,14 +62,18 @@ namespace playground
 	} CORE_ALIGN_GCC(16);
 
 	// 3D vector of 32 bit single floating point components.
-	CORE_ALIGN_MS(16) struct Vector3f
+	CORE_ALIGN_MS(16) struct REFLECTED Vector3f
 	{
+		GENERATED_REFLECTION_CODE();
+
+	public:
 		Vector3f() = default;
 		Vector3f(const Vector3f &other) = default;
 		Vector3f(float _x, float _y, float _z) : x(_x), y(_y), z(_z) { }
 		explicit Vector3f(const float *pDataArray) : x(pDataArray[0]), y(pDataArray[1]), z(pDataArray[2]) { }
 
 		Tuple3f AsTuple()const { return Tuple3f(x, y, z); }
+		float* AsFloatArray() { return &x; }
 
 		Vector3f& operator=(const Vector3f &rhs) = default;
 
@@ -78,18 +85,12 @@ namespace playground
 		Vector3f operator*(const Vector3f &rhs) { return Vector3f(x * rhs.x, y * rhs.y, z * rhs.z); }
 		Vector3f operator*(float c) { return Vector3f(x * c, y * c, z * c); }
 
-		float operator[](int index) { return v[index]; }
+		float operator[](int index) { return AsFloatArray()[index]; }
 
 	public:
-		union {
-			struct {
-				float x;
-				float y;
-				float z;
-			};
-
-			float v[3];
-		};
+		float x		REFLECTED;
+		float y		REFLECTED;
+		float z		REFLECTED;
 	} CORE_ALIGN_GCC(16);
 
 	// 4D vector of 32 bit single floating point components.
