@@ -2,6 +2,7 @@
 
 #include "GameComponent.h"
 
+#include "Core/Reflection/ReflMarkup.h"
 #include "Renderer/Resources/Texture.h"
 #include "Renderer/Scene/Camera.h"
 
@@ -22,7 +23,7 @@ namespace playground
 		virtual void UpdateLate(float deltaTime) override;
 
 	private:
-		Camera mCamera;
-		AssetID mRenderTargetID = INVALID_ASSET_ID;
+		Camera mCamera				REFLECTED;
+		AssetID mRenderTargetID		REFLECTED REFL_NAME("renderTarget") = INVALID_ASSET_ID;
 	};
 }

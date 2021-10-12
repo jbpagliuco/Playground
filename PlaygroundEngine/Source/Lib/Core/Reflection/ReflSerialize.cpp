@@ -13,55 +13,58 @@ namespace playground
 		*(static_cast<ReflectedType*>(obj)) = static_cast<ReflectedType>(value);
 	}
 
-	static void ReflectionDeserializePOD(const refl::TypeInfo& typeInfo, void* obj, const DeserializationParameterMap& value)
+	static void ReflectionDeserializePOD(const refl::TypeInfo& typeInfo, void* obj, const DeserializationParameterMap& value, const std::string& multiplierVal)
 	{
+		const float floatMultiplier = (multiplierVal != "") ? atof(multiplierVal.c_str()) : 1.0f;
+		const int intMultiplier = (multiplierVal != "") ? atoi(multiplierVal.c_str()) : 1;
+
 		switch (typeInfo.mDataType) {
 		case refl::DataType::BOOL:
 			WriteReflectedValue<bool>(obj, value.AsBool());
 			return;
 
 		case refl::DataType::UINT8:
-			WriteReflectedValue<uint8_t>(obj, value.AsInt());
+			WriteReflectedValue<uint8_t>(obj, value.AsInt() * intMultiplier);
 			return;
 
 		case refl::DataType::UINT16:
-			WriteReflectedValue<uint16_t>(obj, value.AsInt());
+			WriteReflectedValue<uint16_t>(obj, value.AsInt() * intMultiplier);
 			return;
 
 		case refl::DataType::UINT32:
-			WriteReflectedValue<uint32_t>(obj, value.AsInt());
+			WriteReflectedValue<uint32_t>(obj, value.AsInt() * intMultiplier);
 			return;
 
 		case refl::DataType::UINT64:
-			WriteReflectedValue<uint64_t>(obj, value.AsInt());
+			WriteReflectedValue<uint64_t>(obj, value.AsInt() * intMultiplier);
 			return;
 
 		case refl::DataType::INT8:
-			WriteReflectedValue<int8_t>(obj, value.AsInt());
+			WriteReflectedValue<int8_t>(obj, value.AsInt() * intMultiplier);
 			return;
 
 		case refl::DataType::INT16:
-			WriteReflectedValue<int16_t>(obj, value.AsInt());
+			WriteReflectedValue<int16_t>(obj, value.AsInt() * intMultiplier);
 			return;
 
 		case refl::DataType::INT32:
-			WriteReflectedValue<int32_t>(obj, value.AsInt());
+			WriteReflectedValue<int32_t>(obj, value.AsInt() * intMultiplier);
 			return;
 
 		case refl::DataType::INT64:
-			WriteReflectedValue<bool>(obj, value.AsInt());
+			WriteReflectedValue<bool>(obj, value.AsInt() * intMultiplier);
 			return;
 
 		case refl::DataType::FLOAT:
-			WriteReflectedValue<float>(obj, value.AsFloat());
+			WriteReflectedValue<float>(obj, value.AsFloat() * floatMultiplier);
 			return;
 
 		case refl::DataType::DOUBLE:
-			WriteReflectedValue<double>(obj, value.AsFloat());
+			WriteReflectedValue<double>(obj, value.AsFloat() * floatMultiplier);
 			return;
 
 		case refl::DataType::LONG_DOUBLE:
-			WriteReflectedValue<long double>(obj, value.AsFloat());
+			WriteReflectedValue<long double>(obj, value.AsFloat() * floatMultiplier);
 			return;
 		};
 
@@ -115,7 +118,7 @@ namespace playground
 			}
 			// POD type?
 			else if (reflField.mTypeInfo.IsPOD()) {
-				ReflectionDeserializePOD(reflField.mTypeInfo, fieldStart, fieldValue);
+				ReflectionDeserializePOD(reflField.mTypeInfo, fieldStart, fieldValue, reflField.GetAttribute(REFL_ATTR_MULTIPLIER));
 			}
 			else {
 				CORE_ASSERT(false, "Unrecognized reflection data type.");

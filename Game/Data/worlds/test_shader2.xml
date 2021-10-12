@@ -17,10 +17,12 @@
 		</transform>
 		<components>
 			<component type="CameraComponent">
-				<enabled>true</enabled>
-				<fov>45</fov>
-				<near>0.1</near>
-				<far>100</far>
+				<mCamera>
+					<mEnabled>true</mEnabled>
+					<mFOV>45</mFOV>
+					<mNear>0.1</mNear>
+					<mFar>100</mFar>
+				</mCamera>
 			</component>
 			<component type="BasicMovementComponent">
 				<mSensitivity>0.1</mSensitivity>

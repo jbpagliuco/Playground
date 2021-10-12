@@ -1,15 +1,20 @@
 #pragma once
 
 #include "Core/Math/Transform.h"
+#include "Core/Reflection/ReflMarkup.h"
 #include "Renderer/RenderDefs.h"
+
+#include "Camera.reflgen.h"
 
 namespace playground
 {
 	class RenderTarget;
 	class Skybox;
 
-	class Camera
+	class REFLECTED Camera
 	{
+		GENERATED_REFLECTION_CODE();
+
 	public:
 		Camera() : 
 			mEnabled(false),
@@ -26,11 +31,11 @@ namespace playground
 
 	public:
 		Transform mTransform;
-		bool mEnabled;
 
-		float mFOV;
-		float mNear;
-		float mFar;
+		bool mEnabled				REFLECTED;
+		float mFOV					REFLECTED REFL_ATTR_RADIANS;
+		float mNear					REFLECTED;
+		float mFar					REFLECTED;
 
 		RenderTarget *mRenderTarget;
 		Skybox* mSkybox;
