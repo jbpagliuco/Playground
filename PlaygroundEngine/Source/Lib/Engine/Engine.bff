@@ -54,3 +54,28 @@ VCXProject('$ProjectName$-proj')
     .ProjectInputPaths      = { '$ProjectBasePath$' }
     .ProjectConfigs         = .AllConfigs
 }
+
+VCXProject('$ProjectName$Data-proj')
+{
+    .ProjectOutput          = '$PlaygroundDataPath$/$ProjectName$Data.vcxproj'
+    .ProjectInputPaths      = { '$PlaygroundDataPath$' }
+    .ProjectConfigs         = .AllConfigs
+
+    .ProjectAllowedFileExtensions = {
+        '*.xml'
+
+        '*.matx'
+        '*.shaderx'
+        '*.hlsl'
+        '*.hlsli'
+
+        '*.texx'
+        '*.rtx'
+        '*.skyx'
+        '*.dds'
+
+        '*.meshx'
+        '*.obj'
+        '*.fbx'
+    }
+}

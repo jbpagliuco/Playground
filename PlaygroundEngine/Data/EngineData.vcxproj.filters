@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="Shaders\build_shadow_map\build_shadow_map.hlsl">
+    </CustomBuild>
+    <CustomBuild Include="Shaders\build_shadow_map\build_shadow_map.shaderx">
+    </CustomBuild>
+    <CustomBuild Include="Shaders\debug_texture\debug_texture.hlsl">
+    </CustomBuild>
+    <CustomBuild Include="Shaders\debug_texture\debug_texture.shaderx">
+    </CustomBuild>
+    <CustomBuild Include="Shaders\light.hlsli">
+    </CustomBuild>
+    <CustomBuild Include="Shaders\shader_common.hlsli">
+    </CustomBuild>
+    <CustomBuild Include="Shaders\shader_common_ps.hlsli">
+    </CustomBuild>
+    <CustomBuild Include="Shaders\shader_common_vs.hlsli">
+    </CustomBuild>
+    <CustomBuild Include="Shaders\skybox\skybox.hlsl">
+    </CustomBuild>
+    <CustomBuild Include="Shaders\skybox\skybox.shaderx">
+    </CustomBuild>
+  </ItemGroup>
+</Project>

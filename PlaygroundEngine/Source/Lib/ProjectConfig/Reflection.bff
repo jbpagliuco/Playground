@@ -29,8 +29,6 @@ ForEach(.baseConfig in .AllBaseConfigs) {
 		.ExecArguments + '-clang '
 		#include "CreateCompilerOptions.bff"
 		.ExecArguments + .CompilerOptions
-
-		.ExecAlways = false
 	]
 
 	^AllReflConfigs + .Config

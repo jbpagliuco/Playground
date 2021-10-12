@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="Output\x64-DX11\Debug\Assets\MaterialAsset.obj">
+      <Filter>Output\x64-DX11\Debug\Assets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\Assets\MeshAsset.obj">
+      <Filter>Output\x64-DX11\Debug\Assets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\Assets\TextureAsset.obj">
+      <Filter>Output\x64-DX11\Debug\Assets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\Components\BasicMovementComponent.obj">
+      <Filter>Output\x64-DX11\Debug\Components</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\Components\CameraComponent.obj">
+      <Filter>Output\x64-DX11\Debug\Components</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\Components\GameComponent.obj">
+      <Filter>Output\x64-DX11\Debug\Components</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\Components\LightComponent.obj">
+      <Filter>Output\x64-DX11\Debug\Components</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\Components\RigidbodyComponent.obj">
+      <Filter>Output\x64-DX11\Debug\Components</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\Components\SkyboxComponent.obj">
+      <Filter>Output\x64-DX11\Debug\Components</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\Components\StaticMeshComponent.obj">
+      <Filter>Output\x64-DX11\Debug\Components</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\Components\TestComponent.obj">
+      <Filter>Output\x64-DX11\Debug\Components</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\Engine.obj">
+      <Filter>Output\x64-DX11\Debug</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\EngineReflection.obj">
+      <Filter>Output\x64-DX11\Debug</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\GeneratedCode\BasicMovementComponent.reflgen.obj">
+      <Filter>Output\x64-DX11\Debug\GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\GeneratedCode\CameraComponent.reflgen.obj">
+      <Filter>Output\x64-DX11\Debug\GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\GeneratedCode\EngineReflection.reflgen.obj">
+      <Filter>Output\x64-DX11\Debug\GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\GeneratedCode\EngineReflection_Debug.reflgen.obj">
+      <Filter>Output\x64-DX11\Debug\GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\GeneratedCode\Light.reflgen.obj">
+      <Filter>Output\x64-DX11\Debug\GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\GeneratedCode\LightComponent.reflgen.obj">
+      <Filter>Output\x64-DX11\Debug\GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\GeneratedCode\RigidbodyComponent.reflgen.obj">
+      <Filter>Output\x64-DX11\Debug\GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\GeneratedCode\SkyboxComponent.reflgen.obj">
+      <Filter>Output\x64-DX11\Debug\GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\GeneratedCode\StaticMeshComponent.reflgen.obj">
+      <Filter>Output\x64-DX11\Debug\GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\GeneratedCode\Stream.reflgen.obj">
+      <Filter>Output\x64-DX11\Debug\GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\Input\Input.obj">
+      <Filter>Output\x64-DX11\Debug\Input</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\Physics\Physics.obj">
+      <Filter>Output\x64-DX11\Debug\Physics</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\Physics\PhysicsErrorHandler.obj">
+      <Filter>Output\x64-DX11\Debug\Physics</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\Physics\PhysicsMaterial.obj">
+      <Filter>Output\x64-DX11\Debug\Physics</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\Physics\PhysicsMemory.obj">
+      <Filter>Output\x64-DX11\Debug\Physics</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\Physics\PhysicsRigidBody.obj">
+      <Filter>Output\x64-DX11\Debug\Physics</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\Physics\PhysicsUtil.obj">
+      <Filter>Output\x64-DX11\Debug\Physics</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\World\GameObject.obj">
+      <Filter>Output\x64-DX11\Debug\World</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Debug\World\World.obj">
+      <Filter>Output\x64-DX11\Debug\World</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Release\Assets\MaterialAsset.obj">
+      <Filter>Output\x64-DX11\Release\Assets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Release\Assets\MeshAsset.obj">
+      <Filter>Output\x64-DX11\Release\Assets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Release\Assets\TextureAsset.obj">
+      <Filter>Output\x64-DX11\Release\Assets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Release\Components\BasicMovementComponent.obj">
+      <Filter>Output\x64-DX11\Release\Components</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Release\Components\CameraComponent.obj">
+      <Filter>Output\x64-DX11\Release\Components</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Release\Components\GameComponent.obj">
+      <Filter>Output\x64-DX11\Release\Components</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Release\Components\LightComponent.obj">
+      <Filter>Output\x64-DX11\Release\Components</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Release\Components\RigidbodyComponent.obj">
+      <Filter>Output\x64-DX11\Release\Components</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Release\Components\SkyboxComponent.obj">
+      <Filter>Output\x64-DX11\Release\Components</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Release\Components\StaticMeshComponent.obj">
+      <Filter>Output\x64-DX11\Release\Components</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Release\Components\TestComponent.obj">
+      <Filter>Output\x64-DX11\Release\Components</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Release\Engine.obj">
+      <Filter>Output\x64-DX11\Release</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Release\Input\Input.obj">
+      <Filter>Output\x64-DX11\Release\Input</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Release\Physics\Physics.obj">
+      <Filter>Output\x64-DX11\Release\Physics</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Release\Physics\PhysicsErrorHandler.obj">
+      <Filter>Output\x64-DX11\Release\Physics</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Release\Physics\PhysicsMaterial.obj">
+      <Filter>Output\x64-DX11\Release\Physics</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Release\Physics\PhysicsMemory.obj">
+      <Filter>Output\x64-DX11\Release\Physics</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Release\Physics\PhysicsRigidBody.obj">
+      <Filter>Output\x64-DX11\Release\Physics</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Release\Physics\PhysicsUtil.obj">
+      <Filter>Output\x64-DX11\Release\Physics</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Release\World\GameObject.obj">
+      <Filter>Output\x64-DX11\Release\World</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64-DX11\Release\World\World.obj">
+      <Filter>Output\x64-DX11\Release\World</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64\Debug_DX11\Assets\MaterialAsset.obj">
+      <Filter>Output\x64\Debug_DX11\Assets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64\Debug_DX11\Assets\MeshAsset.obj">
+      <Filter>Output\x64\Debug_DX11\Assets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64\Debug_DX11\Assets\TextureAsset.obj">
+      <Filter>Output\x64\Debug_DX11\Assets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64\Debug_DX11\Components\BasicMovementComponent.obj">
+      <Filter>Output\x64\Debug_DX11\Components</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64\Debug_DX11\Components\CameraComponent.obj">
+      <Filter>Output\x64\Debug_DX11\Components</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64\Debug_DX11\Components\GameComponent.obj">
+      <Filter>Output\x64\Debug_DX11\Components</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64\Debug_DX11\Components\LightComponent.obj">
+      <Filter>Output\x64\Debug_DX11\Components</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64\Debug_DX11\Components\RigidbodyComponent.obj">
+      <Filter>Output\x64\Debug_DX11\Components</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64\Debug_DX11\Components\SkyboxComponent.obj">
+      <Filter>Output\x64\Debug_DX11\Components</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64\Debug_DX11\Components\StaticMeshComponent.obj">
+      <Filter>Output\x64\Debug_DX11\Components</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64\Debug_DX11\Components\TestComponent.obj">
+      <Filter>Output\x64\Debug_DX11\Components</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64\Debug_DX11\Engine.obj">
+      <Filter>Output\x64\Debug_DX11</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64\Debug_DX11\Input\Input.obj">
+      <Filter>Output\x64\Debug_DX11\Input</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64\Debug_DX11\Physics\Physics.obj">
+      <Filter>Output\x64\Debug_DX11\Physics</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64\Debug_DX11\Physics\PhysicsErrorHandler.obj">
+      <Filter>Output\x64\Debug_DX11\Physics</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64\Debug_DX11\Physics\PhysicsMaterial.obj">
+      <Filter>Output\x64\Debug_DX11\Physics</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64\Debug_DX11\Physics\PhysicsMemory.obj">
+      <Filter>Output\x64\Debug_DX11\Physics</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64\Debug_DX11\Physics\PhysicsRigidBody.obj">
+      <Filter>Output\x64\Debug_DX11\Physics</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64\Debug_DX11\Physics\PhysicsUtil.obj">
+      <Filter>Output\x64\Debug_DX11\Physics</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64\Debug_DX11\World\GameObject.obj">
+      <Filter>Output\x64\Debug_DX11\World</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64\Debug_DX11\World\World.obj">
+      <Filter>Output\x64\Debug_DX11\World</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64\Debug_DX12\World\GameObject.obj">
+      <Filter>Output\x64\Debug_DX12\World</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Output\x64\Release_DX12\Components\LightComponent.obj">
+      <Filter>Output\x64\Release_DX12\Components</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Output\x64-DX11\Debug\Assets">
+      <UniqueIdentifier>{5a23a437-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Output\x64-DX11\Debug">
+      <UniqueIdentifier>{9aafffc1-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Output\x64-DX11">
+      <UniqueIdentifier>{44267c69-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Output">
+      <UniqueIdentifier>{2850371a-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Output\x64-DX11\Debug\Components">
+      <UniqueIdentifier>{c0f5c0f5-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Output\x64-DX11\Debug\GeneratedCode">
+      <UniqueIdentifier>{2ffbf097-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Output\x64-DX11\Debug\Input">
+      <UniqueIdentifier>{47b65862-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Output\x64-DX11\Debug\Physics">
+      <UniqueIdentifier>{dc84f433-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Output\x64-DX11\Debug\World">
+      <UniqueIdentifier>{532b38d4-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Output\x64-DX11\Release\Assets">
+      <UniqueIdentifier>{339a644a-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Output\x64-DX11\Release">
+      <UniqueIdentifier>{bdbfce84-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Output\x64-DX11\Release\Components">
+      <UniqueIdentifier>{e96220fb-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Output\x64-DX11\Release\Input">
+      <UniqueIdentifier>{a6c8225a-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Output\x64-DX11\Release\Physics">
+      <UniqueIdentifier>{603482b5-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Output\x64-DX11\Release\World">
+      <UniqueIdentifier>{4dcb8448-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Output\x64\Debug_DX11\Assets">
+      <UniqueIdentifier>{df7e0765-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Output\x64\Debug_DX11">
+      <UniqueIdentifier>{7545c105-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Output\x64">
+      <UniqueIdentifier>{9b2888a2-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Output\x64\Debug_DX11\Components">
+      <UniqueIdentifier>{6dcfe8e3-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Output\x64\Debug_DX11\Input">
+      <UniqueIdentifier>{2bd70bac-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Output\x64\Debug_DX11\Physics">
+      <UniqueIdentifier>{6336a146-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Output\x64\Debug_DX11\World">
+      <UniqueIdentifier>{92086ea7-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Output\x64\Debug_DX12\World">
+      <UniqueIdentifier>{0f5aa95b-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Output\x64\Debug_DX12">
+      <UniqueIdentifier>{6c3d45ff-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Output\x64\Release_DX12\Components">
+      <UniqueIdentifier>{05fdb788-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Output\x64\Release_DX12">
+      <UniqueIdentifier>{ad67bc4a-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -10,6 +10,7 @@
 .AllConfigNames = { 'Debug', 'Release' }
 
 // Playground Constants
+.PlaygroundDataPath                = '$PlaygroundBasePath$/Data'
 .PlaygroundLibPath                 = '$PlaygroundBasePath$/Source/Lib'
 .PlaygroundProjectConfigPath       = '$PlaygroundBasePath$/Source/Lib/ProjectConfig'
 .PlaygroundVendorPath              = '$PlaygroundBasePath$/Source/Vendor'
