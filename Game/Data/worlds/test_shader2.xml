@@ -158,11 +158,14 @@
 		</transform>
 		<components>
 			<component type="LightComponent">
-				<mType>POINT</mType>
-				<mColor>white</mColor>
-				<mIntensity>0.75</mIntensity>
-				<mConstantAttenuation>1.0</mConstantAttenuation>
-				<mLinearAttenuation>0.5</mLinearAttenuation>
+				<mLight>
+					<mLightType>POINT</mLightType>
+					<mEnabled>1</mEnabled>
+					<mColor>white</mColor>
+					<mIntensity>0.75</mIntensity>
+					<mConstantAttenuation>1.0</mConstantAttenuation>
+					<mLinearAttenuation>0.5</mLinearAttenuation>
+				</mLight>
 			</component>
 			<component type="StaticMeshComponent">
 				<mesh>cube.meshx</mesh>
@@ -189,12 +192,15 @@
 			</scale>
 		</transform>
 		<components>
-			<component type="DirectionalLightComponent">
-				<enabled>true</enabled>
-				<color>maroon</color>
-				<intensity>0.5</intensity>
-				<constantAttenuation>1.0</constantAttenuation>
-				<linearAttenuation>0.5</linearAttenuation>
+			<component type="LightComponent">
+				<mLight>
+					<mLightType>DIRECTIONAL</mLightType>
+					<mEnabled>1</mEnabled>
+					<mColor>maroon</mColor>
+					<mIntensity>0.5</mIntensity>
+					<mConstantAttenuation>1.0</mConstantAttenuation>
+					<mLinearAttenuation>0.5</mLinearAttenuation>
+				</mLight>
 			</component>
 			<component type="StaticMeshComponent">
 				<mesh>cube.meshx</mesh>
@@ -220,12 +226,15 @@
 			</scale>
 		</transform>
 		<components>
-			<component type="DirectionalLightComponent">
-				<enabled>true</enabled>
-				<color>maroon</color>
-				<intensity>0.1</intensity>
-				<constantAttenuation>1.0</constantAttenuation>
-				<linearAttenuation>0.5</linearAttenuation>
+			<component type="LightComponent">
+				<mLight>
+					<mLightType>DIRECTIONAL</mLightType>
+					<mEnabled>1</mEnabled>
+					<mColor>maroon</mColor>
+					<mIntensity>0.1</mIntensity>
+					<mConstantAttenuation>1.0</mConstantAttenuation>
+					<mLinearAttenuation>0.5</mLinearAttenuation>
+				</mLight>
 			</component>
 			<component type="StaticMeshComponent">
 				<mesh>cube.meshx</mesh>

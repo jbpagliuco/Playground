@@ -3,6 +3,7 @@
 #include "Debug/Assert.h"
 #include "Reflection/ReflMarkup.h"
 #include "Streaming/Stream.h"
+#include "Util/Color.h"
 
 namespace playground
 {
@@ -67,6 +68,15 @@ namespace playground
 		CORE_ASSERT(false, "Unhandled POD type.");
 	}
 
+	static void ReflectionDeserializeEnum(const refl::Enum& reflEnum, void* obj, const DeserializationParameterMap& parameters)
+	{
+		int8_t value;
+		const bool found = reflEnum.GetValue(value, parameters.value);
+		CORE_ASSERT_RETURN(found, "Failed to find value '%s' within enum '%s'.", parameters.value, reflEnum.mQualifiedName.c_str());
+
+		WriteReflectedValue<int8_t>(obj, value);
+	}
+
 	void ReflectionDeserialize(const refl::Class& reflClass, void* obj, const DeserializationParameterMap& parameters)
 	{
 		// Special classes
@@ -75,6 +85,12 @@ namespace playground
 			const AssetID requestedAssetID = RequestAsset(parameters.AsFilepath());
 			WriteReflectedValue<decltype(AssetID::mID)>(obj, requestedAssetID);
 			return;
+		}
+		else if (reflClass.mName == "ColorF") {
+			// Deserialize this color from a string
+			if (parameters.value != "") {
+				WriteReflectedValue<ColorF>(obj, ColorF(parameters.value));
+			}
 		}
 
 		// Deserialize each field.
@@ -95,7 +111,7 @@ namespace playground
 			}
 			// Enum type?
 			else if (reflField.mTypeInfo.IsEnum()) {
-				CORE_ASSERT(false, "TODO");
+				ReflectionDeserializeEnum(*reflField.GetEnum(), fieldStart, fieldValue);
 			}
 			// POD type?
 			else if (reflField.mTypeInfo.IsPOD()) {

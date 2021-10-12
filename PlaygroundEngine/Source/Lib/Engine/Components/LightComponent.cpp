@@ -6,6 +6,12 @@
 
 namespace playground
 {
+	void LightComponent::DeserializePost(const DeserializationParameterMap& params)
+	{
+		// Weirdness 
+		mLight.mType = (int32_t)mLight.mLightType;
+	}
+
 	void LightComponent::Activate()
 	{
 		Scene::Get()->AddLight(&mLight);
@@ -21,7 +27,7 @@ namespace playground
 		// Update some of the light properties from our transform.
 		mLight.mPosition = GameComponent::mTransform->mPosition.AsTuple3();
 
-		const Vector zAxis(0.0f, 0.0f, 1.0f, 0.0f);
+		static const Vector zAxis(0.0f, 0.0f, 1.0f, 0.0f);
 		mLight.mDirection = (GameComponent::mTransform->mRotation * zAxis).AsTuple3();
 	}
 

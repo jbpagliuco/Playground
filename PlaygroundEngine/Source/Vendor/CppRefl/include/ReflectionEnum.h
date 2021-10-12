@@ -24,7 +24,7 @@ namespace refl
 
 	public:
 		// The integer value of this enum value.
-		int mValue;
+		int8_t mValue;
 	};
 
 	// Represents a reflected enum type.
@@ -41,7 +41,10 @@ namespace refl
 		virtual void Serialize(class FileIO& io) override;
 
 		// Returns the name of an enum value.
-		std::string GetValueString(int enumValue, bool qualified = false)const;
+		std::string GetValueString(int8_t enumValue, bool qualified = false)const;
+
+		// Returns the integer value of the enum value with the given name.
+		bool GetValue(int8_t& value, const std::string& name)const;
 
 #if defined(REFL_DEBUG)
 		// Creates a string representation of this enum.
@@ -50,6 +53,6 @@ namespace refl
 
 	public:
 		// Table mapping integer values to enum values.
-		std::map<int, EnumValue> mValueTable;
+		std::map<int8_t, EnumValue> mValueTable;
 	};
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Reflection/ReflMarkup.h"
+
 #define _COMBINE(x, y) x##y
 #define COMBINE(x, y) _COMBINE(x, y)
 
@@ -60,12 +62,12 @@ namespace playground
 		};
 	};
 
-	typedef Tuple2<int> Point;
-	typedef Tuple2<unsigned int> Size;
+	typedef Tuple2<int> Point REFLECTED;
+	typedef Tuple2<unsigned int> Size REFLECTED;
 
-	typedef Tuple2<float> Tuple2f;
-	typedef Tuple3<float> Tuple3f;
-	typedef Tuple4<float> Tuple4f;
+	typedef Tuple2<float> Tuple2f REFLECTED;
+	typedef Tuple3<float> Tuple3f REFLECTED;
+	typedef Tuple4<float> Tuple4f REFLECTED;
 
 	// Returns the larger of v1 and v2
 	template <typename T>

@@ -4,6 +4,9 @@
 #include <string>
 
 #include "Core/Core.h"
+#include "Core/Reflection/ReflMarkup.h"
+
+#include "Color.reflgen.h"
 
 namespace playground
 {
@@ -60,15 +63,15 @@ namespace playground
 
 	extern const Color COLOR_CORNFLOWERBLUE;
 
-	struct ColorF
+	struct REFLECTED ColorF
 	{
+		GENERATED_REFLECTION_CODE();
+
 	public:
-		union {
-			struct {
-				float r, g, b, a;
-			};
-			float vArray[4];
-		};
+		float r REFLECTED;
+		float g REFLECTED;
+		float b REFLECTED;
+		float a REFLECTED;
 
 		ColorF();
 		ColorF(float r, float g, float b, float a = 1.0f);
@@ -79,5 +82,7 @@ namespace playground
 
 		ColorF operator-(const ColorF &rhs)const;
 		ColorF& operator-=(const ColorF &rhs);
+
+		float* FloatArray();
 	};
 }

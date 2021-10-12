@@ -166,4 +166,9 @@ namespace playground
 
 		return *this;
 	}
+
+	float* ColorF::FloatArray()
+	{
+		return &r;
+	}
 }
