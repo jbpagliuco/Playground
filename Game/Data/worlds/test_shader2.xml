@@ -157,11 +157,12 @@
 			</scale>
 		</transform>
 		<components>
-			<component type="PointLightComponent">
-				<color>white</color>
-				<intensity>0.75</intensity>
-				<constantAttenuation>1.0</constantAttenuation>
-				<linearAttenuation>0.5</linearAttenuation>
+			<component type="LightComponent">
+				<mType>POINT</mType>
+				<mColor>white</mColor>
+				<mIntensity>0.75</mIntensity>
+				<mConstantAttenuation>1.0</mConstantAttenuation>
+				<mLinearAttenuation>0.5</mLinearAttenuation>
 			</component>
 			<component type="StaticMeshComponent">
 				<mesh>cube.meshx</mesh>

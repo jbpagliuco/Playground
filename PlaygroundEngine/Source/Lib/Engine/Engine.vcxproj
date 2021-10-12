@@ -33,7 +33,6 @@
     <CustomBuild Include="Components\GameComponent.h" />
     <CustomBuild Include="Components\LightComponent.cpp" />
     <CustomBuild Include="Components\LightComponent.h" />
-    <CustomBuild Include="Components\LightComponent.inl" />
     <CustomBuild Include="Components\RigidbodyComponent.cpp" />
     <CustomBuild Include="Components\RigidbodyComponent.h" />
     <CustomBuild Include="Components\SkyboxComponent.cpp" />

@@ -43,9 +43,6 @@
     <CustomBuild Include="Components\LightComponent.h">
       <Filter>Components</Filter>
     </CustomBuild>
-    <CustomBuild Include="Components\LightComponent.inl">
-      <Filter>Components</Filter>
-    </CustomBuild>
     <CustomBuild Include="Components\RigidbodyComponent.cpp">
       <Filter>Components</Filter>
     </CustomBuild>

@@ -81,7 +81,7 @@ namespace playground
 			// Add this light to the list of shadow casters, if possible.
 			if (shadowCasterIndex < MAX_SHADOWMAPS) {
 				// Is this a shadow casting light?
-				if (light->mType == (int)LightType::DIRECTIONAL && light->mEnabled) {
+				if (light->mType == LightType::DIRECTIONAL && light->mEnabled) {
 					mShadowCastingLights[shadowCasterIndex] = light;
 					mShadowCastingLights[shadowCasterIndex]->mShadowCastingIndex = shadowCasterIndex;
 

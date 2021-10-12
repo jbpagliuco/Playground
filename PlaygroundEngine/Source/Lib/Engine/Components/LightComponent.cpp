@@ -1,13 +1,32 @@
 #include "LightComponent.h"
 
 #include "Core/Math/Transform.h"
-#include "Renderer/Light.h"
 #include "Renderer/Scene/Scene.h"
 #include "Engine/Input/Input.h"
 
 namespace playground
 {
-	void DirectionalLightComponent::DeserializePost(const DeserializationParameterMap& params)
+	void LightComponent::Activate()
+	{
+		Scene::Get()->AddLight(&mLight);
+	}
+
+	void LightComponent::Deactivate()
+	{
+		Scene::Get()->RemoveLight(&mLight);
+	}
+
+	void LightComponent::UpdateLate(float deltaTime)
+	{
+		// Update some of the light properties from our transform.
+		mLight.mPosition = GameComponent::mTransform->mPosition.AsTuple3();
+
+		const Vector zAxis(0.0f, 0.0f, 1.0f, 0.0f);
+		mLight.mDirection = (GameComponent::mTransform->mRotation * zAxis).AsTuple3();
+	}
+
+
+	/*void DirectionalLightComponent::DeserializePost(const DeserializationParameterMap& params)
 	{
 		Light *pLight = CreateLight(LightType::DIRECTIONAL);
 		
@@ -51,5 +70,5 @@ namespace playground
 		pLight->mQuadraticAttenuation = params["quadraticAttenuation"].AsFloat();
 
 		SetLight(pLight);
-	}
+	}*/
 }

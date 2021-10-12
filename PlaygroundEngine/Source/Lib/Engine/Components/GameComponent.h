@@ -15,9 +15,7 @@ namespace playground
 	enum class GameComponentType
 	{
 		CAMERA = 0,
-		DIRECTIONAL_LIGHT,
-		POINT_LIGHT,
-		SPOT_LIGHT,
+		LIGHT,
 		RIGIDBODY,
 		SKYBOX,
 		STATIC_MESH,
