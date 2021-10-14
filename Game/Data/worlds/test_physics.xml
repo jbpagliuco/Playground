@@ -20,6 +20,9 @@
 					<mFar>100</mFar>
 				</mCamera>
 			</component>
+			<component type="BasicMovementComponent">
+				<mSensitivity>0.1</mSensitivity>
+			</component>
 		</components>
 	</gameobject>
 
@@ -47,7 +50,11 @@
 				<material>
 					tex_dyn.matx
 					<overrides>
-						<override name="DiffuseTexture" type="texture">ice.dds</override>
+						<override>
+							<mName>DiffuseTexture</mName>
+							<mType>TEXTURE</mType>
+							<mValue>ice.dds</mValue>
+						</override>
 					</overrides>
 				</material>
 			</component>

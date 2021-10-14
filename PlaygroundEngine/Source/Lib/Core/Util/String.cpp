@@ -149,4 +149,19 @@ namespace playground
 		
 		return std::wstring(buffer);
 	}
+
+	std::vector<std::string> StrSplit(const std::string& string, const std::string& delimiter)
+	{
+		std::vector<std::string> values;
+
+		std::string s = string;
+		size_t pos;
+		while ((pos = s.find(delimiter)) != std::string::npos) {
+			values.push_back(s.substr(0, pos));
+			s.erase(0, pos + delimiter.length());
+		}
+		values.push_back(s);
+
+		return values;
+	}
 }

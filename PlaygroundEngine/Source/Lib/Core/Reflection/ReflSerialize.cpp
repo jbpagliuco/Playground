@@ -4,9 +4,13 @@
 #include "Reflection/ReflMarkup.h"
 #include "Streaming/Stream.h"
 #include "Util/Color.h"
+#include "Util/String.h"
 
 namespace playground
 {
+	static void ReflectionDeserializeField(const refl::Class& reflClass, const refl::Field& reflField, void* obj, const DeserializationParameterMap& parameters);
+	static void ReflectionDeserializeClass(const std::string& className, const refl::Class& reflClass, void* obj, const DeserializationParameterMap& parameters);
+
 	template <typename ReflectedType, typename ValueType>
 	static void WriteReflectedValue(void* obj, const ValueType& value)
 	{
@@ -80,49 +84,111 @@ namespace playground
 		WriteReflectedValue<int8_t>(obj, value);
 	}
 
-	void ReflectionDeserialize(const refl::Class& reflClass, void* obj, const DeserializationParameterMap& parameters)
+	static bool MaybeDeserializeReflectedClass(const std::string className, const refl::Class& reflClass, void* obj, const DeserializationParameterMap& parameters)
 	{
-		// Special classes
+		// std library classes
+		if (className == "std::string") {
+			WriteReflectedValue<std::string>(obj, parameters.value);
+			return true;
+		}
+
+		// playground classes
 		if (reflClass == AssetID::StaticClass()) {
 			// Request the asset
 			const AssetID requestedAssetID = RequestAsset(parameters.AsFilepath());
 			WriteReflectedValue<decltype(AssetID::mID)>(obj, requestedAssetID);
-			return;
+			return true;
 		}
 		else if (reflClass == ColorF::StaticClass()) {
 			// Deserialize this color from a string
 			if (parameters.value != "") {
 				WriteReflectedValue<ColorF>(obj, ColorF(parameters.value));
+				return true;
 			}
+		}
+
+		// Not handled
+		return false;
+	}
+
+	static bool ShouldDoEnumMatch(const refl::Class& reflClass, const refl::Field& reflField, void* obj, const DeserializationParameterMap& parameters)
+	{
+		// Get the enum value
+		const refl::Field* enumField = reflClass.GetField(reflField.GetAttribute(REFL_ATTR_ENUM_MATCH_VAR));
+		const refl::Enum* enumClass = enumField->GetEnum();
+		const int8_t enumValue = *enumField->GetDataPtr<int8_t>(obj);
+
+		// See if this matches
+		const std::string enumMatches = reflField.GetAttribute(REFL_ATTR_ENUM_MATCH_MATCHES);
+		for (auto& enumMatch : StrSplit(enumMatches, ",")) {
+			StrTrim(enumMatch);
+			if (enumClass->GetValueString(enumValue) == enumMatch) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	static void ReflectionDeserializeField(const refl::Class& reflClass, const refl::Field& reflField, void* obj, const DeserializationParameterMap& parameters)
+	{
+		// Get reflected name
+		std::string fieldName = reflField.HasAttribute(REFL_ATTR_NAME) ? reflField.GetAttribute(REFL_ATTR_NAME) : reflField.mName;
+		if (reflField.HasAttribute(REFL_ATTR_ENUM_MATCH_NAME)) {
+			fieldName = reflField.GetAttribute(REFL_ATTR_ENUM_MATCH_NAME);
+		}
+
+		// Does the parameter map contain this field?
+		if (!parameters.HasChild(fieldName)) {
+			return;
+		}
+
+		const DeserializationParameterMap& fieldValue = parameters[fieldName];
+
+		// Enum match?
+		if (reflField.HasAttribute(REFL_ATTR_ENUM_MATCH_NAME)) {
+			// Test if the enum value matches this field. If it does, continue on and deserialize.
+			if (!ShouldDoEnumMatch(reflClass, reflField, obj, parameters)) {
+				return;
+			}
+		}
+
+		// Gets the starting address of this field.
+		void* fieldStart = reflField.GetRawDataPtr(obj);
+
+		// Class type?
+		if (reflField.mTypeInfo.IsClass()) {
+			ReflectionDeserializeClass(reflField.mTypeInfo.mClassType, *reflField.GetClass(), fieldStart, fieldValue);
+		}
+		// Enum type?
+		else if (reflField.mTypeInfo.IsEnum()) {
+			ReflectionDeserializeEnum(*reflField.GetEnum(), fieldStart, fieldValue);
+		}
+		// POD type?
+		else if (reflField.mTypeInfo.IsPOD()) {
+			ReflectionDeserializePOD(reflField.mTypeInfo, fieldStart, fieldValue, reflField.GetAttribute(REFL_ATTR_MULTIPLIER));
+		}
+		else {
+			CORE_ASSERT(false, "Unrecognized reflection data type.");
+		}
+	}
+
+	static void ReflectionDeserializeClass(const std::string& className, const refl::Class& reflClass, void* obj, const DeserializationParameterMap& parameters)
+	{
+		// Special classes
+		const bool handled = MaybeDeserializeReflectedClass(className, reflClass, obj, parameters);
+		if (handled) {
+			return;
 		}
 
 		// Deserialize each field.
 		for (const auto& reflField : reflClass.mFields) {
-			// Gets the starting address of this field.
-			void* fieldStart = reflField.GetRawDataPtr(obj);
-
-			// Does the parameter map contain this field?
-			const std::string fieldName = reflField.HasAttribute(REFL_ATTR_NAME) ? reflField.GetAttribute(REFL_ATTR_NAME) : reflField.mName;
-			if (!parameters.HasChild(fieldName)) {
-				continue;
-			}
-			const DeserializationParameterMap& fieldValue = parameters[fieldName];
-
-			// Class type?
-			if (reflField.mTypeInfo.IsClass()) {
-				ReflectionDeserialize(*reflField.GetClass(), fieldStart, fieldValue);
-			}
-			// Enum type?
-			else if (reflField.mTypeInfo.IsEnum()) {
-				ReflectionDeserializeEnum(*reflField.GetEnum(), fieldStart, fieldValue);
-			}
-			// POD type?
-			else if (reflField.mTypeInfo.IsPOD()) {
-				ReflectionDeserializePOD(reflField.mTypeInfo, fieldStart, fieldValue, reflField.GetAttribute(REFL_ATTR_MULTIPLIER));
-			}
-			else {
-				CORE_ASSERT(false, "Unrecognized reflection data type.");
-			}
+			ReflectionDeserializeField(reflClass, reflField, obj, parameters);
 		}
+	}
+
+	void ReflectionDeserialize(const refl::Class& reflClass, void* obj, const DeserializationParameterMap& parameters)
+	{
+		ReflectionDeserializeClass(reflClass.mQualifiedName, reflClass, obj, parameters);
 	}
 }

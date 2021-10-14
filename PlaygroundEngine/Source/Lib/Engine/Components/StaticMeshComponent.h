@@ -11,6 +11,28 @@ namespace playground
 {
 	class MaterialAsset;
 
+	enum class REFLECTED MaterialParameterOverrideType : uint8_t
+	{
+		FLOAT,
+		VECTOR,
+		TEXTURE,
+		RENDER_TARGET,
+		RENDER_TARGET_DEPTH,
+	};
+
+	struct REFLECTED MaterialParameterOverride
+	{
+		GENERATED_REFLECTION_CODE();
+
+	public:
+		std::string mName						REFLECTED;
+		MaterialParameterOverrideType mType		REFLECTED;
+
+		float mFloat		REFL_ENUM_MATCH("mValue", mType, FLOAT);
+		Vector4f mVector	REFL_ENUM_MATCH("mValue", mType, VECTOR);
+		AssetID mAssetId	REFL_ENUM_MATCH("mValue", mType, TEXTURE, RENDER_TARGET, RENDER_TARGET_DEPTH) = INVALID_ASSET_ID;
+	};
+
 	class REFLECTED StaticMeshComponent : public GameComponentBase<GameComponentType::STATIC_MESH>
 	{
 		GENERATED_REFLECTION_CODE();

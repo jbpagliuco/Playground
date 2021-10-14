@@ -1,6 +1,7 @@
 #include "StaticMeshComponent.h"
 
 #include "Core/Streaming/Stream.h"
+#include "Core/Reflection/ReflSerialize.h"
 
 #include "Renderer/Material/Material.h"
 #include "Renderer/Material/DynamicMaterial.h"
@@ -27,8 +28,41 @@ namespace playground
 			// Create the dynamic instance
 			materialContainer.CreateDynamicMaterialInstance();
 
-			for (auto &overrideParam : materialParams["overrides"].childrenArray) {
-				const std::string type = overrideParam.GetAttribute("type");
+			for (auto& overrideParam : materialParams["overrides"].childrenArray) {
+				MaterialParameterOverride materialOverride;
+				ReflectionDeserialize(MaterialParameterOverride::StaticClass(), &materialOverride, overrideParam);
+
+				switch (materialOverride.mType) {
+				case MaterialParameterOverrideType::FLOAT:
+					mMaterialAsset->SetFloatParameter(materialOverride.mName, materialOverride.mFloat);
+					break;
+
+				case MaterialParameterOverrideType::VECTOR:
+					mMaterialAsset->SetVectorParameter(materialOverride.mName, materialOverride.mVector);
+					break;
+
+				case MaterialParameterOverrideType::TEXTURE:
+				{
+					mMaterialAsset->SetTextureParameter(materialOverride.mName, materialOverride.mAssetId);
+
+					// Release our reference to this asset immediately. The material will still hold a reference.
+					ReleaseAsset(materialOverride.mAssetId);
+					break;
+				}
+
+				case MaterialParameterOverrideType::RENDER_TARGET:
+				case MaterialParameterOverrideType::RENDER_TARGET_DEPTH:
+				{
+					const bool useColorMap = materialOverride.mType == MaterialParameterOverrideType::RENDER_TARGET;
+					mMaterialAsset->SetRenderTargetParameter(materialOverride.mName, materialOverride.mAssetId, useColorMap);
+
+					// Release our reference to this asset immediately. The material will still hold a reference.
+					ReleaseAsset(materialOverride.mAssetId);
+					break;
+				}
+				};
+
+				/*const std::string type = overrideParam.GetAttribute("type");
 
 				if (type == "texture") {
 					mMaterialAsset->SetTextureParameter(overrideParam.GetAttribute("name"), overrideParam.AsFilepath());
@@ -38,7 +72,7 @@ namespace playground
 				}
 				else {
 					CORE_ASSERT(false, "Type %s not implemented.", type.c_str());
-				}
+				}*/
 			}
 		}
 	}

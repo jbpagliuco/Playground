@@ -76,13 +76,12 @@ namespace playground
 
 	bool MaterialAsset::SetTextureParameter(const std::string& name, const std::string &filename)
 	{
-		AssetID texID = RequestAsset(filename);
-		TextureAsset* texture = TextureAsset::Get(texID);
+		return SetTextureParameter(name, RequestAsset(filename));
+	}
 
-		ReleaseAssetByKey(name);
-		mDynamicAssets[name] = texID;
-
-		return mMaterialContainer.SetTextureParameter(name, &texture->GetTexture());
+	bool MaterialAsset::SetTextureParameter(const std::string& name, AssetID textureId)
+	{
+		return SetTextureParameter(name, TextureAsset::Get(textureId));
 	}
 
 	bool MaterialAsset::SetTextureParameter(const std::string& name, TextureAsset* texture)
@@ -97,18 +96,12 @@ namespace playground
 
 	bool MaterialAsset::SetRenderTargetParameter(const std::string& name, const std::string& filename, bool useColorMap)
 	{
-		AssetID rtID = RequestAsset(filename);
-		RenderTarget* renderTarget = RenderTarget::Get(rtID);
+		return SetRenderTargetParameter(name, RequestAsset(filename), useColorMap);
+	}
 
-		ReleaseAssetByKey(name);
-		mDynamicAssets[name] = rtID;
-
-		if (useColorMap) {
-			return mMaterialContainer.SetTextureParameter(name, &renderTarget->GetColorMap());
-		}
-		else {
-			return mMaterialContainer.SetTextureParameter(name, &renderTarget->GetDepthMap());
-		}
+	bool MaterialAsset::SetRenderTargetParameter(const std::string& name, AssetID renderTargetId, bool useColorMap)
+	{
+		return SetRenderTargetParameter(name, RenderTarget::Get(renderTargetId), useColorMap);
 	}
 
 	bool MaterialAsset::SetRenderTargetParameter(const std::string& name, RenderTarget* renderTarget, bool useColorMap)

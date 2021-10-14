@@ -74,3 +74,5 @@ namespace refl
 		size_t mOffset;
 	};
 }
+
+#include "ReflectionField.inl"
