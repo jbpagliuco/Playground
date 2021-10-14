@@ -185,3 +185,4 @@ FakesAssemblies/
 *.fdb
 *.reflgen.h
 *.reflgen.cpp
+*.refl
