@@ -36,10 +36,17 @@
     <CustomBuild Include="File\File.cpp" />
     <CustomBuild Include="File\File.h" />
     <CustomBuild Include="File\File.inl" />
+    <CustomBuild Include="GeneratedCode\Color.reflgen.cpp" />
+    <CustomBuild Include="GeneratedCode\Color.reflgen.h" />
+    <CustomBuild Include="GeneratedCode\Console.reflgen.h" />
     <CustomBuild Include="GeneratedCode\CoreReflection_Debug.reflgen.cpp" />
     <CustomBuild Include="GeneratedCode\CoreReflection_Debug.reflgen.h" />
+    <CustomBuild Include="GeneratedCode\Memory.reflgen.cpp" />
+    <CustomBuild Include="GeneratedCode\Memory.reflgen.h" />
     <CustomBuild Include="GeneratedCode\Stream.reflgen.cpp" />
     <CustomBuild Include="GeneratedCode\Stream.reflgen.h" />
+    <CustomBuild Include="GeneratedCode\Vector.reflgen.cpp" />
+    <CustomBuild Include="GeneratedCode\Vector.reflgen.h" />
     <CustomBuild Include="Math\MathUtil.h" />
     <CustomBuild Include="Math\Matrix.cpp" />
     <CustomBuild Include="Math\Matrix.h" />
