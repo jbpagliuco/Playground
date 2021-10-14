@@ -16,7 +16,7 @@ namespace playground
 	{
 	public:
 		bool Initialize(const std::string &shaderName, const std::vector<AssetID> &assets);
-		void ReleaseAssets();
+		void Shutdown();
 
 		virtual AssetID GetMaterialAssetID() = 0;
 
@@ -36,6 +36,7 @@ namespace playground
 
 	private:
 		void ReleaseAssetByKey(const std::string& parameterName);
+		void ReleaseAssets();
 
 	protected:
 		AssetID mShaderID;

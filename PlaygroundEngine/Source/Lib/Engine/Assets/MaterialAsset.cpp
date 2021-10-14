@@ -35,6 +35,12 @@ namespace playground
 		return true;
 	}
 
+	void MaterialAsset::Shutdown()
+	{
+		ReleaseAssets();
+		mMaterialContainer.Shutdown();
+	}
+
 	void MaterialAsset::ReleaseAssets()
 	{
 		for (auto& asset : mStaticAssets) {
@@ -146,8 +152,9 @@ namespace playground
 
 	void StaticMaterialAsset::Shutdown()
 	{
+		MaterialAsset::Shutdown();
+
 		mMaterial.Shutdown();
-		ReleaseAssets();
 	}
 
 	AssetID StaticMaterialAsset::GetMaterialAssetID()
@@ -178,8 +185,9 @@ namespace playground
 
 	void DynamicMaterialAsset::Shutdown()
 	{
+		MaterialAsset::Shutdown();
+
 		mMaterial.Shutdown();
-		ReleaseAssets();
 	}
 
 	AssetID DynamicMaterialAsset::GetMaterialAssetID()
