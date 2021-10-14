@@ -47,16 +47,37 @@
     <CustomBuild Include="File\File.inl">
       <Filter>File</Filter>
     </CustomBuild>
+    <CustomBuild Include="GeneratedCode\Color.reflgen.cpp">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\Color.reflgen.h">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\Console.reflgen.h">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
     <CustomBuild Include="GeneratedCode\CoreReflection_Debug.reflgen.cpp">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
     <CustomBuild Include="GeneratedCode\CoreReflection_Debug.reflgen.h">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
+    <CustomBuild Include="GeneratedCode\Memory.reflgen.cpp">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\Memory.reflgen.h">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
     <CustomBuild Include="GeneratedCode\Stream.reflgen.cpp">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
     <CustomBuild Include="GeneratedCode\Stream.reflgen.h">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\Vector.reflgen.cpp">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\Vector.reflgen.h">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
     <CustomBuild Include="Math\MathUtil.h">

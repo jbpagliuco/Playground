@@ -61,6 +61,22 @@ ForEach(.config in .AllReflConfigs) {
         .ExecArguments + '../../../PlaygroundEngine/Source/Lib/Engine/EngineReflection_$Config$.refl;'
         .ExecArguments + '../../../PlaygroundEngine/Source/Lib/Renderer/RendererReflection_$Config$.refl '
         .ExecArguments + .OldExecArguments
+
+        .PreBuildDependencies = {
+            'Core-$Config$-refl'
+            'Renderer-$Config$-refl'
+            'Engine-$Config$-refl'
+        }
+    }
+}
+
+Alias('all-refl')
+{
+    .Targets = {
+        'Core-Debug-refl'
+        'Renderer-Debug-refl'
+        'Engine-Debug-refl'
+        'Game-Debug-refl'
     }
 }
 

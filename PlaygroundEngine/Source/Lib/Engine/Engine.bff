@@ -25,8 +25,13 @@
 
 ForEach(.config in .AllReflConfigs) {
     Using(.config)
-
-    Exec('$TargetName$-refl') { }
+        
+    Exec('$TargetName$-refl') {
+        .PreBuildDependencies = {
+            'Core-$Config$-refl'
+            'Renderer-$Config$-refl'
+        }
+    }
 }
 
 ForEach(.config in .AllConfigs) {

@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <CustomBuild Include="GeneratedCode\Camera.reflgen.cpp">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\Camera.reflgen.h">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
     <CustomBuild Include="GeneratedCode\Light.reflgen.cpp">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
@@ -11,6 +17,9 @@
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
     <CustomBuild Include="GeneratedCode\RendererReflection_Debug.reflgen.h">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\RenderTarget.reflgen.h">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
     <CustomBuild Include="ImguiRenderer.cpp">
