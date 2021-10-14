@@ -83,13 +83,13 @@ namespace playground
 	void ReflectionDeserialize(const refl::Class& reflClass, void* obj, const DeserializationParameterMap& parameters)
 	{
 		// Special classes
-		if (reflClass.mName == "AssetID") {
+		if (reflClass == AssetID::StaticClass()) {
 			// Request the asset
 			const AssetID requestedAssetID = RequestAsset(parameters.AsFilepath());
 			WriteReflectedValue<decltype(AssetID::mID)>(obj, requestedAssetID);
 			return;
 		}
-		else if (reflClass.mName == "ColorF") {
+		else if (reflClass == ColorF::StaticClass()) {
 			// Deserialize this color from a string
 			if (parameters.value != "") {
 				WriteReflectedValue<ColorF>(obj, ColorF(parameters.value));
