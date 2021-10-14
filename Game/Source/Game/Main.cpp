@@ -31,7 +31,11 @@ static int GameMain()
 	if (playground::InitializeEngine() == false) {
 		return EXIT_FAILURE;
 	}
+
+	// Make sure all reflected functions are bound.
+	refl::GetSystemRegistry().EnsureFunctionsAreBound();
 	
+	// Load world.
 	playground::LoadWorldFromFile(config["world"].AsString());
 
 	// Run
