@@ -17,8 +17,8 @@ namespace refl
 	public:
 		Registry();
 
-		// Finalizes the data in this registry (must be called after all reflected data is registered).
-		bool Finalize();
+		// Ensures all functions are bound.
+		bool EnsureFunctionsAreBound();
 
 		// Retrieves a reflected class representation from this registry, or nullptr if it does not exist.
 		const Class* GetClass(const std::string& className)const;
