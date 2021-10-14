@@ -250,6 +250,8 @@ namespace playground
 		int numGameTickLoops = 0;
 		int elapsedTime = GetEngineElapsedTimeMilliseconds();
 		while (elapsedTime > NextGameTickTime && numGameTickLoops < UPDATE_GAME_MAX_FRAMESKIP) {
+			CheckDebugRendererSwitch();
+
 			// Calculate delta frame time and update game
 			const float deltaTime = (elapsedTime - LastUpdateGameTickTime) / 1000.0f;
 			UpdateGame(1.0f / UPDATE_GAME_TICKS_PER_SECOND);
