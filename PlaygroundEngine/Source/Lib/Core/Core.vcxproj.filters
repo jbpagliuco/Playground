@@ -53,19 +53,10 @@
     <CustomBuild Include="GeneratedCode\Color.reflgen.h">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
-    <CustomBuild Include="GeneratedCode\Console.reflgen.h">
-      <Filter>GeneratedCode</Filter>
-    </CustomBuild>
     <CustomBuild Include="GeneratedCode\CoreReflection_Debug.reflgen.cpp">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
     <CustomBuild Include="GeneratedCode\CoreReflection_Debug.reflgen.h">
-      <Filter>GeneratedCode</Filter>
-    </CustomBuild>
-    <CustomBuild Include="GeneratedCode\Memory.reflgen.cpp">
-      <Filter>GeneratedCode</Filter>
-    </CustomBuild>
-    <CustomBuild Include="GeneratedCode\Memory.reflgen.h">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
     <CustomBuild Include="GeneratedCode\Stream.reflgen.cpp">

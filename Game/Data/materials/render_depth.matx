@@ -4,7 +4,7 @@
     <shaderFile>render_depth.shaderx</shaderFile>
 	<parameters>
 		<parameter name="DiffuseTexture" type="renderTarget" map="depth">
-			:shadowMap
+			test_render_target.rtx
 		</parameter>
 	</parameters>
 </root>

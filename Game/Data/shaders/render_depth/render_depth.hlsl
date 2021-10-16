@@ -43,6 +43,6 @@ float4 psMain(PixelInput input) : SV_TARGET
 	float2 texCoord = float2(1.0f, 1.0f) - input.texCoord;
 	float4 texColor = DepthMap.Sample(Sampler, texCoord);
 
-	float depth = 1.0f - (texColor.x / 2);
+	float depth = 1.0f - (texColor.x / 1.25f);
 	return float4(depth, depth, depth, 1.0f);
 }

@@ -1,20 +1,27 @@
 #pragma once
 
+#include "Core/Reflection/ReflMarkup.h"
+#include "Core/Util/Color.h"
 #include "Core/Util/Util.h"
 
 #include "NGA/NGACommon.h"
 
+#include "NGASamplerState.reflgen.h"
+
 namespace playground
 {
-	struct NGASamplerStateDesc
+	struct REFLECTED NGASamplerStateDesc
 	{
-		NGATextureFilter mFilter = NGATextureFilter::MIN_MAG_MIP_LINEAR;
+		GENERATED_REFLECTION_CODE();
 
-		NGATextureAddressMode mAddressU = NGATextureAddressMode::WRAP;
-		NGATextureAddressMode mAddressV = NGATextureAddressMode::WRAP;
-		NGATextureAddressMode mAddressW = NGATextureAddressMode::WRAP;
+	public:
+		NGATextureFilter mFilter				REFLECTED = NGATextureFilter::MIN_MAG_MIP_LINEAR;
 
-		Tuple4f mBorderColor = Tuple4f(1.0f, 0.0f, 0.0f, 1.0f);
+		NGATextureAddressMode mAddressU			REFLECTED = NGATextureAddressMode::WRAP;
+		NGATextureAddressMode mAddressV			REFLECTED = NGATextureAddressMode::WRAP;
+		NGATextureAddressMode mAddressW			REFLECTED = NGATextureAddressMode::WRAP;
+
+		ColorF mBorderColor						REFLECTED = COLOR_RED;
 	};
 
 	class NGASamplerState

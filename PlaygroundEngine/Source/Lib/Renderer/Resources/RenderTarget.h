@@ -1,35 +1,44 @@
 #pragma once
 
 #include "Core/Streaming/AssetFactory.h"
+#include "Core/Reflection/ReflMarkup.h"
 
 #include "Renderer/Resources/Texture.h"
 
+#include "RenderTarget.reflgen.h"
+
 namespace playground
 {
-	struct RenderTargetTextureDesc
+	struct REFLECTED RenderTargetTextureDesc
 	{
-		NGATextureType mType = NGATextureType::TEXTURE2D;
-		NGAFormat mFormat = NGAFormat::UNKNOWN;
-		NGAUsage mUsage = NGAUsage::GPU_WRITE;
+		GENERATED_REFLECTION_CODE();
 
-		bool mShaderResource = false;
-		int mArraySize = 1;
+	public:
+		NGATextureType mType				REFLECTED = NGATextureType::TEXTURE2D;
+		NGAFormat mFormat					REFLECTED = NGAFormat::UNKNOWN;
+		NGAUsage mUsage						REFLECTED = NGAUsage::GPU_WRITE;
 
-		NGASamplerStateDesc mSamplerStateDesc;
+		bool mShaderResource				REFLECTED = false;
+		int mArraySize						REFLECTED = 1;
+
+		NGASamplerStateDesc mSamplerStateDesc		REFLECTED;
 
 		operator TextureDesc()const;
 	};
 
-	struct RenderTargetDesc
+	struct REFLECTED RenderTargetDesc
 	{
-		int mWidth;
-		int mHeight;
+		GENERATED_REFLECTION_CODE();
 
-		bool mUseColorMap;
-		bool mUseDepthMap;
+	public:
+		int mWidth		REFLECTED;
+		int mHeight		REFLECTED;
 
-		RenderTargetTextureDesc mColorMapDesc;
-		RenderTargetTextureDesc mDepthMapDesc;
+		RenderTargetTextureDesc mColorMapDesc		REFLECTED;
+		RenderTargetTextureDesc mDepthMapDesc		REFLECTED;
+
+		bool mUseColorMap		REFLECTED REFL_BOOL_ENABLE(mColorMapDesc) = false;
+		bool mUseDepthMap		REFLECTED REFL_BOOL_ENABLE(mDepthMapDesc) = false;
 	};
 
 	class RenderTarget : public AssetFactory<RenderTarget>

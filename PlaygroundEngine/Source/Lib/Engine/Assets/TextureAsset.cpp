@@ -1,7 +1,7 @@
 #include "TextureAsset.h"
 
 #include "Core/Streaming/Stream.h"
-#include "Core/Util/Serialize.h"
+#include "Core/Reflection/ReflSerialize.h"
 #include "Renderer/Resources/RenderTarget.h"
 #include "Renderer/Resources/Skybox.h"
 #include "Renderer/Resources/Texture.h"
@@ -15,7 +15,7 @@ namespace playground
 	static bool OnTextureDDSLoad(const AssetID &id, const std::string &filename, const AssetFileHeader &header);
 	static void OnTextureUnload(const AssetID &id);
 
-	static bool OnRenderTargetLoad(const AssetID &id, const std::string &filename, const AssetFileHeader &header);
+	static bool OnRenderTargetLoad(const AssetID &id, const std::string &filename, const AssetFileHeader &header, const DeserializationParameterMap& parameters);
 	static void OnRenderTargetUnload(const AssetID &id);
 
 	static bool OnSkyboxLoad(const AssetID &id, const std::string &filename, const AssetFileHeader &header);
@@ -67,7 +67,7 @@ namespace playground
 
 		AssetType rtxType;
 		rtxType.mExt = "rtx";
-		rtxType.mOnLoad = OnRenderTargetLoad;
+		rtxType.mOnLoadDeserialize = OnRenderTargetLoad;
 		rtxType.mOnUnload = OnRenderTargetUnload;
 		RegisterAssetType(rtxType);
 
@@ -153,54 +153,18 @@ namespace playground
 
 
 
-	static bool OnRenderTargetLoad(const AssetID &id, const std::string &filename, const AssetFileHeader &header)
+	static bool OnRenderTargetLoad(const AssetID &id, const std::string &filename, const AssetFileHeader &header, const DeserializationParameterMap& parameters)
 	{
 		RenderTarget *pRenderTarget = RenderTarget::Create(id);
 		CORE_ASSERT_RETURN_VALUE(pRenderTarget != nullptr, false, "Failed to allocate render target");
 
-		DeserializationParameterMap params = ParseFile(filename);
-
 		RenderTargetDesc desc;
-		desc.mWidth = params["width"].AsInt();
-		desc.mHeight = params["height"].AsInt();
+		ReflectionDeserialize(RenderTargetDesc::StaticClass(), &desc, parameters);
 
-		// Color map parameters
-		if (params.HasChild("colorMap")) {
-			DeserializationParameterMap colorMapParams = params["colorMap"];
-			desc.mUseColorMap = true;
-			desc.mColorMapDesc.mFormat = NGAFormat::R32G32B32A32_FLOAT;
-			desc.mColorMapDesc.mType = NGATextureType::TEXTURE2D;
-			desc.mColorMapDesc.mShaderResource = colorMapParams["shaderResource"].AsBool();
-		}
-
-		// Depth map parameters
-		if (params.HasChild("depthMap")) {
-			DeserializationParameterMap depthMapParams = params["depthMap"];
-			desc.mUseDepthMap = true;
-			desc.mDepthMapDesc.mType = NGATextureType::TEXTURE2D;
-			desc.mDepthMapDesc.mShaderResource = depthMapParams["shaderResource"].AsBool();
-
-			// Deduce format
-			int depth = depthMapParams["depth"].AsInt(-1);
-			bool stencil = depthMapParams["stencil"].AsBool();
-
-			if (depth == 16 && !stencil) {
-				desc.mDepthMapDesc.mFormat = NGAFormat::D16_UNORM;
-			}
-			else if (depth == 24 && stencil) {
-				desc.mDepthMapDesc.mFormat = NGAFormat::D24_UNORM_S8_UINT;
-			}
-			else if (depth == 32 && !stencil) {
-				desc.mDepthMapDesc.mFormat = NGAFormat::D32_FLOAT;
-			}
-			else {
-				CORE_ASSERT(false, "Unrecognized depth buffer format.");
-			}
-
-			if (desc.mDepthMapDesc.mShaderResource) {
-				CORE_ASSERT(desc.mDepthMapDesc.mFormat == NGAFormat::D32_FLOAT);
-				desc.mDepthMapDesc.mFormat = NGAFormat::R32_TYPELESS;
-			}
+		// Sanity check
+		if (desc.mDepthMapDesc.mShaderResource) {
+			CORE_ASSERT(desc.mDepthMapDesc.mFormat == NGAFormat::D32_FLOAT, "Depth map cannot use stencil map if it's a shader resource.");
+			desc.mDepthMapDesc.mFormat = NGAFormat::R32_TYPELESS;
 		}
 
 		// Create the render target

@@ -23,8 +23,15 @@
     <CustomBuild Include="GeneratedCode\Camera.reflgen.h" />
     <CustomBuild Include="GeneratedCode\Light.reflgen.cpp" />
     <CustomBuild Include="GeneratedCode\Light.reflgen.h" />
+    <CustomBuild Include="GeneratedCode\NGACommon.reflgen.cpp" />
+    <CustomBuild Include="GeneratedCode\NGACommon.reflgen.h" />
+    <CustomBuild Include="GeneratedCode\NGAResources.reflgen.cpp" />
+    <CustomBuild Include="GeneratedCode\NGAResources.reflgen.h" />
+    <CustomBuild Include="GeneratedCode\NGASamplerState.reflgen.cpp" />
+    <CustomBuild Include="GeneratedCode\NGASamplerState.reflgen.h" />
     <CustomBuild Include="GeneratedCode\RendererReflection_Debug.reflgen.cpp" />
     <CustomBuild Include="GeneratedCode\RendererReflection_Debug.reflgen.h" />
+    <CustomBuild Include="GeneratedCode\RenderTarget.reflgen.cpp" />
     <CustomBuild Include="GeneratedCode\RenderTarget.reflgen.h" />
     <CustomBuild Include="ImguiRenderer.cpp" />
     <CustomBuild Include="ImguiRenderer.h" />

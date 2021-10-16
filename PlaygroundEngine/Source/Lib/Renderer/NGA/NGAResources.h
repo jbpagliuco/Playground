@@ -8,7 +8,7 @@ namespace playground
 {
 	/////////////////////////////////////////////////////
 	// Textures
-	enum class NGATextureType
+	enum class REFLECTED NGATextureType : uint8_t
 	{
 		TEXTURE1D,
 		TEXTURE2D,

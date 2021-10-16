@@ -54,6 +54,17 @@ namespace playground
 		mObjectDataBuffer.Shutdown();
 		mLightsBuffer.Shutdown();
 	}
+
+	void StateManager::ClearAllUserResources()
+	{
+		for (int i = 0; i < MAX_NUM_USER_SHADER_RESOURCES; ++i) {
+			BindUserShaderResource(NGAShaderResourceView::INVALID, NGA_SHADER_STAGE_ALL, i);
+		}
+
+		for (int i = 0; i < MAX_NUM_USER_SAMPLER_STATES; ++i) {
+			BindUserSamplerState(NGASamplerState::INVALID, NGA_SHADER_STAGE_ALL, i);
+		}
+	}
 	
 	void StateManager::SetPerFrameData(const Matrix &cameraViewProj, Matrix lightViewProj[MAX_SHADOWMAPS], int numShadowCasters)
 	{
@@ -148,7 +159,13 @@ namespace playground
 
 	void StateManager::BindShaderResource(const NGAShaderResourceView &view, NGAShaderStage stage, int slot)
 	{
-		mCommandContext.BindShaderResource(view, stage, slot);
+		if ((mBoundRenderTarget != nullptr && view.PointsToSameResource(*mBoundRenderTarget)) || 
+			(mBoundDepthStencilView != nullptr && view.PointsToSameResource(*mBoundDepthStencilView))) {
+			mCommandContext.BindShaderResource(NGAShaderResourceView::INVALID, stage, slot);
+		}
+		else {
+			mCommandContext.BindShaderResource(view, stage, slot);
+		}
 	}
 
 

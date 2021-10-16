@@ -13,10 +13,31 @@
     <CustomBuild Include="GeneratedCode\Light.reflgen.h">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
+    <CustomBuild Include="GeneratedCode\NGACommon.reflgen.cpp">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\NGACommon.reflgen.h">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\NGAResources.reflgen.cpp">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\NGAResources.reflgen.h">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\NGASamplerState.reflgen.cpp">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\NGASamplerState.reflgen.h">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
     <CustomBuild Include="GeneratedCode\RendererReflection_Debug.reflgen.cpp">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
     <CustomBuild Include="GeneratedCode\RendererReflection_Debug.reflgen.h">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\RenderTarget.reflgen.cpp">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
     <CustomBuild Include="GeneratedCode\RenderTarget.reflgen.h">

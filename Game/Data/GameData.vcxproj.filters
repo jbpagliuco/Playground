@@ -95,6 +95,8 @@
     </CustomBuild>
     <CustomBuild Include="worlds\test_physics.xml">
     </CustomBuild>
+    <CustomBuild Include="worlds\test_render_target.xml">
+    </CustomBuild>
     <CustomBuild Include="worlds\test_shader2.xml">
     </CustomBuild>
     <CustomBuild Include="worlds\world.xml">

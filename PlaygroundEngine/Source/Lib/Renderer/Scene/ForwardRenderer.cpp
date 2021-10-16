@@ -100,6 +100,8 @@ namespace playground
 	
 	void ForwardRenderer::RenderSceneToBackBuffer(Scene &scene, const Camera &camera)
 	{
+		Playground_RendererStateManager->ClearAllUserResources();
+
 		NGARect r;
 		r.x = 0.0f;
 		r.y = 0.0f;

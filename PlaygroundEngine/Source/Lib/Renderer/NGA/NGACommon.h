@@ -10,6 +10,7 @@
 #endif
 
 #include "Core/Debug/Assert.h"
+#include "Core/Reflection/ReflMarkup.h"
 #include "Core/Util/BitUtil.h"
 
 #include "NGA/NGAPipelineStateDefs.h"
@@ -29,7 +30,7 @@
 
 namespace playground
 {
-	enum class NGAFormat
+	enum class REFLECTED NGAFormat : uint8_t
 	{
 		// Color formats
 		R32_FLOAT = 0,
@@ -61,7 +62,7 @@ namespace playground
 		SIZE
 	};
 
-	enum class NGAUsage
+	enum class REFLECTED NGAUsage : uint8_t
 	{
 		IMMUTABLE = 0,
 		GPU_WRITE,
@@ -90,7 +91,7 @@ namespace playground
 	};
 	CORE_DEFINE_ENUM_FLAG_OPERATORS(NGATextureBindFlags);
 
-	enum class NGATextureFilter
+	enum class REFLECTED NGATextureFilter : uint8_t
 	{
 #if CORE_RENDER_API(DX11)
 		MIN_MAG_MIP_POINT = D3D11_FILTER_MIN_MAG_MIP_POINT,
@@ -107,7 +108,7 @@ namespace playground
 #endif
 	};
 
-	enum class NGATextureAddressMode
+	enum class REFLECTED NGATextureAddressMode : uint8_t
 	{
 #if CORE_RENDER_API(DX11)
 		WRAP = D3D11_TEXTURE_ADDRESS_WRAP,

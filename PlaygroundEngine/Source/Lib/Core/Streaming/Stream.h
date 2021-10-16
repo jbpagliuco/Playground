@@ -4,6 +4,7 @@
 #include <string>
 
 #include "Reflection/ReflMarkup.h"
+#include "Util/Serialize.h"
 
 #include "Stream.reflgen.h"
 
@@ -28,9 +29,14 @@ namespace playground
 
 	struct AssetType
 	{
+		typedef bool(*OnLoad)(const AssetID&, const std::string&, const AssetFileHeader&);
+		typedef bool(*OnLoadDeserialize)(const AssetID&, const std::string&, const AssetFileHeader&, const DeserializationParameterMap&);
+		typedef void(*OnUnload)(const AssetID&);
+
 		std::string mExt;
-		bool(*mOnLoad)(const AssetID &id, const std::string &filename, const AssetFileHeader &header);
-		void(*mOnUnload)(const AssetID &id);
+		OnLoad mOnLoad = nullptr;
+		OnLoadDeserialize mOnLoadDeserialize = nullptr;
+		OnUnload mOnUnload = nullptr;
 
 		int mMinVersion = 1;
 		int mMaxVersion = 1;

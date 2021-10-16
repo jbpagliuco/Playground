@@ -1,2 +1,6 @@
-#include "Light.h"
-#include "Scene/Camera.h"
+#include "Renderer/Light.h"
+#include "Renderer/NGA/NGACommon.h"
+#include "Renderer/NGA/NGAResources.h"
+#include "Renderer/NGA/NGASamplerState.h"
+#include "Renderer/Resources/RenderTarget.h"
+#include "Renderer/Scene/Camera.h"

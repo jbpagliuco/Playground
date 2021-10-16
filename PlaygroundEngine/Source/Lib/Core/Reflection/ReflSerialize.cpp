@@ -17,6 +17,16 @@ namespace playground
 		*(static_cast<ReflectedType*>(obj)) = static_cast<ReflectedType>(value);
 	}
 
+	static std::string GetFieldName(const refl::Field& reflField)
+	{
+		if (reflField.HasAttribute(REFL_ATTR_ENUM_MATCH_NAME)) {
+			return reflField.GetAttribute(REFL_ATTR_ENUM_MATCH_NAME);
+		}
+
+		return reflField.HasAttribute(REFL_ATTR_NAME) ? reflField.GetAttribute(REFL_ATTR_NAME) : reflField.mName;
+	}
+
+
 	static void ReflectionDeserializePOD(const refl::TypeInfo& typeInfo, void* obj, const DeserializationParameterMap& value, const std::string& multiplierVal)
 	{
 		const float floatMultiplier = (multiplierVal != "") ? atof(multiplierVal.c_str()) : 1.0f;
@@ -130,12 +140,21 @@ namespace playground
 		return false;
 	}
 
+
 	static void ReflectionDeserializeField(const refl::Class& reflClass, const refl::Field& reflField, void* obj, const DeserializationParameterMap& parameters)
 	{
 		// Get reflected name
-		std::string fieldName = reflField.HasAttribute(REFL_ATTR_NAME) ? reflField.GetAttribute(REFL_ATTR_NAME) : reflField.mName;
-		if (reflField.HasAttribute(REFL_ATTR_ENUM_MATCH_NAME)) {
-			fieldName = reflField.GetAttribute(REFL_ATTR_ENUM_MATCH_NAME);
+		const std::string fieldName = GetFieldName(reflField);
+
+		// Gets the starting address of this field.
+		void* fieldStart = reflField.GetRawDataPtr(obj);
+
+		// Bool enable?
+		if (reflField.HasAttribute(REFL_ATTR_BOOL_ENABLE)) {
+			const std::string enableVar = reflField.GetAttribute(REFL_ATTR_BOOL_ENABLE);
+			const bool enable = parameters.HasChild(GetFieldName(*reflClass.GetField(enableVar)));
+			WriteReflectedValue<bool>(fieldStart, enable);
+			return;
 		}
 
 		// Does the parameter map contain this field?
@@ -152,9 +171,6 @@ namespace playground
 				return;
 			}
 		}
-
-		// Gets the starting address of this field.
-		void* fieldStart = reflField.GetRawDataPtr(obj);
 
 		// Class type?
 		if (reflField.mTypeInfo.IsClass()) {
