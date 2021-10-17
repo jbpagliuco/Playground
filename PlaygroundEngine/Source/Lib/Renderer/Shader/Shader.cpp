@@ -6,14 +6,6 @@ namespace playground
 {
 	CORE_FACTORY_SETUP(Shader);
 
-	bool Shader::Initialize(const std::string &file, NGAVertexFormatDesc vsFormat)
-	{
-		mVertexShader.Initialize(file, vsFormat);
-		mPixelShader.Initialize(file);
-
-		return true;
-	}
-
 	bool Shader::Initialize(const ShaderDesc& shaderDesc)
 	{
 		mVertexShader.Initialize(shaderDesc.mFilename, shaderDesc.mVertexFormatDesc);

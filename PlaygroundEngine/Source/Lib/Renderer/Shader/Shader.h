@@ -21,7 +21,6 @@ namespace playground
 	class Shader : public AssetFactory<Shader>
 	{
 	public:
-		bool Initialize(const std::string& file, NGAVertexFormatDesc vsFormat);
 		bool Initialize(const ShaderDesc& shaderDesc);
 		void Shutdown();
 
