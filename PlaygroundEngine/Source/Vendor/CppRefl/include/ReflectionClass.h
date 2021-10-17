@@ -40,7 +40,7 @@ namespace refl
 		void Destruct(void* obj)const;
 
 		// Read or write this element.
-		virtual void Serialize(class FileIO& io) override;
+		virtual void Serialize(class FileIO& io, const class Registry& registry) override;
 
 #if defined(REFL_DEBUG)
 		// Creates a string representation of this class.
@@ -53,11 +53,12 @@ namespace refl
 		// List of all functions in this class.
 		std::vector<Function> mFunctions;
 
-		// This size of this class.
-		size_t mSize;
+		// Info about this classes type.
+		// NB: This will never be null after the registry is initialized.
+		const Type* mType = nullptr;
 
-		// Constructor/Destructor
 	private:
+		// Constructor/Destructor
 		ClassConstructor mConstructor;
 		ClassDestructor mDestructor;
 

@@ -29,7 +29,7 @@ namespace refl
 		std::string GetAttribute(const std::string& attributeName)const;
 
 		// Read or write this element.
-		virtual void Serialize(class FileIO& io);
+		virtual void Serialize(class FileIO& io, const class Registry& registry);
 
 #if defined(REFL_DEBUG)
 		// Creates a string representation of this element.

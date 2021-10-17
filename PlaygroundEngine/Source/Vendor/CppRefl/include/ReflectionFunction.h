@@ -19,7 +19,7 @@ namespace refl
 		virtual bool DeepEquals(const Function& rhs)const;
 
 		// Read or write this element.
-		virtual void Serialize(class FileIO& io) override;
+		virtual void Serialize(class FileIO& io, const class Registry& registry) override;
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
 		// Global functions
@@ -78,7 +78,7 @@ namespace refl
 		DataType mReturnType = DataType::VOID_TYPE;
 
 		// Parameter type information.
-		std::vector<TypeInfo> mParameterTypes;
+		std::vector<TypeInstance> mParameterTypes;
 
 		// Is this a member function or a global function?
 		bool mIsMemberFunction;

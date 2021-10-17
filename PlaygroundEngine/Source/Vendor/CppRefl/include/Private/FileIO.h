@@ -19,6 +19,9 @@ namespace refl
 		bool IsOpen()const;
 		void Close();
 
+		bool IsReading()const;
+		bool IsWriting()const;
+
 		void operator>>(std::string& value)
 		{
 			size_t size = value.size();
@@ -68,7 +71,7 @@ namespace refl
 		}
 
 		template <typename T>
-		void SerializeReflVector(std::vector<T>& vector)
+		void SerializeReflVector(std::vector<T>& vector, const Registry& registry)
 		{
 			size_t size = vector.size();
 			this->operator>>(size);
@@ -76,14 +79,14 @@ namespace refl
 			if (mRead) {
 				for (int i = 0; i < size; ++i) {
 					T element;
-					element.Serialize(*this);
+					element.Serialize(*this, registry);
 					vector.push_back(element);
 				}
 			}
 			else {
 				for (int i = 0; i < size; ++i) {
 					T& element = vector[i];
-					element.Serialize(*this);
+					element.Serialize(*this, registry);
 				}
 			}
 		}
@@ -117,7 +120,7 @@ namespace refl
 		}
 
 		template <typename Key, typename ReflValue>
-		void SerializeReflMap(std::map<Key, ReflValue>& map)
+		void SerializeReflMap(std::map<Key, ReflValue>& map, const Registry& registry)
 		{
 			size_t size = map.size();
 			this->operator>>(size);
@@ -128,7 +131,7 @@ namespace refl
 					this->operator>>(key);
 
 					ReflValue value;
-					value.Serialize(*this);
+					value.Serialize(*this, registry);
 
 					map[key] = value;
 				}
@@ -137,7 +140,7 @@ namespace refl
 				for (auto& iter : map) {
 					auto key = iter.first;
 					this->operator>>(key);
-					iter.second.Serialize(*this);
+					iter.second.Serialize(*this, registry);
 				}
 			}
 		}

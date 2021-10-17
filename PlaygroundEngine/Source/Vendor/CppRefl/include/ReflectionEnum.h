@@ -15,7 +15,7 @@ namespace refl
 		virtual bool DeepEquals(const EnumValue& rhs)const;
 
 		// Read or write this element.
-		virtual void Serialize(class FileIO& io) override;
+		virtual void Serialize(class FileIO& io, const class Registry& registry) override;
 
 #if defined(REFL_DEBUG)
 		// Creates a string representation of this enum value.
@@ -38,7 +38,7 @@ namespace refl
 		virtual bool DeepEquals(const Enum& rhs)const;
 
 		// Read or write this element.
-		virtual void Serialize(class FileIO& io) override;
+		virtual void Serialize(class FileIO& io, const class Registry& registry) override;
 
 		// Returns the name of an enum value.
 		std::string GetValueString(int8_t enumValue, bool qualified = false)const;
