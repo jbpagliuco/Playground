@@ -76,6 +76,7 @@ namespace refl
 		Function* GetFunctionNonConst(const std::string& functionName);
 
 		bool Serialize(class FileIO& io);
+		bool SerializeTypes(class FileIO& io);
 
 		// Resolve a function pointer.
 		bool ResolveFunction(const FunctionRegistration& functionRegistration, Class* reflClass = nullptr);

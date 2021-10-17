@@ -92,7 +92,7 @@ namespace playground
 		CORE_ASSERT_RETURN_VALUE(reflClass != nullptr, nullptr, "Component class '%s' is not reflected.", type.c_str());
 
 		// Allocate and construct object
-		void *obj = CORE_ALLOC(reflClass->mSize);
+		void *obj = CORE_ALLOC(reflClass->mType->GetSize());
 		GameComponent* component = reflClass->Construct<GameComponent>(obj);
 
 		// Add to component list

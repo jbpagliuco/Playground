@@ -14,6 +14,14 @@ namespace playground
 		return true;
 	}
 
+	bool Shader::Initialize(const ShaderDesc& shaderDesc)
+	{
+		mVertexShader.Initialize(shaderDesc.mFilename, shaderDesc.mVertexFormatDesc);
+		mPixelShader.Initialize(shaderDesc.mFilename);
+
+		return true;
+	}
+
 	void Shader::Shutdown()
 	{
 		mVertexShader.Shutdown();

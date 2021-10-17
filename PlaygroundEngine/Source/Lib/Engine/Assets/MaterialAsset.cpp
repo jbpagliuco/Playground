@@ -2,7 +2,7 @@
 
 #include "Core/Streaming/Stream.h"
 #include "Core/File/File.h"
-#include "Core/Util/Serialize.h"
+#include "Core/Reflection/ReflSerialize.h"
 #include "Renderer/Material/StaticMaterial.h"
 #include "Renderer/Material/DynamicMaterial.h"
 #include "Renderer/RenderingSystem.h"
@@ -20,7 +20,7 @@ namespace playground
 	static bool OnMaterialLoad(const AssetID &id, const std::string &filename, const AssetFileHeader &header);
 	static void OnMaterialUnload(const AssetID &id);
 
-	static bool OnShaderLoad(const AssetID &id, const std::string &filename, const AssetFileHeader &header);
+	static bool OnShaderLoad(const AssetID &id, const std::string &filename, const AssetFileHeader &header, const DeserializationParameterMap& parameters);
 	static void OnShaderUnload(const AssetID &id);
 
 
@@ -208,7 +208,7 @@ namespace playground
 
 		AssetType shaderType;
 		shaderType.mExt = "shaderx";
-		shaderType.mOnLoad = OnShaderLoad;
+		shaderType.mOnLoadDeserialize = OnShaderLoad;
 		shaderType.mOnUnload = OnShaderUnload;
 		shaderType.mMinVersion = 2;
 		shaderType.mMaxVersion = 2;
@@ -343,31 +343,15 @@ namespace playground
 
 
 
-	static bool OnShaderLoad(const AssetID &id, const std::string &filename, const AssetFileHeader &header)
+	static bool OnShaderLoad(const AssetID &id, const std::string &filename, const AssetFileHeader &header, const DeserializationParameterMap& parameters)
 	{
 		Shader *pShader = Shader::Create(id);
 		CORE_ASSERT_RETURN_VALUE(pShader != nullptr, false, "Failed to allocate shader.");
 
-		DeserializationParameterMap params = ParseFile(filename);
+		ShaderDesc shaderDesc;
+		ReflectionDeserialize(ShaderDesc::StaticClass(), &shaderDesc, parameters);
 
-		auto vsParams = params["vertexShader"];
-		auto psParams = params["pixelShader"];
-
-		// Vertex input
-		NGAVertexFormatDesc vertexFormatDesc;
-		for (auto &elem : vsParams["inputs"].childrenArray) {
-			NGAVertexAttribute attr;
-
-			attr.mSemanticType = GetSemanticType(elem["semanticName"].AsString().c_str());
-			attr.mSemanticIndex = elem["semanticIndex"].AsInt(0);
-
-			std::string format = elem["type"].AsString();
-			attr.mFormat = GetFormatFromString(format.c_str());
-
-			vertexFormatDesc.mAttributes.push_back(attr);
-		}
-
-		return pShader->Initialize(params["file"].AsFilepath(), vertexFormatDesc);
+		return pShader->Initialize(shaderDesc);
 	}
 
 	static void OnShaderUnload(const AssetID &id)

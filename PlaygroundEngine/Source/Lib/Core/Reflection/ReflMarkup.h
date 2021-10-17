@@ -23,3 +23,7 @@
 // Sets the boolean value if the specified variable was deserialized.
 #define REFL_ATTR_BOOL_ENABLE "bool_enable"
 #define REFL_BOOL_ENABLE(var) REFL_ATTR(REFL_ATTR_BOOL_ENABLE, #var)
+
+// Marks a (string) field as a file path.
+#define REFL_ATTR_FILEPATH "filepath"
+#define REFL_FILEPATH REFL_TAG(REFL_ATTR_FILEPATH)

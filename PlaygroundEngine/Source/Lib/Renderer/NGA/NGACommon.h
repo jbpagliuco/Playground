@@ -15,6 +15,8 @@
 
 #include "NGA/NGAPipelineStateDefs.h"
 
+#include "NGACommon.reflgen.h"
+
 
 #define NGA_GPU_CLASS(ClassName)								\
 	public:														\
@@ -33,10 +35,10 @@ namespace playground
 	enum class REFLECTED NGAFormat : uint8_t
 	{
 		// Color formats
-		R32_FLOAT = 0,
-		R32G32_FLOAT,
-		R32G32B32_FLOAT,
-		R32G32B32A32_FLOAT,
+		R32_FLOAT					REFL_NAME("float") = 0,
+		R32G32_FLOAT				REFL_NAME("float2"),
+		R32G32B32_FLOAT				REFL_NAME("float3"),
+		R32G32B32A32_FLOAT			REFL_NAME("float4"),
 
 		R16_FLOAT,
 		R16G16_FLOAT,
@@ -122,7 +124,7 @@ namespace playground
 
 
 
-	enum class NGAVertexSemanticType
+	enum class REFLECTED NGAVertexSemanticType : uint8_t
 	{
 		POSITION,
 		NORMAL,
@@ -134,17 +136,23 @@ namespace playground
 		UNKNOWN
 	};
 
-	struct NGAVertexAttribute
+	struct REFLECTED NGAVertexAttribute
 	{
-		NGAFormat mFormat;
-		NGAVertexSemanticType mSemanticType;
-		int mSemanticIndex;
-		int mOffset;
+		GENERATED_REFLECTION_CODE();
+
+	public:
+		NGAFormat mFormat						REFLECTED;
+		NGAVertexSemanticType mSemanticType		REFLECTED;
+		int mSemanticIndex						REFLECTED;
+		int mOffset								REFLECTED;
 	};
 
-	struct NGAVertexFormatDesc
+	struct REFLECTED NGAVertexFormatDesc
 	{
-		std::vector<NGAVertexAttribute> mAttributes;
+		GENERATED_REFLECTION_CODE();
+
+	public:
+		std::vector<NGAVertexAttribute> mAttributes REFLECTED;
 	};
 
 	/////////////////////////////////////////////////////////////////////////

@@ -17,6 +17,8 @@
     </CustomBuild>
     <CustomBuild Include="materials\render_depth.matx">
     </CustomBuild>
+    <CustomBuild Include="materials\render_test_render_target_color.matx">
+    </CustomBuild>
     <CustomBuild Include="materials\tex_debug.matx">
     </CustomBuild>
     <CustomBuild Include="materials\tex_dyn.matx">

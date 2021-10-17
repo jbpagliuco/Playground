@@ -9,7 +9,7 @@
 	<mHeight>900</mHeight>
 
 	<mColorMapDesc>
-		<mFormat>R32G32B32A32_FLOAT</mFormat>
+		<mFormat>float4</mFormat>
 		<mShaderResource>true</mShaderResource>
 	</mColorMapDesc>
 

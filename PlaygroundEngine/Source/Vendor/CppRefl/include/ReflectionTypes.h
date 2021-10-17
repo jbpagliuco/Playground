@@ -92,6 +92,18 @@ namespace refl
 		bool IsFixedString()const;
 
 
+		// Get the class represented by this type.
+		const class Class* GetClass()const;
+
+		// Get the enum represented by this type.
+		const class Enum* GetEnum()const;
+
+
+		// Get the dynamic array element type.
+		TypeInstance GetDynamicArrayElementType()const;
+
+
+
 		// Checks for equality among every aspect of this element.
 		// NB: This is really only necessary for testing purposes.
 		bool DeepEquals(const TypeInstance& rhs)const;
@@ -163,6 +175,17 @@ namespace refl
 
 		// Is this type a templated type?
 		bool IsTemplated()const;
+
+
+		// Get the class represented by this type.
+		const class Class* GetClass()const;
+
+		// Get the enum represented by this type.
+		const class Enum* GetEnum()const;
+
+
+		// Get the dynamic array element type.
+		TypeInstance GetDynamicArrayElementType()const;
 
 
 		// Checks for equality among every aspect of this element.
