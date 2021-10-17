@@ -12,7 +12,7 @@ namespace playground
 	class RenderTarget;
 	class Texture;
 
-	struct DynamicMaterialParameterInfo
+	struct DynamicMaterialBufferParameter
 	{
 		size_t mOffset;
 		size_t mLength;
@@ -21,7 +21,7 @@ namespace playground
 	struct DynamicMaterialParameterMap
 	{
 		// Maps a constant buffer parameter name to its buffer info.
-		std::map<std::string, DynamicMaterialParameterInfo> mBufferMap;
+		std::map<std::string, DynamicMaterialBufferParameter> mBufferMap;
 
 		// Maps a texture parameter name to its index.
 		std::map<std::string, int> mTextureMap;
@@ -38,7 +38,7 @@ namespace playground
 		virtual int GetMaterialType()const override { return MATERIAL_TYPE_DYNAMIC; }
 
 	protected:
-		bool GetParameterInfo(DynamicMaterialParameterInfo &info, const std::string &name);
+		bool GetParameterInfo(DynamicMaterialBufferParameter &info, const std::string &name);
 		int GetTextureParameterIndex(const std::string &name);
 
 		void* GetDefaultParameterData()const;

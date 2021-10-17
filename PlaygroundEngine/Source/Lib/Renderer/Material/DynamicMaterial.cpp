@@ -59,7 +59,7 @@ namespace playground
 		}
 	}
 
-	bool DynamicMaterial::GetParameterInfo(DynamicMaterialParameterInfo &info, const std::string &name)
+	bool DynamicMaterial::GetParameterInfo(DynamicMaterialBufferParameter &info, const std::string &name)
 	{
 		CORE_ASSERT_RETURN_VALUE(mParameterMap.mBufferMap.find(name) != mParameterMap.mBufferMap.end(), false, "Failed to find parameter info for parameter '%s'", name.c_str());
 
@@ -124,7 +124,7 @@ namespace playground
 
 	void DynamicMaterialInstance::SetFloatParameter(const std::string &name, float value)
 	{
-		DynamicMaterialParameterInfo paramInfo;
+		DynamicMaterialBufferParameter paramInfo;
 		if (mParent->GetParameterInfo(paramInfo, name)) {
 			CORE_ASSERT(paramInfo.mLength == sizeof(float), "Trying to set float data for a parameter of length %zu", paramInfo.mLength);
 			memcpy(mParameterData, &value, paramInfo.mLength);
@@ -133,7 +133,7 @@ namespace playground
 
 	void DynamicMaterialInstance::SetVectorParameter(const std::string &name, const Vector4f &value)
 	{
-		DynamicMaterialParameterInfo paramInfo;
+		DynamicMaterialBufferParameter paramInfo;
 		if (mParent->GetParameterInfo(paramInfo, name)) {
 			CORE_ASSERT(paramInfo.mLength == sizeof(Vector4f), "Trying to set vector data for a parameter of length %zu", paramInfo.mLength);
 			memcpy(mParameterData, &value, paramInfo.mLength);
