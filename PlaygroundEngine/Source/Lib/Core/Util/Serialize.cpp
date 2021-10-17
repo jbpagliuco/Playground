@@ -16,13 +16,29 @@ namespace playground
 	// Lol what is this
 	DeserializationParameterMap INVALID_DESERIALIZATION_PARAMETER = { "~*INVALID*~" };
 
-	DeserializationParameterMap& DeserializationParameterMap::operator[](const std::string &childName)
+	const DeserializationParameterMap& DeserializationParameterMap::operator[](const std::string &childName)const
 	{
 		if (childrenMap.find(childName) == childrenMap.end()) {
 			return INVALID_DESERIALIZATION_PARAMETER;
 		}
 
-		return childrenMap[childName];
+		return childrenMap.at(childName);
+	}
+
+	const DeserializationParameterMap& DeserializationParameterMap::operator[](int index)const
+	{
+		CORE_ASSERT_RETURN_VALUE((size_t)index < childrenArray.size(), INVALID_DESERIALIZATION_PARAMETER, "Failed to find value at index %d", index);
+
+		return childrenArray[index];
+	}
+	
+	DeserializationParameterMap& DeserializationParameterMap::operator[](const std::string& childName)
+	{
+		if (childrenMap.find(childName) == childrenMap.end()) {
+			return INVALID_DESERIALIZATION_PARAMETER;
+		}
+
+		return childrenMap.at(childName);
 	}
 
 	DeserializationParameterMap& DeserializationParameterMap::operator[](int index)
@@ -42,36 +58,36 @@ namespace playground
 		childrenArray.insert(childrenArray.begin() + index, map);
 	}
 
-	bool DeserializationParameterMap::HasChild(const std::string &childName)
+	bool DeserializationParameterMap::HasChild(const std::string &childName)const
 	{
 		return childrenMap.find(childName) != childrenMap.end();
 	}
 
-	std::string DeserializationParameterMap::AsString(const std::string &def)
+	std::string DeserializationParameterMap::AsString(const std::string &def)const
 	{
 		RETURN_DEFAULT_IF_INVALID();
 		return value.c_str();
 	}
 
-	bool DeserializationParameterMap::AsBool(bool def)
+	bool DeserializationParameterMap::AsBool(bool def)const
 	{
 		RETURN_DEFAULT_IF_INVALID();
 		return value == "1" || value == "t" || value == "true" || value == "y" || value == "yes";
 	}
 
-	int DeserializationParameterMap::AsInt(int def)
+	int DeserializationParameterMap::AsInt(int def)const
 	{
 		RETURN_DEFAULT_IF_INVALID();
 		return std::stoi(value);
 	}
 
-	float DeserializationParameterMap::AsFloat(float def)
+	float DeserializationParameterMap::AsFloat(float def)const
 	{
 		RETURN_DEFAULT_IF_INVALID();
 		return std::stof(value);
 	}
 
-	Vector2f DeserializationParameterMap::AsFloat2(Vector2f def)
+	Vector2f DeserializationParameterMap::AsFloat2(Vector2f def)const
 	{
 		RETURN_DEFAULT_IF_INVALID();
 		
@@ -80,7 +96,7 @@ namespace playground
 		return Vector2f(x, y);
 	}
 
-	Vector3f DeserializationParameterMap::AsFloat3(Vector3f def)
+	Vector3f DeserializationParameterMap::AsFloat3(Vector3f def)const
 	{
 		RETURN_DEFAULT_IF_INVALID();
 
@@ -90,7 +106,7 @@ namespace playground
 		return Vector3f(x, y, z);
 	}
 
-	Vector4f DeserializationParameterMap::AsFloat4(Vector4f def)
+	Vector4f DeserializationParameterMap::AsFloat4(Vector4f def)const
 	{
 		RETURN_DEFAULT_IF_INVALID();
 
@@ -101,7 +117,7 @@ namespace playground
 		return Vector4f(x, y, z, w);
 	}
 
-	Tuple2f DeserializationParameterMap::AsTuple2f(Tuple2f def)
+	Tuple2f DeserializationParameterMap::AsTuple2f(Tuple2f def)const
 	{
 		RETURN_DEFAULT_IF_INVALID();
 
@@ -110,7 +126,7 @@ namespace playground
 		return Tuple2f(x, y);
 	}
 
-	Tuple3f DeserializationParameterMap::AsTuple3f(Tuple3f def)
+	Tuple3f DeserializationParameterMap::AsTuple3f(Tuple3f def)const
 	{
 		RETURN_DEFAULT_IF_INVALID();
 
@@ -120,7 +136,7 @@ namespace playground
 		return Tuple3f(x, y, z);
 	}
 
-	Tuple4f DeserializationParameterMap::AsTuple4f(Tuple4f def)
+	Tuple4f DeserializationParameterMap::AsTuple4f(Tuple4f def)const
 	{
 		RETURN_DEFAULT_IF_INVALID();
 
@@ -132,7 +148,7 @@ namespace playground
 	}
 
 
-	Vector4f DeserializationParameterMap::AsColor(Vector4f def)
+	Vector4f DeserializationParameterMap::AsColor(Vector4f def)const
 	{
 		RETURN_DEFAULT_IF_INVALID();
 
@@ -149,7 +165,7 @@ namespace playground
 		return Vector4f(r, g, b, a);
 	}
 
-	Tuple4f DeserializationParameterMap::AsColorTuple(Tuple4f def)
+	Tuple4f DeserializationParameterMap::AsColorTuple(Tuple4f def)const
 	{
 		RETURN_DEFAULT_IF_INVALID();
 
@@ -166,13 +182,13 @@ namespace playground
 		return Tuple4f(r, g, b, a);
 	}
 
-	float DeserializationParameterMap::AsRadian(float def)
+	float DeserializationParameterMap::AsRadian(float def)const
 	{
 		RETURN_DEFAULT_IF_INVALID();
 		return ToRadians(AsFloat(def));
 	}
 
-	std::string DeserializationParameterMap::AsFilepath(const std::string &def)
+	std::string DeserializationParameterMap::AsFilepath(const std::string &def)const
 	{
 		RETURN_DEFAULT_IF_INVALID();
 
@@ -187,7 +203,7 @@ namespace playground
 		return def;
 	}
 
-	void DeserializationParameterMap::AsHLSLType(void *out, const std::string &type)
+	void DeserializationParameterMap::AsHLSLType(void *out, const std::string &type)const
 	{
 #define COPY_INTO_BUFFER(s, T, f) if (type == s) { T v = f(); memcpy(out, &v, sizeof(T)); found = true; }
 		bool found = false;
@@ -201,9 +217,18 @@ namespace playground
 	}
 
 
-	bool DeserializationParameterMap::HasAttribute(const std::string &name)
+	bool DeserializationParameterMap::HasAttribute(const std::string &name)const
 	{
 		return meta.find(name) != meta.end();
+	}
+
+	std::string DeserializationParameterMap::GetAttribute(const std::string& name)const
+	{
+		if (!HasAttribute(name)) {
+			return "";
+		}
+
+		return meta.at(name);
 	}
 
 

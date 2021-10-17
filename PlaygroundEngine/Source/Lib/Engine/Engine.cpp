@@ -20,6 +20,8 @@
 #include "Engine/Physics/Physics.h"
 #include "Engine/World/World.h"
 
+#include "EngineReflection_Debug.reflgen.h"
+
 namespace playground
 {
 	struct SystemRegistration
@@ -162,6 +164,9 @@ namespace playground
 
 	bool InitializeEngine()
 	{
+		// Register reflection data before anything else.
+		EngineReflection_Debug_InitReflection();
+
 		RegisterSystems();
 
 		LogInfo(ENGINE_LOG_FILTER, "=============================================");
@@ -245,6 +250,8 @@ namespace playground
 		int numGameTickLoops = 0;
 		int elapsedTime = GetEngineElapsedTimeMilliseconds();
 		while (elapsedTime > NextGameTickTime && numGameTickLoops < UPDATE_GAME_MAX_FRAMESKIP) {
+			CheckDebugRendererSwitch();
+
 			// Calculate delta frame time and update game
 			const float deltaTime = (elapsedTime - LastUpdateGameTickTime) / 1000.0f;
 			UpdateGame(1.0f / UPDATE_GAME_TICKS_PER_SECOND);

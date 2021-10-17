@@ -4,21 +4,23 @@
 
 #include "GameComponent.h"
 
+#include "SkyboxComponent.reflgen.h"
+
 namespace playground
 {
 	class Skybox;
 
-	class SkyboxComponent : public GameComponentBase<GameComponentType::SKYBOX>
+	class REFLECTED SkyboxComponent : public GameComponentBase<GameComponentType::SKYBOX>
 	{
-	public:
-		virtual void Deserialize(DeserializationParameterMap &params) override;
+		GENERATED_REFLECTION_CODE();
 
+	public:
 		virtual void Activate() override;
 		virtual void Deactivate() override;
 
 		Skybox* GetSkybox();
 
 	private:
-		AssetID mSkyboxID;
+		AssetID mSkyboxID REFLECTED REFL_NAME("skybox");
 	};
 }

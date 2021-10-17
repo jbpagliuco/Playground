@@ -7,6 +7,10 @@ namespace playground
 	class NGATexture;
 	class NGASwapChain;
 
+	class NGAShaderResourceView;
+	class NGARenderTargetView;
+	class NGADepthStencilView;
+
 	class NGAShaderResourceView
 	{
 		NGA_GPU_CLASS(NGAShaderResourceView);
@@ -16,6 +20,10 @@ namespace playground
 		void Destruct();
 
 		bool IsConstructed()const;
+
+		bool PointsToSameResource(const NGAShaderResourceView& view)const;
+		bool PointsToSameResource(const NGARenderTargetView& view)const;
+		bool PointsToSameResource(const NGADepthStencilView& view)const;
 
 		bool operator==(const NGAShaderResourceView& other)const;
 		bool operator!=(const NGAShaderResourceView& other)const;
@@ -28,6 +36,8 @@ namespace playground
 #endif
 
 		friend class NGACommandContext;
+		friend class NGARenderTargetView;
+		friend class NGADepthStencilView;
 	};
 
 
@@ -44,6 +54,10 @@ namespace playground
 
 		bool IsConstructed()const;
 
+		bool PointsToSameResource(const NGAShaderResourceView& view)const;
+		bool PointsToSameResource(const NGARenderTargetView& view)const;
+		bool PointsToSameResource(const NGADepthStencilView& view)const;
+
 		bool operator==(const NGARenderTargetView& other)const;
 
 #if CORE_RENDER_API(DX11)
@@ -52,6 +66,8 @@ namespace playground
 #endif
 
 		friend class NGACommandContext;
+		friend class NGAShaderResourceView;
+		friend class NGADepthStencilView;
 	};
 
 
@@ -74,6 +90,10 @@ namespace playground
 
 		bool IsConstructed()const;
 
+		bool PointsToSameResource(const NGAShaderResourceView& view)const;
+		bool PointsToSameResource(const NGARenderTargetView& view)const;
+		bool PointsToSameResource(const NGADepthStencilView& view)const;
+
 		bool operator==(const NGADepthStencilView& other)const;
 
 #if CORE_RENDER_API(DX11)
@@ -82,5 +102,7 @@ namespace playground
 #endif
 
 		friend class NGACommandContext;
+		friend class NGAShaderResourceView;
+		friend class NGARenderTargetView;
 	};
 }

@@ -9,15 +9,9 @@
 
 namespace playground
 {
-	void CameraComponent::Deserialize(DeserializationParameterMap& params)
+	void CameraComponent::DeserializePost(const DeserializationParameterMap& params)
 	{
-		mCamera.mEnabled = params["enabled"].AsBool();
-		mCamera.mFOV = ToRadians(params["fov"].AsFloat());
-		mCamera.mNear = params["near"].AsFloat();
-		mCamera.mFar = params["far"].AsFloat();
-
-		if (params.HasChild("renderTarget")) {
-			mRenderTargetID = RequestAsset(params["renderTarget"].AsFilepath());
+		if (mRenderTargetID != INVALID_ASSET_ID) {
 			mCamera.mRenderTarget = RenderTarget::Get(mRenderTargetID);
 		}
 	}

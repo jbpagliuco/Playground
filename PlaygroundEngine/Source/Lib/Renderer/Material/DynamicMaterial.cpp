@@ -6,36 +6,18 @@
 
 namespace playground
 {
-	bool DynamicMaterial::Initialize(Shader *shader, size_t parameterByteLength, const DeserializationParameterMap &map, void *defaultParameterData, const std::vector<const Texture*> &defaultTextures)
+	bool DynamicMaterial::Initialize(Shader* shader, size_t parameterByteLength, const DynamicMaterialParameterMap& map, void* defaultParameterData, const std::vector<const Texture*>& defaultTextures)
 	{
 		if (!Material::Initialize(shader)) {
 			return false;
 		}
 
+		// Initialize writable constant buffer.
 		if (!mConstantBuffer.Initialize(ConstantBufferUsage::CPU_WRITE, nullptr, parameterByteLength)) {
 			return false;
 		}
 
-		// Build indexing maps
-		size_t curParameterByteOffset = 0;
-		int curTextureIndex = 0;
-		for (auto it : map.childrenArray) {
-			const std::string name = it.meta["name"];
-			const std::string type = it.meta["type"];
-
-			if (type == "texture") {
-				mTextureParameterMap[name] = curTextureIndex;
-				++curTextureIndex;
-			} else {
-				DynamicMaterialParameterInfo info;
-				info.mLength = GetFormatByteSize(GetFormatFromString(type.c_str()));
-				info.mOffset = curParameterByteOffset;
-
-				mParameterMap[name] = info;
-
-				curParameterByteOffset += info.mLength;
-			}
-		}
+		mParameterMap = map;
 
 		// Set default data
 		mDefaultParameterData = CORE_ALLOC(parameterByteLength);
@@ -77,19 +59,19 @@ namespace playground
 		}
 	}
 
-	bool DynamicMaterial::GetParameterInfo(DynamicMaterialParameterInfo &info, const std::string &name)
+	bool DynamicMaterial::GetParameterInfo(DynamicMaterialBufferParameter &info, const std::string &name)
 	{
-		CORE_ASSERT_RETURN_VALUE(mParameterMap.find(name) != mParameterMap.end(), false, "Failed to find parameter info for parameter '%s'", name);
+		CORE_ASSERT_RETURN_VALUE(mParameterMap.mBufferMap.find(name) != mParameterMap.mBufferMap.end(), false, "Failed to find parameter info for parameter '%s'", name.c_str());
 
-		info = mParameterMap[name];
+		info = mParameterMap.mBufferMap[name];
 		return true;
 	}
 
 	int DynamicMaterial::GetTextureParameterIndex(const std::string &name)
 	{
-		CORE_ASSERT_RETURN_VALUE(mTextureParameterMap.find(name) != mTextureParameterMap.end(), -1, "Failed to find texture index for parameter '%s'", name);
+		CORE_ASSERT_RETURN_VALUE(mParameterMap.mTextureMap.find(name) != mParameterMap.mTextureMap.end(), -1, "Failed to find texture index for parameter '%s'", name.c_str());
 
-		return mTextureParameterMap[name];
+		return mParameterMap.mTextureMap[name];
 	}
 
 	void* DynamicMaterial::GetDefaultParameterData()const
@@ -142,7 +124,7 @@ namespace playground
 
 	void DynamicMaterialInstance::SetFloatParameter(const std::string &name, float value)
 	{
-		DynamicMaterialParameterInfo paramInfo;
+		DynamicMaterialBufferParameter paramInfo;
 		if (mParent->GetParameterInfo(paramInfo, name)) {
 			CORE_ASSERT(paramInfo.mLength == sizeof(float), "Trying to set float data for a parameter of length %zu", paramInfo.mLength);
 			memcpy(mParameterData, &value, paramInfo.mLength);
@@ -151,7 +133,7 @@ namespace playground
 
 	void DynamicMaterialInstance::SetVectorParameter(const std::string &name, const Vector4f &value)
 	{
-		DynamicMaterialParameterInfo paramInfo;
+		DynamicMaterialBufferParameter paramInfo;
 		if (mParent->GetParameterInfo(paramInfo, name)) {
 			CORE_ASSERT(paramInfo.mLength == sizeof(Vector4f), "Trying to set vector data for a parameter of length %zu", paramInfo.mLength);
 			memcpy(mParameterData, &value, paramInfo.mLength);

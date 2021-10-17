@@ -4,8 +4,8 @@
 
 namespace playground
 {
-#define MATERIAL_TYPE_STATIC 0
-#define MATERIAL_TYPE_DYNAMIC 1
+	constexpr int MATERIAL_TYPE_STATIC = 0;
+	constexpr int MATERIAL_TYPE_DYNAMIC = 1;
 	
 	class Material
 	{

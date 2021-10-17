@@ -81,7 +81,7 @@ namespace playground
 			// Add this light to the list of shadow casters, if possible.
 			if (shadowCasterIndex < MAX_SHADOWMAPS) {
 				// Is this a shadow casting light?
-				if (light->mType == (int)LightType::DIRECTIONAL && light->mEnabled) {
+				if (light->mLightType == LightType::DIRECTIONAL && light->mEnabled) {
 					mShadowCastingLights[shadowCasterIndex] = light;
 					mShadowCastingLights[shadowCasterIndex]->mShadowCastingIndex = shadowCasterIndex;
 
@@ -100,6 +100,8 @@ namespace playground
 	
 	void ForwardRenderer::RenderSceneToBackBuffer(Scene &scene, const Camera &camera)
 	{
+		Playground_RendererStateManager->ClearAllUserResources();
+
 		NGARect r;
 		r.x = 0.0f;
 		r.y = 0.0f;
@@ -122,7 +124,7 @@ namespace playground
 		// Bind render target
 		RenderTarget* rt = (camera.mRenderTarget == nullptr) ? Playground_MainRenderTarget : camera.mRenderTarget;
 		rt->Bind();
-		rt->Clear(ColorF(COLOR_CORNFLOWERBLUE).vArray, true);
+		rt->Clear(ColorF(COLOR_CORNFLOWERBLUE).FloatArray(), true);
 
 		// Bind shadow map textures
 		const Texture &depthMap = mShadowMapBuilder.GetRenderTarget().GetDepthMap();

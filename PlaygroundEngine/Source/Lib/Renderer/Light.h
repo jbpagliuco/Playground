@@ -2,41 +2,48 @@
 
 #include <stdint.h>
 
+#include "Core/Reflection/ReflMarkup.h"
+
 #include "Core/Math/Matrix.h"
+#include "Core/Util/Color.h"
 #include "Core/Util/Util.h"
+
+#include "Light.reflgen.h"
 
 namespace playground
 {
-	enum class LightType
+	enum class REFLECTED LightType : int8_t
 	{
 		DIRECTIONAL = 0,
 		POINT = 1,
 		SPOT = 2
 	};
 
-	struct Light
+	struct REFLECTED Light
 	{
+		GENERATED_REFLECTION_CODE();
+
 		int32_t mType;
-		int32_t mEnabled;
-		float mIntensity;
-		int32_t mShadowCastingIndex = -1;
+		int32_t mEnabled					REFLECTED = 1;
+		float mIntensity					REFLECTED = 1.0f;
+		int32_t mShadowCastingIndex;
 
 		Tuple3<float> mPosition;
-		float _padding1;
+
+		LightType mLightType				REFLECTED;
+		int8_t _padding3;
+		int16_t _padding2;
 
 		Tuple3<float> mDirection;
-		float mRadius;
+		float mRadius						REFLECTED = 15.0f;
 
-		Tuple4<float> mColor;
+		ColorF mColor						REFLECTED;
 
-		float mSpotLightAngle;
-		float mConstantAttenuation;
-		float mLinearAttenuation;
-		float mQuadraticAttenuation;
+		float mSpotLightAngle				REFLECTED = 45.0f;
+		float mConstantAttenuation			REFLECTED;
+		float mLinearAttenuation			REFLECTED;
+		float mQuadraticAttenuation			REFLECTED;
 
 		Matrix GetViewProj()const;
 	};
-
-	Light* CreateLight(LightType type);
-	void DestroyLight(Light *pLight);
 }

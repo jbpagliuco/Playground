@@ -1,6 +1,7 @@
 #include "StaticMeshComponent.h"
 
 #include "Core/Streaming/Stream.h"
+#include "Core/Reflection/ReflSerialize.h"
 
 #include "Renderer/Material/Material.h"
 #include "Renderer/Material/DynamicMaterial.h"
@@ -12,12 +13,9 @@
 
 namespace playground
 {
-	void StaticMeshComponent::Deserialize(DeserializationParameterMap &params)
+	void StaticMeshComponent::DeserializePost(const DeserializationParameterMap& params)
 	{
-		mMeshID = RequestAsset(params["mesh"].AsFilepath());
-
-		AssetID materialID = RequestAsset(params["material"].AsFilepath());
-		mMaterialAsset = GetMaterialByAssetID(materialID);
+		mMaterialAsset = GetMaterialByAssetID(mMaterialID);
 		
 		Mesh* mesh = Mesh::Get(mMeshID);
 		MaterialContainer& materialContainer = mMaterialAsset->GetMaterialContainer();
@@ -30,18 +28,41 @@ namespace playground
 			// Create the dynamic instance
 			materialContainer.CreateDynamicMaterialInstance();
 
-			for (auto &overrideParam : materialParams["overrides"].childrenArray) {
-				const std::string type = overrideParam.meta["type"];
+			DynamicMaterialAsset* dynamicMaterial = static_cast<DynamicMaterialAsset*>(mMaterialAsset);
 
-				if (type == "texture") {
-					mMaterialAsset->SetTextureParameter(overrideParam.meta["name"], overrideParam.AsFilepath());
+			for (auto& overrideParam : materialParams["overrides"].childrenArray) {
+				MaterialParameterOverride materialOverride;
+				ReflectionDeserialize(MaterialParameterOverride::StaticClass(), &materialOverride, overrideParam);
+
+				switch (materialOverride.mType) {
+				case MaterialParameterType::FLOAT:
+					dynamicMaterial->SetFloatParameter(materialOverride.mName, materialOverride.mFloat);
+					break;
+
+				case MaterialParameterType::VECTOR:
+					dynamicMaterial->SetVectorParameter(materialOverride.mName, materialOverride.mVector);
+					break;
+
+				case MaterialParameterType::TEXTURE:
+				{
+					dynamicMaterial->SetTextureParameter(materialOverride.mName, materialOverride.mAssetId);
+
+					// Release our reference to this asset immediately. The material will still hold a reference.
+					ReleaseAsset(materialOverride.mAssetId);
+					break;
 				}
-				else if (type == "renderTarget") {
-					mMaterialAsset->SetRenderTargetParameter(overrideParam.meta["name"], overrideParam.AsFilepath(), overrideParam.meta["map"] == "color");
+
+				case MaterialParameterType::RENDER_TARGET:
+				case MaterialParameterType::RENDER_TARGET_DEPTH:
+				{
+					const bool useColorMap = materialOverride.mType == MaterialParameterType::RENDER_TARGET;
+					dynamicMaterial->SetRenderTargetParameter(materialOverride.mName, materialOverride.mAssetId, useColorMap);
+
+					// Release our reference to this asset immediately. The material will still hold a reference.
+					ReleaseAsset(materialOverride.mAssetId);
+					break;
 				}
-				else {
-					CORE_ASSERT(false, "Type %s not implemented.", type.c_str());
-				}
+				};
 			}
 		}
 	}

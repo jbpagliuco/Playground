@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/Math/Transform.h"
+#include "Core/Reflection/ReflMarkup.h"
 
 #include "PhysicsShape.h"
 
@@ -14,7 +15,7 @@ namespace playground
 {
 	class PhysicsMaterial;
 
-	enum class PhysicsMotionType
+	enum class REFLECTED PhysicsMotionType : uint8_t
 	{
 		STATIC,
 		DYNAMIC

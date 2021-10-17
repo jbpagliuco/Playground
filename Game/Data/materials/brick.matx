@@ -1,24 +1,37 @@
 <?xml version="1.0"?>
 
 <root>
-    <shaderFile>normal_map.shaderx</shaderFile>
-	<parameters>
-		<parameter name="diffuse" type="color">
-			<r>1.0</r>
-			<g>1.0</g>
-			<b>1.0</b>
-		</parameter>
-		<parameter name="specular" type="color">
-			<r>0.0</r>
-			<g>0.0</g>
-			<b>0.0</b>
-			<a>1.0</a>
-		</parameter>
-		<parameter name="DiffuseTexture" type="texture">
-			brick_diff.dds
-		</parameter>
-		<parameter name="NormalTexture" type="texture">
-			brick_norm.dds
-		</parameter>
-	</parameters>
+	<shader>normal_map.shaderx</shader>
+	<mParameters>
+		<element>
+			<mName>diffuse</mName>
+			<mType>COLOR</mType>
+			<mValue>
+				<r>1.0</r>
+				<g>1.0</g>
+				<b>1.0</b>
+			</mValue>
+		</element>
+		<element>
+			<mName>specular</mName>
+			<mType>COLOR</mType>
+			<mValue>
+				<r>0.0</r>
+				<g>0.0</g>
+				<b>0.0</b>
+				<a>1.0</a>
+			</mValue>
+		</element>
+		<element>
+			<mName>DiffuseTexture</mName>
+			<mType>TEXTURE</mType>
+			<mValue>brick_diff.dds</mValue>
+		</element>
+		<element>
+			<mName>NormalTexture</mName>
+			<mType>TEXTURE</mType>
+			<mValue>brick_norm.dds</mValue>
+		</element>
+	</mParameters>
+	<mIsDynamic>true</mIsDynamic>
 </root>

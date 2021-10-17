@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<root>
+	<shader>tex_map.shaderx</shader>
+	<mParameters>
+		<element>
+			<mName>diffuse</mName>
+			<mType>COLOR</mType>
+			<mValue>
+				<r>1.0</r>
+				<g>1.0</g>
+				<b>1.0</b>
+			</mValue>
+		</element>
+		<element>
+			<mName>specular</mName>
+			<mType>COLOR</mType>
+			<mValue>
+				<r>0.0</r>
+				<g>0.0</g>
+				<b>0.0</b>
+				<a>1.0</a>
+			</mValue>
+		</element>
+		<element>
+			<mName>DiffuseTexture</mName>
+			<mType>RENDER_TARGET</mType>
+			<mValue>test_render_target.rtx</mValue>
+		</element>
+	</mParameters>
+</root>

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 namespace playground
 {
@@ -44,4 +45,7 @@ namespace playground
 	void StrTrim(std::string &s);
 
 	std::wstring StrToWideString(const std::string &s);
+
+	// Splits a string by the delimiter.
+	std::vector<std::string> StrSplit(const std::string& string, const std::string& delimiter);
 }

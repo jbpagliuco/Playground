@@ -11,10 +11,16 @@
 .ProjectName        = 'Game'
 .ProjectBasePath    = '$GameSourcePath$'
 .ProjectIncludePaths = {
+    '.'
+    'GeneratedCode'
     '../../../PlaygroundEngine/Source/Lib'
     '../../../PlaygroundEngine/Source/Lib/Core'
+    '../../../PlaygroundEngine/Source/Lib/Core/GeneratedCode'
     '../../../PlaygroundEngine/Source/Lib/Engine'
+    '../../../PlaygroundEngine/Source/Lib/Engine/GeneratedCode'
     '../../../PlaygroundEngine/Source/Lib/Renderer'
+    '../../../PlaygroundEngine/Source/Lib/Renderer/GeneratedCode'
+    '../../../PlaygroundEngine/Source/Vendor/CppRefl/include'
 }
 .ProjectLibraryPaths = {
     '$PlaygroundBasePath$/Source/Vendor'
@@ -23,6 +29,7 @@
 
 #include "../../../PlaygroundEngine/Source/Lib/ProjectConfig/Common.bff"
 #include "../../../PlaygroundEngine/Source/Lib/ProjectConfig/PlatformConfig_x64.bff"
+#include "../../../PlaygroundEngine/Source/Lib/ProjectConfig/Reflection.bff"
 
 .AllConfigs = .Allx64Configs
 
@@ -44,19 +51,40 @@ Copy('$ProjectName$-Copy-DLLs')
     .Dest = .GameBasePath
 }
 
+ForEach(.config in .AllReflConfigs) {
+    Using(.config)
+
+    Exec('$TargetName$-refl') { 
+        .OldExecArguments = .ExecArguments
+        .ExecArguments = '-registries '
+        .ExecArguments + '../../../PlaygroundEngine/Source/Lib/Core/CoreReflection_$Config$.refl;'
+        .ExecArguments + '../../../PlaygroundEngine/Source/Lib/Engine/EngineReflection_$Config$.refl;'
+        .ExecArguments + '../../../PlaygroundEngine/Source/Lib/Renderer/RendererReflection_$Config$.refl '
+        .ExecArguments + .OldExecArguments
+
+        .PreBuildDependencies = {
+            'Core-$Config$-refl'
+            'Renderer-$Config$-refl'
+            'Engine-$Config$-refl'
+        }
+    }
+}
+
 // Executables
 ForEach(.config in .AllConfigs) {
     Using(.config)
 
-    ObjectList('$TargetName$-lib') { }
+    ObjectList('$TargetName$-lib') {
+        .PreBuildDependencies = '$ProjectName$-$Config$-refl'
+    }
 
     Executable('$TargetName$-exe')
     { 
         .Libraries = {
-            'Core-$Platform$-$Config$-lib'
-            'Renderer-$Platform$-$Config$-lib'
-            'Engine-$Platform$-$Config$-lib'
-            'Game-$Platform$-$Config$-lib'
+            'Core-$Platform$-$Config$'
+            'Renderer-$Platform$-$Config$'
+            'Engine-$Platform$-$Config$'
+            '$TargetName$-lib'
         }
         // .LinkerLinkObjects = true
     }
@@ -67,6 +95,7 @@ ForEach(.config in .AllConfigs) {
 
     Alias('$TargetName$') {
         .Targets = {
+            '$ProjectName$-$Config$-refl'
             '$TargetName$-exe',
             '$ProjectName$-Copy-DLLs',
         }
@@ -94,6 +123,7 @@ VCXProject('GameData-proj')
         '*.matx'
         '*.shaderx'
         '*.hlsl'
+        '*.hlsli'
 
         '*.texx'
         '*.rtx'
@@ -106,6 +136,52 @@ VCXProject('GameData-proj')
     }
 }
 
+// Reflection project (ideally this would just hook into the normal build process, but it seems to be much more complicated than I'd hoped).
+Alias('refl')
+{
+    .Targets = {
+        'Core-Debug-refl'
+        'Renderer-Debug-refl'
+        'Engine-Debug-refl'
+        'Game-Debug-refl'
+    }
+}
+
+.GameReflectionProjectConfigs = { }
+ForEach(.config in .AllProjectConfigs) {
+    .Config = [
+        Using(.config)
+        .ProjectBuildCommand        = '$FBuildBaseCommand$ -clean -verbose "refl"'
+        .ProjectRebuildCommand      = '$FBuildBaseCommand$ -clean "refl"'
+        .ProjectCleanCommand        = '$FBuildBaseCommand$ -clean "refl"'
+    ]
+    ^GameReflectionProjectConfigs + .Config
+}
+VCXProject('GameReflection-proj')
+{
+    .ProjectOutput          = '$ProjectBasePath$/GameReflection.vcxproj'
+    .ProjectInputPaths      = { '$ProjectBasePath$' }
+    .ProjectConfigs         = .GameReflectionProjectConfigs
+}
+
+// Solution
+.BuildSolutionProjectConfigs = { }
+ForEach(.config in .AllProjectConfigs) {
+    .Config = [
+        Using(.config)
+            .ProjectBuildCommand        = '$FBuildBaseCommand$ "sln"'
+            .ProjectRebuildCommand      = '$FBuildBaseCommand$ -clean "sln"'
+            .ProjectCleanCommand        = '$FBuildBaseCommand$ -clean "sln"'
+    ]
+    ^BuildSolutionProjectConfigs + .Config
+}
+VCXProject('RebuildSolution-proj')
+{
+    .ProjectOutput      = '$ProjectBasePath$/RebuildSolution.vcxproj'
+    .ProjectInputPaths  = { '$ProjectBasePath$' }
+    .ProjectConfigs     = .BuildSolutionProjectConfigs
+}
+
 VSSolution('Playground-sln')
 {
     .SolutionName       = 'Playground'
@@ -116,7 +192,10 @@ VSSolution('Playground-sln')
     .SolutionConfigs    = { }
     ForEach(.platform in .AllPlatformNames) {
         ForEach(.config in .AllConfigNames) {
-            .SolutionConfig = [ .Platform = .platform .Config = .config ]
+            .SolutionConfig = [ 
+                .Platform = .platform 
+                .Config = .config
+            ]
             ^SolutionConfigs + .SolutionConfig
         }
     }
@@ -124,6 +203,8 @@ VSSolution('Playground-sln')
     .SolutionProjects = {
         'Game-proj'
         'GameData-proj'
+        'GameReflection-proj'
+        'RebuildSolution-proj'
     }
 
     .EngineFolder = [
@@ -131,14 +212,14 @@ VSSolution('Playground-sln')
         .Projects   = { 
             'Core-proj'
             'Engine-proj'
+            'EngineData-proj'
             'ProjectConfig-proj'
             'Renderer-proj'
         }
     ]
     .SolutionFolders = { .EngineFolder }
-
-    .SolutionBuildProjects = '$ProjectName$-proj'
-    .SolutionDeployProjects = '$ProjectName$-proj'
+            
+    .SolutionBuildProject = 'Game-proj'
 }
 
 

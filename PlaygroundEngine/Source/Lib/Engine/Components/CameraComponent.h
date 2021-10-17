@@ -2,15 +2,20 @@
 
 #include "GameComponent.h"
 
+#include "Core/Reflection/ReflMarkup.h"
 #include "Renderer/Resources/Texture.h"
 #include "Renderer/Scene/Camera.h"
 
+#include "CameraComponent.reflgen.h"
+
 namespace playground
 {
-	class CameraComponent : public GameComponentBase<GameComponentType::CAMERA>
+	class REFLECTED CameraComponent : public GameComponentBase<GameComponentType::CAMERA>
 	{
+		GENERATED_REFLECTION_CODE();
+
 	public:
-		virtual void Deserialize(DeserializationParameterMap &params) override;
+		virtual void DeserializePost(const DeserializationParameterMap& params) override;
 
 		virtual void Activate() override;
 		virtual void Deactivate() override;
@@ -18,7 +23,7 @@ namespace playground
 		virtual void UpdateLate(float deltaTime) override;
 
 	private:
-		Camera mCamera;
-		AssetID mRenderTargetID = INVALID_ASSET_ID;
+		Camera mCamera				REFLECTED;
+		AssetID mRenderTargetID		REFLECTED REFL_NAME("renderTarget") = INVALID_ASSET_ID;
 	};
 }

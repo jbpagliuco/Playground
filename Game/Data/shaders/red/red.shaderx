@@ -4,31 +4,23 @@
 	<header>
 		<version>2</version>
 	</header>
-	
-	<file>red.hlsl</file>
 
-	<vertexShader>
-		<inputs>
-			<input>
-				<type>float3</type>
-				<semanticName>POSITION</semanticName>
-			</input>
-			<input>
-				<type>float3</type>
-				<semanticName>NORMAL</semanticName>
-			</input>
-			<input>
-				<type>float2</type>
-				<semanticName>TEXCOORD</semanticName>
-			</input>
-		</inputs>
-	</vertexShader>
+	<mFilename>red.hlsl</mFilename>
 
-    <pixelShader>
-    </pixelShader>
-
-	<cbuffer>
-		<field name="diffuse" type="float4" />
-		<field name="specular" type="float4" />
-	</cbuffer>
+	<mVertexFormatDesc>
+		<mAttributes>
+			<element>
+				<mFormat>float3</mFormat>
+				<mSemanticType>POSITION</mSemanticType>
+			</element>
+			<element>
+				<mFormat>float3</mFormat>
+				<mSemanticType>NORMAL</mSemanticType>
+			</element>
+			<element>
+				<mFormat>float2</mFormat>
+				<mSemanticType>TEXCOORD</mSemanticType>
+			</element>
+		</mAttributes>
+	</mVertexFormatDesc>
 </root>

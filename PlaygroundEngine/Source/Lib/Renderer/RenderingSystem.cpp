@@ -21,6 +21,8 @@
 #include "Renderer/Scene/Scene.h"
 #include "Renderer/Shader/Shader.h"
 
+#include "RendererReflection_Debug.reflgen.h"
+
 namespace playground
 {
 	static constexpr int MAX_FRAMERATE = 1000;
@@ -83,6 +85,9 @@ namespace playground
 
 	bool RenderingSystemInit()
 	{
+		// Initialize reflection before anything else.
+		RendererReflection_Debug_InitReflection();
+
 		RenderFrameTimer.Start((int)((1.0f / MAX_FRAMERATE) * 1000.0f));
 
 		constexpr int width = 1600;

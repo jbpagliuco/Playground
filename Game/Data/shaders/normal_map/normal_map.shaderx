@@ -4,30 +4,27 @@
 	<header>
 		<version>2</version>
 	</header>
+
+	<mFilename>normal_map.hlsl</mFilename>
 	
-	<file>normal_map.hlsl</file>
-	
-    <vertexShader>
-        <inputs>
-            <input>
-                <type>float3</type>
-                <semanticName>POSITION</semanticName>
-            </input>
-            <input>
-                <type>float3</type>
-                <semanticName>NORMAL</semanticName>
-            </input>
-            <input>
-                <type>float2</type>
-                <semanticName>TEXCOORD</semanticName>
-            </input>
-			<input>
-				<type>float3</type>
-				<semanticName>TANGENT</semanticName>
-			</input>
-        </inputs>
-    </vertexShader>
-	
-    <pixelShader>
-    </pixelShader>
+    <mVertexFormatDesc>
+		<mAttributes>
+            <element>
+                <mFormat>float3</mFormat>
+                <mSemanticType>POSITION</mSemanticType>
+            </element>
+            <element>
+                <mFormat>float3</mFormat>
+                <mSemanticType>NORMAL</mSemanticType>
+            </element>
+            <element>
+                <mFormat>float2</mFormat>
+                <mSemanticType>TEXCOORD</mSemanticType>
+            </element>
+		    <element>
+			    <mFormat>float3</mFormat>
+			    <mSemanticType>TANGENT</mSemanticType>
+		    </element>
+		</mAttributes>
+    </mVertexFormatDesc>
 </root>

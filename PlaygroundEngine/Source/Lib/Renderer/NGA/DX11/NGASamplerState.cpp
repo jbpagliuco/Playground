@@ -18,10 +18,10 @@ namespace playground
 		dxdesc.MipLODBias = 0.0f;
 		dxdesc.MaxAnisotropy = 1;
 		dxdesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
-		dxdesc.BorderColor[0] = desc.mBorderColor.x;
-		dxdesc.BorderColor[1] = desc.mBorderColor.y;
-		dxdesc.BorderColor[2] = desc.mBorderColor.z;
-		dxdesc.BorderColor[3] = desc.mBorderColor.w;
+		dxdesc.BorderColor[0] = desc.mBorderColor.r;
+		dxdesc.BorderColor[1] = desc.mBorderColor.g;
+		dxdesc.BorderColor[2] = desc.mBorderColor.b;
+		dxdesc.BorderColor[3] = desc.mBorderColor.a;
 		dxdesc.MinLOD = 0;
 		dxdesc.MaxLOD = D3D11_FLOAT32_MAX;
 

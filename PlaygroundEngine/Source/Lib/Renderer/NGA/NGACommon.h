@@ -10,9 +10,12 @@
 #endif
 
 #include "Core/Debug/Assert.h"
+#include "Core/Reflection/ReflMarkup.h"
 #include "Core/Util/BitUtil.h"
 
 #include "NGA/NGAPipelineStateDefs.h"
+
+#include "NGACommon.reflgen.h"
 
 
 #define NGA_GPU_CLASS(ClassName)								\
@@ -29,13 +32,13 @@
 
 namespace playground
 {
-	enum class NGAFormat
+	enum class REFLECTED NGAFormat : uint8_t
 	{
 		// Color formats
-		R32_FLOAT = 0,
-		R32G32_FLOAT,
-		R32G32B32_FLOAT,
-		R32G32B32A32_FLOAT,
+		R32_FLOAT					REFL_NAME("float") = 0,
+		R32G32_FLOAT				REFL_NAME("float2"),
+		R32G32B32_FLOAT				REFL_NAME("float3"),
+		R32G32B32A32_FLOAT			REFL_NAME("float4"),
 
 		R16_FLOAT,
 		R16G16_FLOAT,
@@ -61,7 +64,7 @@ namespace playground
 		SIZE
 	};
 
-	enum class NGAUsage
+	enum class REFLECTED NGAUsage : uint8_t
 	{
 		IMMUTABLE = 0,
 		GPU_WRITE,
@@ -90,7 +93,7 @@ namespace playground
 	};
 	CORE_DEFINE_ENUM_FLAG_OPERATORS(NGATextureBindFlags);
 
-	enum class NGATextureFilter
+	enum class REFLECTED NGATextureFilter : uint8_t
 	{
 #if CORE_RENDER_API(DX11)
 		MIN_MAG_MIP_POINT = D3D11_FILTER_MIN_MAG_MIP_POINT,
@@ -107,7 +110,7 @@ namespace playground
 #endif
 	};
 
-	enum class NGATextureAddressMode
+	enum class REFLECTED NGATextureAddressMode : uint8_t
 	{
 #if CORE_RENDER_API(DX11)
 		WRAP = D3D11_TEXTURE_ADDRESS_WRAP,
@@ -121,7 +124,7 @@ namespace playground
 
 
 
-	enum class NGAVertexSemanticType
+	enum class REFLECTED NGAVertexSemanticType : uint8_t
 	{
 		POSITION,
 		NORMAL,
@@ -133,17 +136,23 @@ namespace playground
 		UNKNOWN
 	};
 
-	struct NGAVertexAttribute
+	struct REFLECTED NGAVertexAttribute
 	{
-		NGAFormat mFormat;
-		NGAVertexSemanticType mSemanticType;
-		int mSemanticIndex;
-		int mOffset;
+		GENERATED_REFLECTION_CODE();
+
+	public:
+		NGAFormat mFormat						REFLECTED;
+		NGAVertexSemanticType mSemanticType		REFLECTED;
+		int mSemanticIndex						REFLECTED;
+		int mOffset								REFLECTED;
 	};
 
-	struct NGAVertexFormatDesc
+	struct REFLECTED NGAVertexFormatDesc
 	{
-		std::vector<NGAVertexAttribute> mAttributes;
+		GENERATED_REFLECTION_CODE();
+
+	public:
+		std::vector<NGAVertexAttribute> mAttributes REFLECTED;
 	};
 
 	/////////////////////////////////////////////////////////////////////////

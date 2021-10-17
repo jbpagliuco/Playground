@@ -1,17 +1,36 @@
 #pragma once
 
+#include "Core/Reflection/ReflMarkup.h"
 #include "Renderer/Scene/Renderables/MeshInstance.h"
 
-#include "GameComponent.h"
+#include "Engine/Assets/MaterialAsset.h"
+#include "Engine/Components/GameComponent.h"
+
+#include "StaticMeshComponent.reflgen.h"
 
 namespace playground
 {
 	class MaterialAsset;
 
-	class StaticMeshComponent : public GameComponentBase<GameComponentType::STATIC_MESH>
+	struct REFLECTED MaterialParameterOverride
 	{
+		GENERATED_REFLECTION_CODE();
+
 	public:
-		virtual void Deserialize(DeserializationParameterMap &params) override;
+		std::string mName						REFLECTED;
+		MaterialParameterType mType				REFLECTED;
+
+		float mFloat		REFL_ENUM_MATCH("mValue", mType, FLOAT);
+		Vector4f mVector	REFL_ENUM_MATCH("mValue", mType, VECTOR);
+		AssetID mAssetId	REFL_ENUM_MATCH("mValue", mType, TEXTURE, RENDER_TARGET, RENDER_TARGET_DEPTH) = INVALID_ASSET_ID;
+	};
+
+	class REFLECTED StaticMeshComponent : public GameComponentBase<GameComponentType::STATIC_MESH>
+	{
+		GENERATED_REFLECTION_CODE();
+
+	public:
+		virtual void DeserializePost(const DeserializationParameterMap& params) override;
 
 		virtual void Activate() override;
 		virtual void Deactivate() override;
@@ -19,7 +38,9 @@ namespace playground
 		virtual void UpdateLate(float deltaTime) override;
 
 	private:
-		AssetID mMeshID;
+		AssetID mMeshID			REFLECTED REFL_NAME("mesh") = INVALID_ASSET_ID;
+		AssetID mMaterialID		REFLECTED REFL_NAME("material") = INVALID_ASSET_ID;
+
 		MaterialAsset *mMaterialAsset;
 
 		MeshInstance mMeshInstance;

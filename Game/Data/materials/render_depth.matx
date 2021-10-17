@@ -1,10 +1,12 @@
 <?xml version="1.0"?>
 
 <root>
-    <shaderFile>render_depth.shaderx</shaderFile>
-	<parameters>
-		<parameter name="DiffuseTexture" type="renderTarget" map="depth">
-			:shadowMap
-		</parameter>
-	</parameters>
+	<shader>render_depth.shaderx</shader>
+	<mParameters>
+		<element>
+			<mName>DiffuseTexture</mName>
+			<mType>RENDER_TARGET_DEPTH</mType>
+			<mValue>test_render_target.dds</mValue>
+		</element>
+	</mParameters>
 </root>

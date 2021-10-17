@@ -8,5 +8,5 @@
 // ]
 
 ForEach(.include in .IncludesArray) {
-	^Includes + ' -I "$include$" '
+	^Includes + ' -I"$include$" '
 }

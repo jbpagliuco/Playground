@@ -12,16 +12,25 @@ namespace playground
 	class RenderTarget;
 	class Texture;
 
-	struct DynamicMaterialParameterInfo
+	struct DynamicMaterialBufferParameter
 	{
 		size_t mOffset;
 		size_t mLength;
 	};
 
+	struct DynamicMaterialParameterMap
+	{
+		// Maps a constant buffer parameter name to its buffer info.
+		std::map<std::string, DynamicMaterialBufferParameter> mBufferMap;
+
+		// Maps a texture parameter name to its index.
+		std::map<std::string, int> mTextureMap;
+	};
+
 	class DynamicMaterial : public Material
 	{
 	public:
-		virtual bool Initialize(Shader *shader, size_t parameterByteLength, const DeserializationParameterMap &map, void *defaultParameterData, const std::vector<const Texture*> &defaultTextures);
+		virtual bool Initialize(Shader* shader, size_t parameterByteLength, const DynamicMaterialParameterMap& map, void* defaultParameterData, const std::vector<const Texture*>& defaultTextures);
 		virtual void Shutdown() override;
 
 		virtual void Bind() override;
@@ -29,7 +38,7 @@ namespace playground
 		virtual int GetMaterialType()const override { return MATERIAL_TYPE_DYNAMIC; }
 
 	protected:
-		bool GetParameterInfo(DynamicMaterialParameterInfo &info, const std::string &name);
+		bool GetParameterInfo(DynamicMaterialBufferParameter &info, const std::string &name);
 		int GetTextureParameterIndex(const std::string &name);
 
 		void* GetDefaultParameterData()const;
@@ -38,8 +47,7 @@ namespace playground
 		ConstantBuffer mConstantBuffer;
 
 	private:
-		std::map<std::string, DynamicMaterialParameterInfo> mParameterMap;
-		std::map<std::string, int> mTextureParameterMap;
+		DynamicMaterialParameterMap mParameterMap;
 
 		void *mDefaultParameterData;
 		std::vector<const Texture*> mDefaultTextures;

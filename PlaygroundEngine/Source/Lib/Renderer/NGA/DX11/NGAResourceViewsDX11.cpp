@@ -13,6 +13,29 @@ namespace playground
 	NGA_GPU_CLASS_IMPLEMENT(NGARenderTargetView);
 	NGA_GPU_CLASS_IMPLEMENT(NGADepthStencilView);
 
+
+	template <typename T1, typename T2>
+	static bool ViewsPointToSameResource(T1* view1, T2* view2)
+	{
+		if (view1 == nullptr || view2 == nullptr) {
+			return false;
+		}
+
+		ID3D11Resource* resource1;
+		view1->GetResource(&resource1);
+
+		ID3D11Resource* resource2;
+		view2->GetResource(&resource2);
+
+		const bool same = resource1 == resource2;
+
+		resource1->Release();
+		resource2->Release();
+
+		return same;
+	}
+
+
 	bool NGAShaderResourceView::Construct(const NGATexture &texture)
 	{
 		CORE_ASSERT_RETURN_VALUE(!IsConstructed(), false);
@@ -75,6 +98,21 @@ namespace playground
 	bool NGAShaderResourceView::operator!=(const NGAShaderResourceView& other)const
 	{
 		return mView != other.mView;
+	}
+
+	bool NGAShaderResourceView::PointsToSameResource(const NGAShaderResourceView& view)const
+	{
+		return ViewsPointToSameResource(mView, view.mView);
+	}
+
+	bool NGAShaderResourceView::PointsToSameResource(const NGARenderTargetView& view)const
+	{
+		return ViewsPointToSameResource(mView, view.mView);
+	}
+
+	bool NGAShaderResourceView::PointsToSameResource(const NGADepthStencilView& view)const
+	{
+		return ViewsPointToSameResource(mView, view.mView);
 	}
 
 	void NGAShaderResourceView::GenerateMips()const
@@ -174,6 +212,21 @@ namespace playground
 		return mView == other.mView;
 	}
 
+	bool NGARenderTargetView::PointsToSameResource(const NGAShaderResourceView& view)const
+	{
+		return ViewsPointToSameResource(mView, view.mView);
+	}
+
+	bool NGARenderTargetView::PointsToSameResource(const NGARenderTargetView& view)const
+	{
+		return ViewsPointToSameResource(mView, view.mView);
+	}
+
+	bool NGARenderTargetView::PointsToSameResource(const NGADepthStencilView& view)const
+	{
+		return ViewsPointToSameResource(mView, view.mView);
+	}
+
 
 
 	NGADepthStencilView::NGADepthStencilView(NGADepthStencilView&& view) noexcept :
@@ -243,6 +296,21 @@ namespace playground
 	bool NGADepthStencilView::IsConstructed()const
 	{
 		return mView != nullptr;
+	}
+
+	bool NGADepthStencilView::PointsToSameResource(const NGAShaderResourceView& view)const
+	{
+		return ViewsPointToSameResource(mView, view.mView);
+	}
+
+	bool NGADepthStencilView::PointsToSameResource(const NGARenderTargetView& view)const
+	{
+		return ViewsPointToSameResource(mView, view.mView);
+	}
+
+	bool NGADepthStencilView::PointsToSameResource(const NGADepthStencilView& view)const
+	{
+		return ViewsPointToSameResource(mView, view.mView);
 	}
 
 	bool NGADepthStencilView::operator==(const NGADepthStencilView& other)const

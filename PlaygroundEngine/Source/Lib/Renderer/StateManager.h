@@ -22,6 +22,9 @@ namespace playground
 
 	struct Rect;
 
+	constexpr int MAX_NUM_USER_SHADER_RESOURCES = 4;
+	constexpr int MAX_NUM_USER_SAMPLER_STATES = MAX_NUM_USER_SHADER_RESOURCES;
+
 	enum class ShaderConstantBuffers
 	{
 		PERFRAME = 0,
@@ -58,7 +61,9 @@ namespace playground
 
 		bool Initialize();
 		void Shutdown();
-		
+
+		void ClearAllUserResources();
+
 		void SetPerFrameData(const Matrix &cameraViewProj, Matrix lightViewProj[MAX_SHADOWMAPS], int numShadowCasters);
 		void SetObjectTransform(const Matrix &transform);
 

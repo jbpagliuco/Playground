@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
 
 <root>
-    <shaderFile>data\shaders\tex_debug\tex_debug.shaderx</shaderFile>
+	<shader>tex_debug.shaderx</shader>
 </root>

@@ -80,7 +80,7 @@ namespace playground
 
 		// Setup render target
 		mRenderTarget.Bind(slice);
-		mRenderTarget.Clear(ColorF(COLOR_WHITE).vArray, true, slice);
+		mRenderTarget.Clear(ColorF(COLOR_WHITE).FloatArray(), true, slice);
 
 		// Render objects from the view point of the light
 		for (auto& r : scene.GetRenderables()) {

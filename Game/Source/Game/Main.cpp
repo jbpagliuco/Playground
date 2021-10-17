@@ -2,10 +2,13 @@
 
 #include <Windows.h>
 
+#include "Core/Debug/Assert.h"
 #include "Core/Debug/Log.h"
 #include "Core/Util/Serialize.h"
 #include "Engine/Engine.h"
 #include "Engine/World/World.h"
+
+#include "GameReflection_Debug.reflgen.h"
 
 #if CORE_BUILD_TYPE(TOOLS)
 #include "Tools.h"
@@ -15,13 +18,24 @@
 
 static int GameMain()
 {
+	// Initialize reflection
+	const bool imported = refl::GetSystemRegistry().Import("Source/Game/GameReflection_Debug.refl");
+	CORE_ASSERT_RETURN_VALUE(imported, 1, "Failed to import reflection.");
+
+	GameReflection_Debug_InitReflection();
+
+	// Load config
 	playground::DeserializationParameterMap config = playground::ParseFile("data/config.xml");
 
-	// Initialize
+	// Initialize engine
 	if (playground::InitializeEngine() == false) {
 		return EXIT_FAILURE;
 	}
+
+	// Make sure all reflected functions are bound.
+	refl::GetSystemRegistry().EnsureFunctionsAreBound();
 	
+	// Load world.
 	playground::LoadWorldFromFile(config["world"].AsString());
 
 	// Run

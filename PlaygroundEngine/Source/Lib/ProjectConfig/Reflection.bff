@@ -1,0 +1,76 @@
+#include "Common.bff"
+
+// Creates base refl configs.
+.AllReflConfigs = { }
+ForEach(.baseConfig in .AllBaseConfigs) {
+	.Config = [
+		// Include base config
+		Using(.BaseConfig)
+
+		// Include build/render configs (just use DX11 for all platforms, doesn't really matter right now)
+		Using(.baseConfig)
+		Using(.DX11BaseConfig)
+
+		.DefinesArray + .ConfigDefinesArray
+		.DefinesArray + .RenderConfigDefinesArray
+
+		.TargetName = '$ProjectName$-$Config$'
+
+		.ReflFilestem = '$ProjectName$Reflection_$Config$'
+
+		.ExecExecutable = '$PlaygroundVendorPath$/CppRefl/Lib/Release/CppReflCompiler.exe'
+		.ExecInput = '$ProjectBasePath$/$ProjectName$Reflection.cpp'
+		.ExecOutput = '$ProjectBasePath$/$ReflFilestem$.refl'
+
+		.ExecArguments = '-entry %1 '
+		.ExecArguments + '-generatedOutput $ProjectBasePath$\GeneratedCode '
+		.ExecArguments + '-projectPath $ProjectBasePath$ '
+		.ExecArguments + '-projectName $ReflFilestem$ '
+		.ExecArguments + '-clang '
+		#include "CreateCompilerOptions.bff"
+		.ExecArguments + .CompilerOptions
+	]
+
+	^AllReflConfigs + .Config
+}
+
+
+.AllReflConfigs2 = { }
+ForEach(.baseConfig in .AllBaseConfigs) {
+	.Config = [
+		// Include base config
+		Using(.BaseConfig)
+
+		// Include build/render configs (just use DX11 for all platforms, doesn't really matter right now)
+		Using(.baseConfig)
+		Using(.DX11BaseConfig)
+
+		.DefinesArray + .ConfigDefinesArray
+		.DefinesArray + .RenderConfigDefinesArray
+
+		.TargetName = '$ProjectName$-$Config$'
+
+		.ReflFilestem = '$ProjectName$Reflection_$Config$'
+
+		.Compiler = 'Compiler-CppReflCompiler'
+		.CompilerInputFiles = { '$ProjectBasePath$/$ProjectName$Reflection.cpp' }
+		.CompilerOutputPath = '$ProjectBasePath$'
+		.CompilerOutputExtension = '.refl'
+			
+		#include "CreateCompilerOptions.bff"
+		.ClangOptions = .CompilerOptions
+
+		// .Preprocessor = 'X:\llvm\llvm-project\build\Release\bin\clang.exe'
+		// .PreprocessorOptions = '%1 -D "REFL_BUILD_REFLECTION" ' + .ClangOptions
+
+		.CompilerOptions = '%1 %2 -entry $ProjectBasePath$/$ProjectName$Reflection.cpp '
+		// .CompilerOptions = '%2 -entry "%1" '
+		.CompilerOptions + '-generatedOutput $ProjectBasePath$\GeneratedCode '
+		.CompilerOptions + '-projectPath $ProjectBasePath$ '
+		.CompilerOptions + '-projectName $ReflFilestem$ '
+		.CompilerOptions + '-clang '
+		.CompilerOptions + .ClangOptions
+	]
+
+	^AllReflConfigs2 + .Config
+}

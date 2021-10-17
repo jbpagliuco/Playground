@@ -4,19 +4,35 @@
 .ProjectName        = 'Renderer'
 .ProjectBasePath    = '$PlaygroundLibPath$/$ProjectName$'
 .ProjectIncludePaths = {
+    '.'
+    'GeneratedCode'
+    '..'
     '../Core'
+    '../Core/GeneratedCode'
     '../../Vendor'
+    '../../Vendor/CppRefl/include'
 }
 .ProjectBinaryExtension = 'lib'
 
 #include "../ProjectConfig/PlatformConfig_x64.bff"
+#include "../ProjectConfig/Reflection.bff"
 
 .AllConfigs = .Allx64Configs
+
+ForEach(.config in .AllReflConfigs) {
+    Using(.config)
+
+    Exec('$TargetName$-refl') {
+        .PreBuildDependencies = 'Core-$Config$-refl'
+    }
+}
 
 ForEach(.config in .AllConfigs) {
     Using(.config)
 
-    Library('$TargetName$-lib') { }
+    Library('$TargetName$-lib') { 
+        .PreBuildDependencies = '$ProjectName$-$Config$-refl'
+    }
 }
 
 ForEach(.config in .AllConfigs) {

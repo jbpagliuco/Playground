@@ -5,16 +5,16 @@
 		<version>1</version>
 	</header>
 	
-    <width>1600</width>
-    <height>900</height>
+    <mWidth>1600</mWidth>
+	<mHeight>900</mHeight>
 
-	<colorMap>
-		<shaderResource>true</shaderResource>
-	</colorMap>
+	<mColorMapDesc>
+		<mFormat>float4</mFormat>
+		<mShaderResource>true</mShaderResource>
+	</mColorMapDesc>
 
-	<depthMap>
-		<depth>32</depth>
-		<stencil>false</stencil>
-		<shaderResource>true</shaderResource>
-	</depthMap>
+	<mDepthMapDesc>
+		<mFormat>D32_FLOAT</mFormat>
+		<mShaderResource>true</mShaderResource>
+	</mDepthMapDesc>
 </root>

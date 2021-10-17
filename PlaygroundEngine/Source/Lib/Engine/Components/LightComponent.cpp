@@ -1,55 +1,33 @@
 #include "LightComponent.h"
 
 #include "Core/Math/Transform.h"
-#include "Renderer/Light.h"
 #include "Renderer/Scene/Scene.h"
 #include "Engine/Input/Input.h"
 
 namespace playground
 {
-	void DirectionalLightComponent::Deserialize(DeserializationParameterMap &params)
+	void LightComponent::DeserializePost(const DeserializationParameterMap& params)
 	{
-		Light *pLight = CreateLight(LightType::DIRECTIONAL);
-		
-		pLight->mEnabled = params["enabled"].AsBool(true);
-		pLight->mColor = params["color"].AsColorTuple();
-		pLight->mIntensity = params["intensity"].AsFloat(1.0f);
-		pLight->mConstantAttenuation = params["constantAttenuation"].AsFloat();
-		pLight->mLinearAttenuation = params["linearAttenuation"].AsFloat();
-		pLight->mQuadraticAttenuation = params["quadraticAttenuation"].AsFloat();
-
-		SetLight(pLight);
+		// Weirdness 
+		mLight.mType = (int32_t)mLight.mLightType;
 	}
 
-
-	void PointLightComponent::Deserialize(DeserializationParameterMap &params)
+	void LightComponent::Activate()
 	{
-		Light *pLight = CreateLight(LightType::POINT);
-
-		pLight->mEnabled = params["enabled"].AsBool(true);
-		pLight->mColor = params["color"].AsColorTuple();
-		pLight->mIntensity = params["intensity"].AsFloat(1.0f);
-		pLight->mRadius = params["radius"].AsFloat(15.0f);
-		pLight->mConstantAttenuation = params["constantAttenuation"].AsFloat();
-		pLight->mLinearAttenuation = params["linearAttenuation"].AsFloat();
-		pLight->mQuadraticAttenuation = params["quadraticAttenuation"].AsFloat();
-
-		SetLight(pLight);
+		Scene::Get()->AddLight(&mLight);
 	}
 
-
-	void SpotLightComponent::Deserialize(DeserializationParameterMap &params)
+	void LightComponent::Deactivate()
 	{
-		Light *pLight = CreateLight(LightType::SPOT);
+		Scene::Get()->RemoveLight(&mLight);
+	}
 
-		pLight->mEnabled = params["enabled"].AsBool(true);
-		pLight->mColor = params["color"].AsColorTuple();
-		pLight->mIntensity = params["intensity"].AsFloat(1.0f);
-		pLight->mSpotLightAngle = params["spotLightAngle"].AsRadian(45.0f);
-		pLight->mConstantAttenuation = params["constantAttenuation"].AsFloat();
-		pLight->mLinearAttenuation = params["linearAttenuation"].AsFloat();
-		pLight->mQuadraticAttenuation = params["quadraticAttenuation"].AsFloat();
+	void LightComponent::UpdateLate(float deltaTime)
+	{
+		// Update some of the light properties from our transform.
+		mLight.mPosition = GameComponent::mTransform->mPosition.AsTuple3();
 
-		SetLight(pLight);
+		static const Vector zAxis(0.0f, 0.0f, 1.0f, 0.0f);
+		mLight.mDirection = (GameComponent::mTransform->mRotation * zAxis).AsTuple3();
 	}
 }

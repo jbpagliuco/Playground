@@ -1,0 +1,200 @@
+<?xml version="1.0"?>
+
+<root>
+	<gameobject>
+		<name>Render Target Camera</name>
+		<transform>
+			<position>
+				<x>10</x>
+				<y>5</y>
+				<z>-10</z>
+			</position>
+			<rotation>
+				<x>10</x>
+				<y>-45</y>
+				<z>0</z>
+			</rotation>
+		</transform>
+		<components>
+			<component type="CameraComponent">
+				<mCamera>
+					<mEnabled>true</mEnabled>
+					<mFOV>45</mFOV>
+					<mNear>0.1</mNear>
+					<mFar>100</mFar>
+				</mCamera>
+				<renderTarget>test_render_target.rtx</renderTarget>
+			</component>
+			<component type="BasicMovementComponent">
+				<mSensitivity>0.1</mSensitivity>
+			</component>
+			<component type="SkyboxComponent">
+				<skybox>desert.skyx</skybox>
+			</component>
+		</components>
+	</gameobject>
+	
+	<gameobject>
+		<name>Camera</name>
+		<transform>
+			<position>
+				<x>10</x>
+				<y>5</y>
+				<z>-10</z>
+			</position>
+			<rotation>
+				<x>10</x>
+				<y>-45</y>
+				<z>0</z>
+			</rotation>
+		</transform>
+		<components>
+			<component type="CameraComponent">
+				<mCamera>
+					<mEnabled>true</mEnabled>
+					<mFOV>45</mFOV>
+					<mNear>0.1</mNear>
+					<mFar>100</mFar>
+				</mCamera>
+			</component>
+			<component type="BasicMovementComponent">
+				<mSensitivity>0.1</mSensitivity>
+			</component>
+			<component type="SkyboxComponent">
+				<skybox>desert.skyx</skybox>
+			</component>
+		</components>
+	</gameobject>
+
+	<!-- Objects -->
+	<gameobject>
+		<name>Ground</name>
+		<transform>
+			<position>
+				<x>0</x>
+				<y>0</y>
+				<z>0</z>
+			</position>
+			<rotation>
+				<x>-2</x>
+			</rotation>
+			<scale>
+				<x>10</x>
+				<y>0.2</y>
+				<z>10</z>
+			</scale>
+		</transform>
+		<components>
+			<component type="StaticMeshComponent">
+				<mesh>cube.meshx</mesh>
+				<material>red.matx</material>
+			</component>
+		</components>
+	</gameobject>
+
+	<gameobject>
+		<name>Cube</name>
+		<transform>
+			<position>
+				<x>-3</x>
+				<y>3</y>
+			</position>
+		</transform>
+		<components>
+			<component type="StaticMeshComponent">
+				<mesh>cube.meshx</mesh>
+				<material>ice.matx</material>
+			</component>
+		</components>
+	</gameobject>
+
+	<gameobject>
+		<name>Wall</name>
+		<transform>
+			<position>
+				<x>0</x>
+				<y>2.5</y>
+				<z>5</z>
+			</position>
+			<scale>
+				<x>10.1</x>
+				<y>5</y>
+				<z>1</z>
+			</scale>
+		</transform>
+		<components>
+			<component type="StaticMeshComponent">
+				<mesh>cube.meshx</mesh>
+				<material>render_test_render_target_color.matx</material>
+			</component>
+		</components>
+	</gameobject>
+
+	<!-- Lights -->
+	<gameobject>
+		<name>PointLight</name>
+		<transform>
+			<position>
+				<x>3</x>
+				<y>2</y>
+				<z>3</z>
+			</position>
+			<scale>
+				<x>0.25</x>
+				<y>0.25</y>
+				<z>0.25</z>
+			</scale>
+		</transform>
+		<components>
+			<component type="LightComponent">
+				<mLight>
+					<mLightType>POINT</mLightType>
+					<mEnabled>1</mEnabled>
+					<mColor>white</mColor>
+					<mIntensity>0.75</mIntensity>
+					<mConstantAttenuation>1.0</mConstantAttenuation>
+					<mLinearAttenuation>0.5</mLinearAttenuation>
+				</mLight>
+			</component>
+			<component type="StaticMeshComponent">
+				<mesh>cube.meshx</mesh>
+				<material>gray.matx</material>
+			</component>
+		</components>
+	</gameobject>
+
+	<gameobject>
+		<name>DirectionalLight</name>
+		<transform>
+			<position>
+				<x>0</x>
+				<y>5</y>
+				<z>-5</z>
+			</position>
+			<rotation type="lookat">
+				<z>3</z>
+			</rotation>
+			<scale>
+				<x>0.25</x>
+				<y>0.25</y>
+				<z>0.25</z>
+			</scale>
+		</transform>
+		<components>
+			<component type="LightComponent">
+				<mLight>
+					<mLightType>DIRECTIONAL</mLightType>
+					<mEnabled>1</mEnabled>
+					<mColor>maroon</mColor>
+					<mIntensity>0.5</mIntensity>
+					<mConstantAttenuation>1.0</mConstantAttenuation>
+					<mLinearAttenuation>0.5</mLinearAttenuation>
+				</mLight>
+			</component>
+			<component type="StaticMeshComponent">
+				<mesh>cube.meshx</mesh>
+				<material>gray.matx</material>
+			</component>
+		</components>
+	</gameobject>
+</root>

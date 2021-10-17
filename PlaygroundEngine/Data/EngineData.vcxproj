@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="Shaders\build_shadow_map\build_shadow_map.hlsl" />
+    <CustomBuild Include="Shaders\build_shadow_map\build_shadow_map.shaderx" />
+    <CustomBuild Include="Shaders\debug_texture\debug_texture.hlsl" />
+    <CustomBuild Include="Shaders\debug_texture\debug_texture.shaderx" />
+    <CustomBuild Include="Shaders\light.hlsli" />
+    <CustomBuild Include="Shaders\shader_common.hlsli" />
+    <CustomBuild Include="Shaders\shader_common_ps.hlsli" />
+    <CustomBuild Include="Shaders\shader_common_vs.hlsli" />
+    <CustomBuild Include="Shaders\skybox\skybox.hlsl" />
+    <CustomBuild Include="Shaders\skybox\skybox.shaderx" />
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{f932fdc0-6c94-4f93-bc2a-7f5284b7d434}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <NMakeBuildCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  "Engine-x64-Debug"</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  -clean "Engine-x64-Debug"</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  -clean "Engine-x64-Debug"</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>UNICODE;_UNICODE;CORE_BFF_PLATFORM_PRIVATE_PC=1;CORE_BFF_CONFIG_PRIVATE_DEBUG=1;_DEBUG;CORE_BFF_RENDER_API_PRIVATE_DX11=1;</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.28.29910/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.28.29910/atlmfc/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Auxiliary/VS/include;C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/ucrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/um;C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/shared;C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/winrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/cppwinrt;C:/Program Files (x86)/Windows Kits/NETFXSDK/4.8/Include/um;.;GeneratedCode;..;../Core;../Core/GeneratedCode;../Renderer;../Renderer/GeneratedCode;../../Vendor;../../Vendor/CppRefl/include;../../Vendor/DirectXTK/include;../../Vendor/Physx/include;.;..;</NMakeIncludeSearchPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <NMakeBuildCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  "Engine-x64-Release"</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  -clean "Engine-x64-Release"</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  -clean "Engine-x64-Release"</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>UNICODE;_UNICODE;CORE_BFF_PLATFORM_PRIVATE_PC=1;CORE_BFF_CONFIG_PRIVATE_RELEASE=1;NDEBUG;CORE_BFF_RENDER_API_PRIVATE_DX11=1;</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.28.29910/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.28.29910/atlmfc/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Auxiliary/VS/include;C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/ucrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/um;C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/shared;C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/winrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.18362.0/cppwinrt;C:/Program Files (x86)/Windows Kits/NETFXSDK/4.8/Include/um;.;GeneratedCode;..;../Core;../Core/GeneratedCode;../Renderer;../Renderer/GeneratedCode;../../Vendor;../../Vendor/CppRefl/include;../../Vendor/DirectXTK/include;../../Vendor/Physx/include;.;..;</NMakeIncludeSearchPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <BuildLog>
+      <Path />
+    </BuildLog>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <BuildLog>
+      <Path />
+    </BuildLog>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <Import Condition="'$(ConfigurationType)' == 'Makefile' and Exists('$(VCTargetsPath)\Platforms\$(Platform)\SCE.Makefile.$(Platform).targets')" Project="$(VCTargetsPath)\Platforms\$(Platform)\SCE.Makefile.$(Platform).targets" />
+  <Import Condition="'$(ConfigurationType)' == 'Makefile' and '$(AndroidAPILevel)' != '' and Exists('$(VCTargetsPath)\Application Type\$(ApplicationType)\$(ApplicationTypeRevision)\Android.Common.targets')" Project="$(VCTargetsPath)\Application Type\$(ApplicationType)\$(ApplicationTypeRevision)\Android.Common.targets" />
+</Project>

@@ -4,22 +4,42 @@
 .ProjectName        = 'Engine'
 .ProjectBasePath    = '$PlaygroundLibPath$/$ProjectName$'
 .ProjectIncludePaths = {
+    '.'
+    'GeneratedCode'
+    '..'
     '../Core'
+    '../Core/GeneratedCode'
     '../Renderer'
+    '../Renderer/GeneratedCode'
     '../../Vendor'
+    '../../Vendor/CppRefl/include'
     '../../Vendor/DirectXTK/include'
     '../../Vendor/Physx/include'
 }
 .ProjectBinaryExtension = 'lib'
 
 #include "../ProjectConfig/PlatformConfig_x64.bff"
+#include "../ProjectConfig/Reflection.bff"
 
 .AllConfigs = .Allx64Configs
+
+ForEach(.config in .AllReflConfigs) {
+    Using(.config)
+        
+    Exec('$TargetName$-refl') {
+        .PreBuildDependencies = {
+            'Core-$Config$-refl'
+            'Renderer-$Config$-refl'
+        }
+    }
+}
 
 ForEach(.config in .AllConfigs) {
     Using(.config)
 
-    Library('$TargetName$-lib') { }
+    Library('$TargetName$-lib') { 
+        .PreBuildDependencies = '$ProjectName$-$Config$-refl'
+    }
 }
 
 ForEach(.config in .AllConfigs) {
@@ -38,4 +58,29 @@ VCXProject('$ProjectName$-proj')
     .ProjectOutput          = '$ProjectBasePath$/$ProjectName$.vcxproj'
     .ProjectInputPaths      = { '$ProjectBasePath$' }
     .ProjectConfigs         = .AllConfigs
+}
+
+VCXProject('$ProjectName$Data-proj')
+{
+    .ProjectOutput          = '$PlaygroundDataPath$/$ProjectName$Data.vcxproj'
+    .ProjectInputPaths      = { '$PlaygroundDataPath$' }
+    .ProjectConfigs         = .AllConfigs
+
+    .ProjectAllowedFileExtensions = {
+        '*.xml'
+
+        '*.matx'
+        '*.shaderx'
+        '*.hlsl'
+        '*.hlsli'
+
+        '*.texx'
+        '*.rtx'
+        '*.skyx'
+        '*.dds'
+
+        '*.meshx'
+        '*.obj'
+        '*.fbx'
+    }
 }

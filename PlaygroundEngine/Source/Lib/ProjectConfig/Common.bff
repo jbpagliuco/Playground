@@ -6,10 +6,11 @@
 #once
 
 // Name Constants
-.AllPlatformNames = { 'x64-DX11', 'x64-DX12' }
+.AllPlatformNames = { 'x64' }
 .AllConfigNames = { 'Debug', 'Release' }
 
 // Playground Constants
+.PlaygroundDataPath                = '$PlaygroundBasePath$/Data'
 .PlaygroundLibPath                 = '$PlaygroundBasePath$/Source/Lib'
 .PlaygroundProjectConfigPath       = '$PlaygroundBasePath$/Source/Lib/ProjectConfig'
 .PlaygroundVendorPath              = '$PlaygroundBasePath$/Source/Vendor'
@@ -77,8 +78,8 @@ ForEach(.library in .PlaygroundEngineLibs) {
 Compiler( 'Compiler-VS2019-x64' )
 {
     .Root       = '$VSBinPath$'
-        .Executable = '$VSCompilerExe$'
-        .ExtraFiles = {
+    .Executable = '$VSCompilerExe$'
+    .ExtraFiles = {
         '$Root$/c1.dll'
         '$Root$/c1xx.dll',
         '$Root$/c2.dll',
@@ -98,6 +99,20 @@ Compiler( 'Compiler-VS2019-x64' )
     }
 }
 
+// Reflection Compiler
+Compiler('Compiler-CppReflCompiler')
+{
+    .Executable = '$PlaygroundVendorPath$/CppRefl/Lib/Release/CppReflCompiler.exe'
+    .CompilerFamily = 'clang'
+}
+
+// Reflection Compiler
+Compiler('Compiler-CppReflCompiler-Debug')
+{
+    .Executable = '$PlaygroundVendorPath$/CppRefl/Lib/Debug/CppReflCompiler.exe'
+        .CompilerFamily = 'clang'
+}
+
 // Configs
 .BaseConfig = [
     .Defines = ''
@@ -111,6 +126,8 @@ Compiler( 'Compiler-VS2019-x64' )
 
     .LibraryPaths = ''
     .LibraryPathsArray = { }
+
+    .CompilerOptions = ''
 ]
 
 .DebugBaseConfig = [
@@ -122,6 +139,8 @@ Compiler( 'Compiler-VS2019-x64' )
     .Config = 'Release'
     .ConfigDefinesArray = { 'CORE_BFF_CONFIG_PRIVATE_RELEASE=1', 'NDEBUG' }
 ]
+
+.AllBaseConfigs = { .DebugBaseConfig, .ReleaseBaseConfig }
 
 .DX11BaseConfig = [
     .RenderConfig = 'DX11'

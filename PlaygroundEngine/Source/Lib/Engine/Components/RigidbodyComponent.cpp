@@ -10,28 +10,6 @@
 
 namespace playground
 {
-	void RigidbodyComponent::Deserialize(DeserializationParameterMap &params)
-	{
-		const std::string motionType = params["motionType"].AsString();
-		if (motionType == "dynamic") {
-			mMotionType = PhysicsMotionType::DYNAMIC;
-		} else {
-			mMotionType = PhysicsMotionType::STATIC;
-		}
-
-		const std::string collisionType = params["collisionType"].AsString();
-		if (collisionType == "sphere") {
-			mShapeInfo.mType = PhysicsShapeType::SPHERE;
-			mShapeInfo.mSphereParams.mRadius = params["radius"].AsFloat();
-		} else if (collisionType == "box") {
-			mShapeInfo.mType = PhysicsShapeType::BOX;
-			mShapeInfo.mBoxParams.mMin = params["min"].AsFloat3();
-			mShapeInfo.mBoxParams.mMax = params["max"].AsFloat3();
-		} else {
-			CORE_ASSERT(false, "Unknown collision type given to rigidbody component (%s).", collisionType);
-		}
-	}
-
 	void RigidbodyComponent::Activate()
 	{
 		mMaterial.Initialize();

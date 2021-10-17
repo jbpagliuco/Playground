@@ -3,6 +3,11 @@
 #include <stdint.h>
 #include <string>
 
+#include "Reflection/ReflMarkup.h"
+#include "Util/Serialize.h"
+
+#include "Stream.reflgen.h"
+
 #define CORE_SAFE_RELEASE_ASSET_OBJECT(obj) ReleaseAsset(obj->GetID()); obj = nullptr
 
 namespace playground
@@ -12,14 +17,32 @@ namespace playground
 		int mVersion = 1;
 	};
 
-	typedef uint64_t AssetID;
+	struct REFLECTED AssetID
+	{
+		GENERATED_REFLECTION_CODE();
+
+		uint64_t mID;
+
+		operator uint64_t()const { return mID; }
+	};
 	extern AssetID INVALID_ASSET_ID;
 
 	struct AssetType
 	{
+		typedef bool(*OnLoadXML)(const AssetID&, const std::string&, const AssetFileHeader&, const DeserializationParameterMap&);
+		typedef bool(*OnLoadRaw)(const AssetID&, const std::string&, const AssetFileHeader&);
+		typedef void(*OnUnload)(const AssetID&);
+
+		// Asset file extension
 		std::string mExt;
-		bool(*mOnLoad)(const AssetID &id, const std::string &filename, const AssetFileHeader &header);
-		void(*mOnUnload)(const AssetID &id);
+		
+		// Loads the asset as an XML file.
+		OnLoadXML mOnLoadXML = nullptr;
+		// Does not process the file before loading.
+		OnLoadRaw mOnLoadRaw = nullptr;
+
+		// Unloads the asset.
+		OnUnload mOnUnload = nullptr;
 
 		int mMinVersion = 1;
 		int mMaxVersion = 1;

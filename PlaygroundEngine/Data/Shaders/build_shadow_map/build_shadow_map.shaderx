@@ -4,18 +4,15 @@
 	<header>
 		<version>2</version>
 	</header>
-	
-	<file>build_shadow_map.hlsl</file>
 
-	<vertexShader>
-		<inputs>
-			<input>
-				<type>float3</type>
-				<semanticName>POSITION</semanticName>
-			</input>
-		</inputs>
-	</vertexShader>
+	<mFilename>build_shadow_map.hlsl</mFilename>
 
-    <pixelShader>
-    </pixelShader>
+	<mVertexFormatDesc>
+		<mAttributes>
+			<element>
+				<mFormat>float3</mFormat>
+				<mSemanticType>POSITION</mSemanticType>
+			</element>
+		</mAttributes>
+	</mVertexFormatDesc>
 </root>

@@ -121,7 +121,7 @@ namespace playground
 	{
 		AssetType meshxMeshType;
 		meshxMeshType.mExt = "meshx";
-		meshxMeshType.mOnLoad = OnMeshxLoad;
+		meshxMeshType.mOnLoadRaw = OnMeshxLoad;
 		meshxMeshType.mOnUnload = OnMeshUnload;
 		RegisterAssetType(meshxMeshType);
 

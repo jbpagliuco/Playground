@@ -32,9 +32,18 @@
 }
 
 .VendorIncludePaths = {
+    'CppRefl/include'
     'DirectXTK/include'
     'PhysX/include'
 }
+
+.CppReflDebugLibraryPath      = '$PlaygroundVendorPath$/CppRefl/Lib/debug'
+.CppReflReleaseLibraryPath    = '$PlaygroundVendorPath$/CppRefl/Lib/release'
+.CppReflLibraries             = { 'CppRefl.lib' }
+
+.DirectXTKDebugLibraryPath      = '$PlaygroundVendorPath$/DirectXTK/Lib/x64/debug'
+.DirectXTKReleaseLibraryPath    = '$PlaygroundVendorPath$/DirectXTK/Lib/x64/release'
+.DirectXTKLibraries             = { 'directxtk.lib' }
 
 .PhysXDebugLibraryPath      = '$PlaygroundVendorPath$/PhysX/bin/win.x86_64.vc141.mt/debug'
 .PhysXReleaseLibraryPath    = '$PlaygroundVendorPath$/PhysX/bin/win.x86_64.vc141.mt/release'
@@ -45,23 +54,22 @@
     'PhysXExtensions_static_64.lib'
 }
 
-.DirectXTKDebugLibraryPath      = '$PlaygroundVendorPath$/DirectXTK/Lib/x64/debug'
-.DirectXTKReleaseLibraryPath    = '$PlaygroundVendorPath$/DirectXTK/Lib/x64/release'
-.DirectXTKLibraries             = { 'directxtk.lib' }
-
 .DebugLibraryPaths = {
-    '$PhysXDebugLibraryPath$'
+    '$CppReflDebugLibraryPath$'
     '$DirectXTKDebugLibraryPath$'
+    '$PhysXDebugLibraryPath$'
 }
 
 .ReleaseLibraryPaths = {
-    '$PhysXReleaseLibraryPath$'
+    '$CppReflReleaseLibraryPath$'
     '$DirectXTKReleaseLibraryPath$'
+    '$PhysXReleaseLibraryPath$'
 }
 
 .LibrariesArray = .x64Libraries
                 + .PhysXLibraries
                 + .DirectXTKLibraries
+                + .CppReflLibraries
 
 // Base config for x64 platform
 .x64BaseConfig = [
@@ -126,7 +134,7 @@
 ]
 
 // List of all x64 render configs
-.x64RenderConfigs = { .x64DX11Config, .x64DX12Config }
+.x64RenderConfigs = { .x64DX11Config }
 
 .Allx64Configs = { }
 ForEach(.baseConfig in .x64Configs) {
@@ -135,7 +143,7 @@ ForEach(.baseConfig in .x64Configs) {
             Using(.baseConfig)
             Using(.renderConfig)
                 
-            .TargetName = '$ProjectName$-$Platform$-$RenderConfig$-$Config$'
+            .TargetName = '$ProjectName$-$Platform$-$Config$'
 
             .DefinesArray + .RenderConfigDefinesArray
             #include "CreateDefineStrings.bff"
@@ -168,12 +176,13 @@ ForEach(.baseConfig in .x64Configs) {
             .LinkerOutput           = .ExeOutput
 
             // VCXProject stuff
-            .Platform                   = '$Platform$-$RenderConfig$'
+            .Platform                   = '$Platform$'
             .ProjectInputPaths          = { '$ProjectBasePath$' }
             .PreprocessorDefinitions    = '$PreprocessorDefinitions$'
             .ProjectBuildCommand        = '$FBuildBaseCommand$ "$TargetName$"'
             .ProjectRebuildCommand      = '$FBuildBaseCommand$ -clean "$TargetName$"'
             .ProjectCleanCommand        = '$FBuildBaseCommand$ -clean "$TargetName$"'
+            .PlatformToolset            = 'v142'
         ]
 
         ^Allx64Configs + .Config

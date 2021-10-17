@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ReflectionMarkup.h"
+
 #include "Core/Memory/Memory.h"
 #include "Core/Util/Serialize.h"
 
@@ -13,9 +15,7 @@ namespace playground
 	enum class GameComponentType
 	{
 		CAMERA = 0,
-		DIRECTIONAL_LIGHT,
-		POINT_LIGHT,
-		SPOT_LIGHT,
+		LIGHT,
 		RIGIDBODY,
 		SKYBOX,
 		STATIC_MESH,
@@ -30,7 +30,8 @@ namespace playground
 
 		virtual GameComponentType GetType()const = 0;
 
-		virtual void Deserialize(DeserializationParameterMap &params);
+		// Called after reflection serialization.
+		virtual void DeserializePost(const DeserializationParameterMap& params);
 
 		virtual void Activate();
 		virtual void Deactivate();
