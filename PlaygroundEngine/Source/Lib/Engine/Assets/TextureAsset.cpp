@@ -18,7 +18,7 @@ namespace playground
 	static bool OnRenderTargetLoad(const AssetID &id, const std::string &filename, const AssetFileHeader &header, const DeserializationParameterMap& parameters);
 	static void OnRenderTargetUnload(const AssetID &id);
 
-	static bool OnSkyboxLoad(const AssetID &id, const std::string &filename, const AssetFileHeader &header);
+	static bool OnSkyboxLoad(const AssetID &id, const std::string &filename, const AssetFileHeader &header, const DeserializationParameterMap& parameters);
 	static void OnSkyboxUnload(const AssetID &id);
 
 
@@ -73,7 +73,7 @@ namespace playground
 
 		AssetType skyxType;
 		skyxType.mExt = "skyx";
-		skyxType.mOnLoad = OnSkyboxLoad;
+		skyxType.mOnLoadDeserialize = OnSkyboxLoad;
 		skyxType.mOnUnload = OnSkyboxUnload;
 		RegisterAssetType(skyxType);
 
@@ -180,14 +180,15 @@ namespace playground
 
 
 
-	static bool OnSkyboxLoad(const AssetID& id, const std::string& filename, const AssetFileHeader& header)
+	static bool OnSkyboxLoad(const AssetID& id, const std::string& filename, const AssetFileHeader& header, const DeserializationParameterMap& parameters)
 	{
 		Skybox* skybox = Skybox::Create(id);
 		CORE_ASSERT_RETURN_VALUE(skybox != nullptr, false, "Failed to allocate skybox.");
 
-		DeserializationParameterMap params = ParseFile(filename);
+		SkyboxDesc skyboxDesc;
+		ReflectionDeserialize(SkyboxDesc::StaticClass(), &skyboxDesc, parameters);
 
-		return skybox->Initialize(params["filename"].AsFilepath());
+		return skybox->Initialize(skyboxDesc);
 	}
 
 	static void OnSkyboxUnload(const AssetID &id)

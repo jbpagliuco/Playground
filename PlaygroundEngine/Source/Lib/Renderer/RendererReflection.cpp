@@ -3,5 +3,6 @@
 #include "Renderer/NGA/NGAResources.h"
 #include "Renderer/NGA/NGASamplerState.h"
 #include "Renderer/Resources/RenderTarget.h"
+#include "Renderer/Resources/Skybox.h"
 #include "Renderer/Scene/Camera.h"
 #include "Renderer/Shader/Shader.h"
