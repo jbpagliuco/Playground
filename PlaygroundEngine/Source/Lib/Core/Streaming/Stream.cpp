@@ -162,11 +162,11 @@ namespace playground
 			// The asset hasn't been loaded yet.
 			record.mType = &type;
 
-			if (type.mOnLoad != nullptr) {
-				type.mOnLoad(id, filename, header);
+			if (type.mOnLoadRaw != nullptr) {
+				type.mOnLoadRaw(id, filename, header);
 			}
-			else if (type.mOnLoadDeserialize != nullptr) {
-				type.mOnLoadDeserialize(id, filename, header, ParseFile(filename));
+			else if (type.mOnLoadXML != nullptr) {
+				type.mOnLoadXML(id, filename, header, ParseFile(filename));
 			}
 		}
 

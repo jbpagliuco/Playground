@@ -29,13 +29,19 @@ namespace playground
 
 	struct AssetType
 	{
-		typedef bool(*OnLoad)(const AssetID&, const std::string&, const AssetFileHeader&);
-		typedef bool(*OnLoadDeserialize)(const AssetID&, const std::string&, const AssetFileHeader&, const DeserializationParameterMap&);
+		typedef bool(*OnLoadXML)(const AssetID&, const std::string&, const AssetFileHeader&, const DeserializationParameterMap&);
+		typedef bool(*OnLoadRaw)(const AssetID&, const std::string&, const AssetFileHeader&);
 		typedef void(*OnUnload)(const AssetID&);
 
+		// Asset file extension
 		std::string mExt;
-		OnLoad mOnLoad = nullptr;
-		OnLoadDeserialize mOnLoadDeserialize = nullptr;
+		
+		// Loads the asset as an XML file.
+		OnLoadXML mOnLoadXML = nullptr;
+		// Does not process the file before loading.
+		OnLoadRaw mOnLoadRaw = nullptr;
+
+		// Unloads the asset.
 		OnUnload mOnUnload = nullptr;
 
 		int mMinVersion = 1;

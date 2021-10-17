@@ -55,25 +55,25 @@ namespace playground
 	{
 		AssetType texType;
 		texType.mExt = "texx";
-		texType.mOnLoad = OnTextureTexxLoad;
+		texType.mOnLoadRaw = OnTextureTexxLoad;
 		texType.mOnUnload = OnTextureUnload;
 		RegisterAssetType(texType);
 
 		AssetType ddsType;
 		ddsType.mExt = "dds";
-		ddsType.mOnLoad = OnTextureDDSLoad;
+		ddsType.mOnLoadRaw = OnTextureDDSLoad;
 		ddsType.mOnUnload = OnTextureUnload;
 		RegisterAssetType(ddsType);
 
 		AssetType rtxType;
 		rtxType.mExt = "rtx";
-		rtxType.mOnLoadDeserialize = OnRenderTargetLoad;
+		rtxType.mOnLoadXML = OnRenderTargetLoad;
 		rtxType.mOnUnload = OnRenderTargetUnload;
 		RegisterAssetType(rtxType);
 
 		AssetType skyxType;
 		skyxType.mExt = "skyx";
-		skyxType.mOnLoadDeserialize = OnSkyboxLoad;
+		skyxType.mOnLoadXML = OnSkyboxLoad;
 		skyxType.mOnUnload = OnSkyboxUnload;
 		RegisterAssetType(skyxType);
 

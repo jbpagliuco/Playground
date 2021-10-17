@@ -304,13 +304,13 @@ namespace playground
 	{
 		AssetType matType;
 		matType.mExt = "matx";
-		matType.mOnLoadDeserialize = OnMaterialLoad;
+		matType.mOnLoadXML = OnMaterialLoad;
 		matType.mOnUnload = OnMaterialUnload;
 		RegisterAssetType(matType);
 
 		AssetType shaderType;
 		shaderType.mExt = "shaderx";
-		shaderType.mOnLoadDeserialize = OnShaderLoad;
+		shaderType.mOnLoadXML = OnShaderLoad;
 		shaderType.mOnUnload = OnShaderUnload;
 		shaderType.mMinVersion = 2;
 		shaderType.mMaxVersion = 2;
