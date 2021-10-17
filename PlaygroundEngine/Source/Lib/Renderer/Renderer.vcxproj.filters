@@ -31,10 +31,10 @@
     <CustomBuild Include="GeneratedCode\NGASamplerState.reflgen.h">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
-    <CustomBuild Include="GeneratedCode\RendererReflection_Debug.reflgen.cpp">
+    <CustomBuild Include="GeneratedCode\RendererReflection_Release.reflgen.cpp">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
-    <CustomBuild Include="GeneratedCode\RendererReflection_Debug.reflgen.h">
+    <CustomBuild Include="GeneratedCode\RendererReflection_Release.reflgen.h">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
     <CustomBuild Include="GeneratedCode\RenderTarget.reflgen.cpp">

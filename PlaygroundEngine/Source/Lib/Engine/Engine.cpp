@@ -20,7 +20,13 @@
 #include "Engine/Physics/Physics.h"
 #include "Engine/World/World.h"
 
+#if CORE_CONFIG(DEBUG)
 #include "EngineReflection_Debug.reflgen.h"
+#elif CORE_CONFIG(RELEASE)
+#include "EngineReflection_Release.reflgen.h"
+#else
+#error Unhandled configuration.
+#endif
 
 namespace playground
 {
@@ -165,7 +171,13 @@ namespace playground
 	bool InitializeEngine()
 	{
 		// Register reflection data before anything else.
+		#if CORE_CONFIG(DEBUG)
 		EngineReflection_Debug_InitReflection();
+		#elif CORE_CONFIG(RELEASE)
+		EngineReflection_Release_InitReflection();
+		#else
+		#error Unhandled configuration.
+		#endif
 
 		RegisterSystems();
 

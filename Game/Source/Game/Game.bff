@@ -32,9 +32,10 @@
 #include "../../../PlaygroundEngine/Source/Lib/ProjectConfig/Reflection.bff"
 
 .AllConfigs = .Allx64Configs
+.AllVCXProjectConfigs = .Allx64VCXProjectConfigs
 
 .AllProjectConfigs = {}
-ForEach(.config in .AllConfigs) {
+ForEach(.config in .AllVCXProjectConfigs) {
     .ProjectConfig = [
         Using(.config)
 
@@ -81,9 +82,9 @@ ForEach(.config in .AllConfigs) {
     Executable('$TargetName$-exe')
     { 
         .Libraries = {
-            'Core-$Platform$-$Config$'
-            'Renderer-$Platform$-$Config$'
-            'Engine-$Platform$-$Config$'
+            'Core-$Platform$-$Config$-$RenderConfig$'
+            'Renderer-$Platform$-$Config$-$RenderConfig$'
+            'Engine-$Platform$-$Config$-$RenderConfig$'
             '$TargetName$-lib'
         }
         // .LinkerLinkObjects = true
@@ -115,7 +116,7 @@ VCXProject('GameData-proj')
 {
     .ProjectOutput          = '$GameDataPath$/GameData.vcxproj'
     .ProjectInputPaths      = { '$GameDataPath$' }
-    .ProjectConfigs         = .AllProjectConfigs
+    .ProjectConfigs         = .AllVCXProjectConfigs
     
     .ProjectAllowedFileExtensions = {
         '*.xml'
@@ -137,7 +138,7 @@ VCXProject('GameData-proj')
 }
 
 // Reflection project (ideally this would just hook into the normal build process, but it seems to be much more complicated than I'd hoped).
-Alias('refl')
+Alias('Debug-refl')
 {
     .Targets = {
         'Core-Debug-refl'
@@ -146,14 +147,23 @@ Alias('refl')
         'Game-Debug-refl'
     }
 }
+Alias('Release-refl')
+{
+    .Targets = {
+        'Core-Release-refl'
+        'Renderer-Release-refl'
+        'Engine-Release-refl'
+        'Game-Release-refl'
+    }
+}
 
 .GameReflectionProjectConfigs = { }
-ForEach(.config in .AllProjectConfigs) {
+ForEach(.config in .AllVCXProjectConfigs) {
     .Config = [
         Using(.config)
-        .ProjectBuildCommand        = '$FBuildBaseCommand$ -clean -verbose "refl"'
-        .ProjectRebuildCommand      = '$FBuildBaseCommand$ -clean "refl"'
-        .ProjectCleanCommand        = '$FBuildBaseCommand$ -clean "refl"'
+        .ProjectBuildCommand        = '$FBuildBaseCommand$ -clean -verbose "$RealConfig$-refl"'
+        .ProjectRebuildCommand      = '$FBuildBaseCommand$ -clean "$RealConfig$-refl"'
+        .ProjectCleanCommand        = '$FBuildBaseCommand$ -clean "$RealConfig$-refl"'
     ]
     ^GameReflectionProjectConfigs + .Config
 }
@@ -192,11 +202,15 @@ VSSolution('Playground-sln')
     .SolutionConfigs    = { }
     ForEach(.platform in .AllPlatformNames) {
         ForEach(.config in .AllConfigNames) {
-            .SolutionConfig = [ 
-                .Platform = .platform 
-                .Config = .config
-            ]
-            ^SolutionConfigs + .SolutionConfig
+            ForEach(.renderConfig in .AllRenderConfigNames) {
+                .SolutionConfig = [ 
+                    .Platform = .platform 
+                    .Config = '$config$-$renderConfig$'
+                    .SolutionPlatform = '$platform$-$renderConfig$'
+                    .SolutionConfig = .config
+                ]
+                ^SolutionConfigs + .SolutionConfig
+            }
         }
     }
 

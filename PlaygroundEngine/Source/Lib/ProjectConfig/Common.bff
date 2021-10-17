@@ -6,8 +6,9 @@
 #once
 
 // Name Constants
-.AllPlatformNames = { 'x64' }
-.AllConfigNames = { 'Debug', 'Release' }
+.AllPlatformNames       = { 'x64' }
+.AllConfigNames         = { 'Debug', 'Release' }
+.AllRenderConfigNames   = { 'DX11', 'DX12' }
 
 // Playground Constants
 .PlaygroundDataPath                = '$PlaygroundBasePath$/Data'

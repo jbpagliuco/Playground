@@ -17,6 +17,7 @@
 #include "../ProjectConfig/Reflection.bff"
 
 .AllConfigs = .Allx64Configs
+.AllVCXProjectConfigs = .Allx64VCXProjectConfigs
 
 ForEach(.config in .AllReflConfigs) {
     Using(.config)
@@ -46,5 +47,5 @@ VCXProject('$ProjectName$-proj')
 {
     .ProjectOutput          = '$ProjectBasePath$/$ProjectName$.vcxproj'
     .ProjectInputPaths      = { '$ProjectBasePath$' }
-    .ProjectConfigs         = .AllConfigs
+    .ProjectConfigs         = .AllVCXProjectConfigs
 }

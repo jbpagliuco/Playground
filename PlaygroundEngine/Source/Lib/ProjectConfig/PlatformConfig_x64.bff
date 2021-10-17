@@ -134,7 +134,7 @@
 ]
 
 // List of all x64 render configs
-.x64RenderConfigs = { .x64DX11Config }
+.x64RenderConfigs = { .x64DX11Config, .x64DX12Config }
 
 .Allx64Configs = { }
 ForEach(.baseConfig in .x64Configs) {
@@ -143,7 +143,7 @@ ForEach(.baseConfig in .x64Configs) {
             Using(.baseConfig)
             Using(.renderConfig)
                 
-            .TargetName = '$ProjectName$-$Platform$-$Config$'
+            .TargetName = '$ProjectName$-$Platform$-$Config$-$RenderConfig$'
 
             .DefinesArray + .RenderConfigDefinesArray
             #include "CreateDefineStrings.bff"
@@ -174,17 +174,26 @@ ForEach(.baseConfig in .x64Configs) {
             .CompilerOutputPath     = '$ProjectBasePath$/Output/$Platform$-$RenderConfig$/$Config$'
             .LibrarianOutput        = '$ProjectBasePath$/Output/$Platform$-$RenderConfig$/$Config$/$ProjectName$.lib'
             .LinkerOutput           = .ExeOutput
-
-            // VCXProject stuff
-            .Platform                   = '$Platform$'
-            .ProjectInputPaths          = { '$ProjectBasePath$' }
-            .PreprocessorDefinitions    = '$PreprocessorDefinitions$'
-            .ProjectBuildCommand        = '$FBuildBaseCommand$ "$TargetName$"'
-            .ProjectRebuildCommand      = '$FBuildBaseCommand$ -clean "$TargetName$"'
-            .ProjectCleanCommand        = '$FBuildBaseCommand$ -clean "$TargetName$"'
-            .PlatformToolset            = 'v142'
         ]
 
         ^Allx64Configs + .Config
     }
+}
+    
+.Allx64VCXProjectConfigs = { }
+ForEach(.baseConfig in .Allx64Configs) {
+    .Config = [
+        Using(.baseConfig)
+
+        .Platform                   = '$Platform$'
+        .RealConfig                 = .Config
+        .Config                     = '$Config$-$RenderConfig$'
+        .ProjectInputPaths          = { '$ProjectBasePath$' }
+        .PreprocessorDefinitions    = '$PreprocessorDefinitions$'
+        .ProjectBuildCommand        = '$FBuildBaseCommand$ "$TargetName$"'
+        .ProjectRebuildCommand      = '$FBuildBaseCommand$ -clean "$TargetName$"'
+        .ProjectCleanCommand        = '$FBuildBaseCommand$ -clean "$TargetName$"'
+        .PlatformToolset            = 'v142'
+    ]
+    ^Allx64VCXProjectConfigs + .Config
 }

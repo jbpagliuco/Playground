@@ -7,14 +7,26 @@
 #include "Memory/Memory.h"
 #include "Streaming/Stream.h"
 
+#if CORE_CONFIG(DEBUG)
 #include "CoreReflection_Debug.reflgen.h"
+#elif CORE_CONFIG(RELEASE)
+#include "CoreReflection_Release.reflgen.h"
+#else
+#error Unhandled configuration.
+#endif
 
 namespace playground
 {
 	bool BaseSystemInit()
 	{
 		// Initialize reflection before anything else.
+		#if CORE_CONFIG(DEBUG)
 		CoreReflection_Debug_InitReflection();
+		#elif CORE_CONFIG(RELEASE)
+		CoreReflection_Release_InitReflection();
+		#else
+		#error Unhandled configuration.
+		#endif
 
 #define SYSTEM_INIT(name, f) LogInfo(BASE_LOG_FILTER, "Initializing %s", name); if (!f()) { CORE_ASSERT_RETURN_VALUE(false, false, "Failed to initialize %s", name); }
 

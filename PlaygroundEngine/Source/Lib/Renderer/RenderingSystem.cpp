@@ -21,7 +21,13 @@
 #include "Renderer/Scene/Scene.h"
 #include "Renderer/Shader/Shader.h"
 
+#if CORE_CONFIG(DEBUG)
 #include "RendererReflection_Debug.reflgen.h"
+#elif CORE_CONFIG(RELEASE)
+#include "RendererReflection_Release.reflgen.h"
+#else
+#error Unhandled configuration.
+#endif
 
 namespace playground
 {
@@ -86,7 +92,13 @@ namespace playground
 	bool RenderingSystemInit()
 	{
 		// Initialize reflection before anything else.
+		#if CORE_CONFIG(DEBUG)
 		RendererReflection_Debug_InitReflection();
+		#elif CORE_CONFIG(RELEASE)
+		RendererReflection_Release_InitReflection();
+		#else
+		#error Unhandled configuration.
+		#endif
 
 		RenderFrameTimer.Start((int)((1.0f / MAX_FRAMERATE) * 1000.0f));
 

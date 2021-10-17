@@ -9,10 +9,11 @@
 #include "../ProjectConfig/PlatformConfig_x64.bff"
 
 .AllConfigs = .Allx64Configs
+.AllVCXProjectConfigs = .Allx64VCXProjectConfigs
 
 VCXProject('$ProjectName$-proj')
 {
     .ProjectOutput          = '$ProjectBasePath$/$ProjectName$.vcxproj'
     .ProjectInputPaths      = { '$ProjectBasePath$' }
-    .ProjectConfigs         = .AllConfigs
+    .ProjectConfigs         = .AllVCXProjectConfigs
 }
