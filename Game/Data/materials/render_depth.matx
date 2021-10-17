@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <root>
-	<mShaderFilename>render_depth.shaderx</mShaderFilename>
+	<shader>render_depth.shaderx</shader>
 	<mParameters>
 		<element>
 			<mName>DiffuseTexture</mName>

@@ -26,11 +26,10 @@ namespace playground
 
 
 
-	bool MaterialAsset::Initialize(const std::string& shaderName, const std::vector<AssetID>& assets)
+	
+	bool MaterialAsset::Initialize(const MaterialAssetDesc& materialDesc)
 	{
-		mShaderID = RequestAsset(shaderName);
-		
-		mStaticAssets = assets;
+		mShaderID = materialDesc.mShaderID;
 
 		return true;
 	}
@@ -127,18 +126,111 @@ namespace playground
 		}
 	}
 
-
-	bool StaticMaterialAsset::Initialize(const std::string& shaderName, const std::vector<AssetID>& assets, void* parameterData, size_t parameterByteLength, const std::vector<const Texture*>& textures)
+	MaterialAsset::ProcessedParameters MaterialAsset::ProcessParameters(const std::vector<MaterialParameter>& parameters)
 	{
-		if (!MaterialAsset::Initialize(shaderName, assets)) {
+		ProcessedParameters output;
+
+		// Read in parameters
+		constexpr size_t MAX_MATERIAL_PARAMETER_BYTE_LENGTH = 1024;
+		output.mConstantBuffer = CORE_ALLOC(MAX_MATERIAL_PARAMETER_BYTE_LENGTH);
+		output.mConstantBufferSize = 0;
+
+		// Adds a non-asset parameter to the constant buffer data.
+		const auto addParameterData = [&output](const std::string& name, MaterialParameterType type, void* data)
+		{
+			const std::map<MaterialParameterType, size_t> PARAMETER_SIZES = {
+				{ MaterialParameterType::FLOAT,		sizeof(decltype(MaterialParameter::mFloat)) },
+				{ MaterialParameterType::VECTOR,	sizeof(decltype(MaterialParameter::mVector)) },
+				{ MaterialParameterType::COLOR,		sizeof(decltype(MaterialParameter::mColor)) }
+			};
+
+			const size_t size = PARAMETER_SIZES.at(type);
+			void* fieldStart = static_cast<unsigned char*>(output.mConstantBuffer) + output.mConstantBufferSize;
+			memcpy(fieldStart, data, size);
+
+			// Update dynamic material parameter map
+			output.mDynamicMaterialParameterMap.mBufferMap[name].mLength = size;
+			output.mDynamicMaterialParameterMap.mBufferMap[name].mOffset = output.mConstantBufferSize;
+
+			output.mConstantBufferSize += size;
+		};
+
+		// Process each parameter.
+		for (const auto& parameter : parameters) {
+			switch (parameter.mType) {
+			case MaterialParameterType::FLOAT:
+				addParameterData(parameter.mName, parameter.mType, (void*)&parameter.mFloat);
+				break;
+
+			case MaterialParameterType::COLOR:
+				addParameterData(parameter.mName, parameter.mType, (void*)&parameter.mColor);
+				break;
+
+			case MaterialParameterType::VECTOR:
+				addParameterData(parameter.mName, parameter.mType, (void*)&parameter.mVector);
+				break;
+
+			case MaterialParameterType::TEXTURE:
+			{
+				// Add asset id
+				mStaticAssets.push_back(parameter.mAssetId);
+
+				// Add texture
+				output.mTextures.push_back(&TextureAsset::Get(parameter.mAssetId)->GetTexture());
+
+				// Update dynamic material parameter map
+				output.mDynamicMaterialParameterMap.mTextureMap[parameter.mName] = output.mCurrentTextureIndex;
+				++output.mCurrentTextureIndex;
+
+				break;
+			}
+
+			case MaterialParameterType::RENDER_TARGET:
+			case MaterialParameterType::RENDER_TARGET_DEPTH:
+			{
+				// Add asset id
+				mStaticAssets.push_back(parameter.mAssetId);
+
+				// Add render target texture
+				const bool useColorMap = parameter.mType == MaterialParameterType::RENDER_TARGET;
+				RenderTarget* renderTarget = RenderTarget::Get(parameter.mAssetId);
+
+				if (useColorMap) {
+					output.mTextures.push_back(&renderTarget->GetColorMap());
+				}
+				else {
+					output.mTextures.push_back(&renderTarget->GetDepthMap());
+				}
+
+				// Update dynamic material parameter map
+				output.mDynamicMaterialParameterMap.mTextureMap[parameter.mName] = output.mCurrentTextureIndex;
+				++output.mCurrentTextureIndex;
+
+				break;
+			}
+			};
+		}
+
+		return output;
+	}
+
+
+	bool StaticMaterialAsset::Initialize(const MaterialAssetDesc& materialDesc)
+	{
+		if (!MaterialAsset::Initialize(materialDesc)) {
 			return false;
 		}
 
-		bool success = mMaterial.Initialize(&GetShader(), parameterData, parameterByteLength, textures);
+		// Process our parameter list.
+		const ProcessedParameters parameters = ProcessParameters(materialDesc.mParameters);
+
+		bool success = mMaterial.Initialize(&GetShader(), parameters.mConstantBuffer, parameters.mConstantBufferSize, parameters.mTextures);
 		MATERIAL_ASSERT_CLEANUP(success, false, "Failed to create static material.");
 
 		mMaterialContainer.Initialize(&mMaterial);
 		MATERIAL_ASSERT_CLEANUP(success, false, "Failed to material container.");
+
+		CORE_FREE(parameters.mConstantBuffer);
 
 		return true;
 	}
@@ -161,17 +253,25 @@ namespace playground
 	}
 
 
-	bool DynamicMaterialAsset::Initialize(const std::string& shaderName, const std::vector<AssetID>& assets, DeserializationParameterMap parameterMap, void* parameterData, size_t parameterByteLength, const std::vector<const Texture*>& textures)
+
+	bool DynamicMaterialAsset::Initialize(const MaterialAssetDesc& materialDesc)
 	{
-		if (!MaterialAsset::Initialize(shaderName, assets)) {
+		if (!MaterialAsset::Initialize(materialDesc)) {
 			return false;
 		}
 
-		bool success = mMaterial.Initialize(&GetShader(), parameterByteLength, parameterMap, parameterData, textures);
+		// Process our parameter list.
+		const ProcessedParameters parameters = ProcessParameters(materialDesc.mParameters);
+
+		// Initialize material.
+		bool success = mMaterial.Initialize(&GetShader(), parameters.mConstantBufferSize, parameters.mDynamicMaterialParameterMap, parameters.mConstantBuffer, parameters.mTextures);
 		MATERIAL_ASSERT_CLEANUP(success, false, "Failed to create static material.");
 
+		// Initialize material container.
 		mMaterialContainer.Initialize(&mMaterial);
 		MATERIAL_ASSERT_CLEANUP(success, false, "Failed to material container.");
+
+		CORE_FREE(parameters.mConstantBuffer);
 
 		return true;
 	}
@@ -248,93 +348,19 @@ namespace playground
 		MaterialAssetDesc materialDesc;
 		ReflectionDeserialize(MaterialAssetDesc::StaticClass(), &materialDesc, parameters);
 
-		// We will use this function as a common place to load in assets for the materials.
-		// But it is the material's responsibility to release the assets.
-		std::vector<AssetID> assets;
-		std::vector<const Texture*> textures;
-
-		// Read in parameters
-		constexpr size_t MAX_MATERIAL_PARAMETER_BYTE_LENGTH = 1024;
-		void* parameterData = CORE_ALLOC(MAX_MATERIAL_PARAMETER_BYTE_LENGTH);;
-		size_t calculatedSize = 0;
-
-		const auto addParameterData = [&parameterData, &calculatedSize](MaterialParameterType type, void* data)
-		{
-			const std::map<MaterialParameterType, size_t> PARAMETER_SIZES = {
-				{ MaterialParameterType::FLOAT, sizeof(decltype(MaterialParameter::mFloat)) },
-				{ MaterialParameterType::VECTOR, sizeof(decltype(MaterialParameter::mVector)) },
-				{ MaterialParameterType::COLOR, sizeof(decltype(MaterialParameter::mColor)) }
-			};
-
-			const size_t size = PARAMETER_SIZES.at(type);
-			void* fieldStart = static_cast<unsigned char*>(parameterData) + calculatedSize;
-			memcpy(fieldStart, data, size);
-
-			calculatedSize += size;
-		};
-
-		for (const auto& parameter : materialDesc.mParameters) {
-			switch (parameter.mType) {
-			case MaterialParameterType::FLOAT:
-				addParameterData(parameter.mType, (void*)&parameter.mFloat);
-				break;
-
-			case MaterialParameterType::COLOR:
-				addParameterData(parameter.mType, (void*)&parameter.mColor);
-				break;
-
-			case MaterialParameterType::VECTOR:
-				addParameterData(parameter.mType, (void*)&parameter.mVector);
-				break;
-
-			case MaterialParameterType::TEXTURE:
-			{
-				// Add asset id
-				assets.push_back(parameter.mAssetId);
-
-				// Add texture
-				textures.push_back(&TextureAsset::Get(parameter.mAssetId)->GetTexture());
-				break;
-			}
-
-			case MaterialParameterType::RENDER_TARGET:
-			case MaterialParameterType::RENDER_TARGET_DEPTH:
-			{
-				// Add asset id
-				assets.push_back(parameter.mAssetId);
-
-				// Add render target texture
-				const bool useColorMap = parameter.mType == MaterialParameterType::RENDER_TARGET;
-				RenderTarget* renderTarget = RenderTarget::Get(parameter.mAssetId);
-
-				if (useColorMap) {
-					textures.push_back(&renderTarget->GetColorMap());
-				}
-				else {
-					textures.push_back(&renderTarget->GetDepthMap());
-				}
-				break;
-			}
-			};
-		}
-
 		// Create the material asset
-		bool success = false;
+		MaterialAsset* materialAsset;
 		if (materialDesc.mIsDynamic) {
-			DynamicMaterialAsset *pMat = DynamicMaterialAsset::Create(id);
-			CORE_ASSERT_RETURN_VALUE(pMat != nullptr, false, "Failed to allocate dynamic material.");
-
-			success = pMat->Initialize(materialDesc.mShaderFilename, assets, parameters["mParameters"], parameterData, calculatedSize, textures);
-		} else {
-			StaticMaterialAsset *pMat = StaticMaterialAsset::Create(id);
-			CORE_ASSERT_RETURN_VALUE(pMat != nullptr, false, "Failed to allocate static material.");
-
-			success = pMat->Initialize(materialDesc.mShaderFilename, assets, parameterData, calculatedSize, textures);
+			materialAsset = DynamicMaterialAsset::Create(id);
+			CORE_ASSERT_RETURN_VALUE(materialAsset != nullptr, false, "Failed to allocate dynamic material.");
 		}
-			
-		// Release temp data
-		CORE_FREE(parameterData);
+		else {
+			materialAsset = StaticMaterialAsset::Create(id);
+			CORE_ASSERT_RETURN_VALUE(materialAsset != nullptr, false, "Failed to allocate static material.");
+		}
 
+		// Initialize material.
+		const bool success = materialAsset->Initialize(materialDesc);
 		return success;
 	}
 

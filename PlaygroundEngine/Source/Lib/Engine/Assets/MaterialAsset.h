@@ -44,7 +44,7 @@ namespace playground
 		GENERATED_REFLECTION_CODE();
 
 	public:
-		std::string mShaderFilename						REFLECTED REFL_FILEPATH;
+		AssetID mShaderID								REFLECTED REFL_NAME("shader");
 		std::vector<MaterialParameter> mParameters		REFLECTED;
 		bool mIsDynamic									REFLECTED = false;
 	};
@@ -52,7 +52,7 @@ namespace playground
 	class MaterialAsset
 	{
 	public:
-		bool Initialize(const std::string &shaderName, const std::vector<AssetID> &assets);
+		virtual bool Initialize(const MaterialAssetDesc& materialDesc);
 		void Shutdown();
 
 		virtual AssetID GetMaterialAssetID() = 0;
@@ -62,20 +62,41 @@ namespace playground
 
 		MaterialContainer& GetMaterialContainer();
 
-		bool SetFloatParameter(const std::string &name, float value);
+		bool SetFloatParameter(const std::string& name, float value);
 		bool SetVectorParameter(const std::string& name, const Vector4f& value);
 
 		bool SetTextureParameter(const std::string& name, const std::string& filename);
 		bool SetTextureParameter(const std::string& name, AssetID textureId);
-		bool SetTextureParameter(const std::string &name, TextureAsset *pTexture);
+		bool SetTextureParameter(const std::string& name, TextureAsset* pTexture);
 
 		bool SetRenderTargetParameter(const std::string& name, const std::string& filename, bool useColorMap);
 		bool SetRenderTargetParameter(const std::string& name, AssetID renderTargetId, bool useColorMap);
-		bool SetRenderTargetParameter(const std::string& name, RenderTarget *renderTarget, bool useColorMap);
+		bool SetRenderTargetParameter(const std::string& name, RenderTarget* renderTarget, bool useColorMap);
 
 	private:
 		void ReleaseAssetByKey(const std::string& parameterName);
 		void ReleaseAssets();
+
+	protected:
+		struct ProcessedParameters
+		{
+			// Holds constant buffer data. Must be freed.
+			void* mConstantBuffer;
+
+			// Size of the constant buffer data.
+			size_t mConstantBufferSize;
+
+			// List of all textures referenced in the parameters.
+			std::vector<const Texture*> mTextures;
+
+			// Parameter map for dynamic materials.
+			DynamicMaterialParameterMap mDynamicMaterialParameterMap;
+
+			// Current texture index for the dynamic parameter map.
+			int mCurrentTextureIndex = 0;
+		};
+
+		ProcessedParameters ProcessParameters(const std::vector<MaterialParameter>& parameters);
 
 	protected:
 		AssetID mShaderID;
@@ -88,7 +109,7 @@ namespace playground
 	class StaticMaterialAsset : public MaterialAsset, public AssetFactory<StaticMaterialAsset>
 	{
 	public:
-		bool Initialize(const std::string &shaderName, const std::vector<AssetID> &assets, void *parameterData, size_t parameterByteLength, const std::vector<const Texture*> &textures);
+		virtual bool Initialize(const MaterialAssetDesc& materialDesc) override;
 		void Shutdown();
 
 		virtual AssetID GetMaterialAssetID() override;
@@ -102,7 +123,7 @@ namespace playground
 	class DynamicMaterialAsset : public MaterialAsset, public AssetFactory<DynamicMaterialAsset>
 	{
 	public:
-		bool Initialize(const std::string &shaderName, const std::vector<AssetID> &assets, DeserializationParameterMap parameterMap, void *parameterData, size_t parameterByteLength, const std::vector<const Texture*> &textures);
+		virtual bool Initialize(const MaterialAssetDesc& materialDesc) override; 
 		void Shutdown();
 
 		virtual AssetID GetMaterialAssetID() override;

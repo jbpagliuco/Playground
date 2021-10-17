@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <root>
-	<mShaderFilename>normal_map.shaderx</mShaderFilename>
+	<shader>normal_map.shaderx</shader>
 	<mParameters>
 		<element>
 			<mName>diffuse</mName>

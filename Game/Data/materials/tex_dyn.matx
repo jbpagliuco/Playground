@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <root>
-	<mShaderFilename>tex_map.shaderx</mShaderFilename>
+	<shader>tex_map.shaderx</shader>
 	<mParameters>
 		<element>
 			<mName>diffuse</mName>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <root>
-	<mShaderFilename>red.shaderx</mShaderFilename>
+	<shader>red.shaderx</shader>
 	<mParameters>
 		<element>
 			<mName>diffuse</mName>
