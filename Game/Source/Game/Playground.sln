@@ -6,6 +6,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameData", "..\..\Data\Game
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Game.vcxproj", "{CB573AC0-6C94-4F93-BC2A-7F5284B7D434}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameReflection", "GameReflection.vcxproj", "{18A5B2D1-6C94-4F93-BC2A-7F5284B7D434}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RebuildSolution", "RebuildSolution.vcxproj", "{A6E19699-6C94-4F93-BC2A-7F5284B7D434}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EngineData", "..\..\..\PlaygroundEngine\Data\EngineData.vcxproj", "{F932FDC0-6C94-4F93-BC2A-7F5284B7D434}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core", "..\..\..\PlaygroundEngine\Source\Lib\Core\Core.vcxproj", "{6D6E56AA-6C94-4F93-BC2A-7F5284B7D434}"
@@ -30,6 +34,10 @@ Global
 		{CB573AC0-6C94-4F93-BC2A-7F5284B7D434}.Debug|x64.Build.0 = Debug|x64
 		{CB573AC0-6C94-4F93-BC2A-7F5284B7D434}.Release|x64.ActiveCfg = Release|x64
 		{CB573AC0-6C94-4F93-BC2A-7F5284B7D434}.Release|x64.Build.0 = Release|x64
+		{18A5B2D1-6C94-4F93-BC2A-7F5284B7D434}.Debug|x64.ActiveCfg = Debug|x64
+		{18A5B2D1-6C94-4F93-BC2A-7F5284B7D434}.Release|x64.ActiveCfg = Release|x64
+		{A6E19699-6C94-4F93-BC2A-7F5284B7D434}.Debug|x64.ActiveCfg = Debug|x64
+		{A6E19699-6C94-4F93-BC2A-7F5284B7D434}.Release|x64.ActiveCfg = Release|x64
 		{F932FDC0-6C94-4F93-BC2A-7F5284B7D434}.Debug|x64.ActiveCfg = Debug|x64
 		{F932FDC0-6C94-4F93-BC2A-7F5284B7D434}.Release|x64.ActiveCfg = Release|x64
 		{6D6E56AA-6C94-4F93-BC2A-7F5284B7D434}.Debug|x64.ActiveCfg = Debug|x64

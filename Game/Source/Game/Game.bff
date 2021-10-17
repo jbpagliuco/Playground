@@ -136,6 +136,52 @@ VCXProject('GameData-proj')
     }
 }
 
+// Reflection project (ideally this would just hook into the normal build process, but it seems to be much more complicated than I'd hoped).
+Alias('refl')
+{
+    .Targets = {
+        'Core-Debug-refl'
+        'Renderer-Debug-refl'
+        'Engine-Debug-refl'
+        'Game-Debug-refl'
+    }
+}
+
+.GameReflectionProjectConfigs = { }
+ForEach(.config in .AllProjectConfigs) {
+    .Config = [
+        Using(.config)
+        .ProjectBuildCommand        = '$FBuildBaseCommand$ -clean -verbose "refl"'
+        .ProjectRebuildCommand      = '$FBuildBaseCommand$ -clean "refl"'
+        .ProjectCleanCommand        = '$FBuildBaseCommand$ -clean "refl"'
+    ]
+    ^GameReflectionProjectConfigs + .Config
+}
+VCXProject('GameReflection-proj')
+{
+    .ProjectOutput          = '$ProjectBasePath$/GameReflection.vcxproj'
+    .ProjectInputPaths      = { '$ProjectBasePath$' }
+    .ProjectConfigs         = .GameReflectionProjectConfigs
+}
+
+// Solution
+.BuildSolutionProjectConfigs = { }
+ForEach(.config in .AllProjectConfigs) {
+    .Config = [
+        Using(.config)
+            .ProjectBuildCommand        = '$FBuildBaseCommand$ "sln"'
+            .ProjectRebuildCommand      = '$FBuildBaseCommand$ -clean "sln"'
+            .ProjectCleanCommand        = '$FBuildBaseCommand$ -clean "sln"'
+    ]
+    ^BuildSolutionProjectConfigs + .Config
+}
+VCXProject('RebuildSolution-proj')
+{
+    .ProjectOutput      = '$ProjectBasePath$/RebuildSolution.vcxproj'
+    .ProjectInputPaths  = { '$ProjectBasePath$' }
+    .ProjectConfigs     = .BuildSolutionProjectConfigs
+}
+
 VSSolution('Playground-sln')
 {
     .SolutionName       = 'Playground'
@@ -157,6 +203,8 @@ VSSolution('Playground-sln')
     .SolutionProjects = {
         'Game-proj'
         'GameData-proj'
+        'GameReflection-proj'
+        'RebuildSolution-proj'
     }
 
     .EngineFolder = [
@@ -178,13 +226,3 @@ VSSolution('Playground-sln')
 // All
 //------------------------------------------------------------------------------
 Alias( 'sln' ) { .Targets = { 'Playground-sln' } }
-
-Alias('refl')
-{
-    .Targets = {
-        'Core-Debug-refl'
-        'Renderer-Debug-refl'
-        'Engine-Debug-refl'
-        'Game-Debug-refl'
-    }
-}
