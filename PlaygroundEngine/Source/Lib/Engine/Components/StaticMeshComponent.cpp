@@ -28,22 +28,24 @@ namespace playground
 			// Create the dynamic instance
 			materialContainer.CreateDynamicMaterialInstance();
 
+			DynamicMaterialAsset* dynamicMaterial = static_cast<DynamicMaterialAsset*>(mMaterialAsset);
+
 			for (auto& overrideParam : materialParams["overrides"].childrenArray) {
 				MaterialParameterOverride materialOverride;
 				ReflectionDeserialize(MaterialParameterOverride::StaticClass(), &materialOverride, overrideParam);
 
 				switch (materialOverride.mType) {
 				case MaterialParameterType::FLOAT:
-					mMaterialAsset->SetFloatParameter(materialOverride.mName, materialOverride.mFloat);
+					dynamicMaterial->SetFloatParameter(materialOverride.mName, materialOverride.mFloat);
 					break;
 
 				case MaterialParameterType::VECTOR:
-					mMaterialAsset->SetVectorParameter(materialOverride.mName, materialOverride.mVector);
+					dynamicMaterial->SetVectorParameter(materialOverride.mName, materialOverride.mVector);
 					break;
 
 				case MaterialParameterType::TEXTURE:
 				{
-					mMaterialAsset->SetTextureParameter(materialOverride.mName, materialOverride.mAssetId);
+					dynamicMaterial->SetTextureParameter(materialOverride.mName, materialOverride.mAssetId);
 
 					// Release our reference to this asset immediately. The material will still hold a reference.
 					ReleaseAsset(materialOverride.mAssetId);
@@ -54,25 +56,13 @@ namespace playground
 				case MaterialParameterType::RENDER_TARGET_DEPTH:
 				{
 					const bool useColorMap = materialOverride.mType == MaterialParameterType::RENDER_TARGET;
-					mMaterialAsset->SetRenderTargetParameter(materialOverride.mName, materialOverride.mAssetId, useColorMap);
+					dynamicMaterial->SetRenderTargetParameter(materialOverride.mName, materialOverride.mAssetId, useColorMap);
 
 					// Release our reference to this asset immediately. The material will still hold a reference.
 					ReleaseAsset(materialOverride.mAssetId);
 					break;
 				}
 				};
-
-				/*const std::string type = overrideParam.GetAttribute("type");
-
-				if (type == "texture") {
-					mMaterialAsset->SetTextureParameter(overrideParam.GetAttribute("name"), overrideParam.AsFilepath());
-				}
-				else if (type == "renderTarget") {
-					mMaterialAsset->SetRenderTargetParameter(overrideParam.GetAttribute("name"), overrideParam.AsFilepath(), overrideParam.GetAttribute("map") == "color");
-				}
-				else {
-					CORE_ASSERT(false, "Type %s not implemented.", type.c_str());
-				}*/
 			}
 		}
 	}

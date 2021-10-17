@@ -42,12 +42,8 @@ namespace playground
 
 	void MaterialAsset::ReleaseAssets()
 	{
-		for (auto& asset : mStaticAssets) {
+		for (auto& asset : mAssets) {
 			ReleaseAsset(asset);
-		}
-
-		for (auto& it : mDynamicAssets) {
-			ReleaseAsset(it.second);
 		}
 
 		ReleaseAsset(mShaderID);
@@ -63,68 +59,7 @@ namespace playground
 		return *Shader::Get(mShaderID);
 	}
 
-	bool MaterialAsset::SetFloatParameter(const std::string& name, float value)
-	{
-		return mMaterialContainer.SetFloatParameter(name, value);
-	}
-
-	bool MaterialAsset::SetVectorParameter(const std::string& name, const Vector4f& value)
-	{
-		return mMaterialContainer.SetVectorParameter(name, value);
-	}
-
-	bool MaterialAsset::SetTextureParameter(const std::string& name, const std::string &filename)
-	{
-		return SetTextureParameter(name, RequestAsset(filename));
-	}
-
-	bool MaterialAsset::SetTextureParameter(const std::string& name, AssetID textureId)
-	{
-		return SetTextureParameter(name, TextureAsset::Get(textureId));
-	}
-
-	bool MaterialAsset::SetTextureParameter(const std::string& name, TextureAsset* texture)
-	{
-		AddAssetRef(texture->GetID());
-
-		ReleaseAssetByKey(name);
-		mDynamicAssets[name] = texture->GetID();
-
-		return mMaterialContainer.SetTextureParameter(name, &texture->GetTexture());
-	}
-
-	bool MaterialAsset::SetRenderTargetParameter(const std::string& name, const std::string& filename, bool useColorMap)
-	{
-		return SetRenderTargetParameter(name, RequestAsset(filename), useColorMap);
-	}
-
-	bool MaterialAsset::SetRenderTargetParameter(const std::string& name, AssetID renderTargetId, bool useColorMap)
-	{
-		return SetRenderTargetParameter(name, RenderTarget::Get(renderTargetId), useColorMap);
-	}
-
-	bool MaterialAsset::SetRenderTargetParameter(const std::string& name, RenderTarget* renderTarget, bool useColorMap)
-	{
-		AddAssetRef(renderTarget->GetID());
-
-		ReleaseAssetByKey(name);
-		mDynamicAssets[name] = renderTarget->GetID();
-
-		if (useColorMap) {
-			return mMaterialContainer.SetTextureParameter(name, &renderTarget->GetColorMap());
-		}
-		else {
-			return mMaterialContainer.SetTextureParameter(name, &renderTarget->GetDepthMap());
-		}
-	}
-
-	void MaterialAsset::ReleaseAssetByKey(const std::string& parameterName)
-	{
-		if (mDynamicAssets.find(parameterName) != mDynamicAssets.end()) {
-			ReleaseAsset(mDynamicAssets[parameterName]);
-			mDynamicAssets.erase(parameterName);
-		}
-	}
+	
 
 	MaterialAsset::ProcessedParameters MaterialAsset::ProcessParameters(const std::vector<MaterialParameter>& parameters)
 	{
@@ -173,7 +108,7 @@ namespace playground
 			case MaterialParameterType::TEXTURE:
 			{
 				// Add asset id
-				mStaticAssets.push_back(parameter.mAssetId);
+				mAssets.push_back(parameter.mAssetId);
 
 				// Add texture
 				output.mTextures.push_back(&TextureAsset::Get(parameter.mAssetId)->GetTexture());
@@ -189,7 +124,7 @@ namespace playground
 			case MaterialParameterType::RENDER_TARGET_DEPTH:
 			{
 				// Add asset id
-				mStaticAssets.push_back(parameter.mAssetId);
+				mAssets.push_back(parameter.mAssetId);
 
 				// Add render target texture
 				const bool useColorMap = parameter.mType == MaterialParameterType::RENDER_TARGET;
@@ -280,6 +215,10 @@ namespace playground
 	{
 		MaterialAsset::Shutdown();
 
+		for (auto& it : mDynamicAssets) {
+			ReleaseAsset(it.second);
+		}
+
 		mMaterial.Shutdown();
 	}
 
@@ -291,6 +230,69 @@ namespace playground
 	Material& DynamicMaterialAsset::GetMaterial()
 	{
 		return mMaterial;
+	}
+
+	bool DynamicMaterialAsset::SetFloatParameter(const std::string& name, float value)
+	{
+		return mMaterialContainer.SetFloatParameter(name, value);
+	}
+
+	bool DynamicMaterialAsset::SetVectorParameter(const std::string& name, const Vector4f& value)
+	{
+		return mMaterialContainer.SetVectorParameter(name, value);
+	}
+
+	bool DynamicMaterialAsset::SetTextureParameter(const std::string& name, const std::string& filename)
+	{
+		return SetTextureParameter(name, RequestAsset(filename));
+	}
+
+	bool DynamicMaterialAsset::SetTextureParameter(const std::string& name, AssetID textureId)
+	{
+		return SetTextureParameter(name, TextureAsset::Get(textureId));
+	}
+
+	bool DynamicMaterialAsset::SetTextureParameter(const std::string& name, TextureAsset* texture)
+	{
+		AddAssetRef(texture->GetID());
+
+		ReleaseAssetByKey(name);
+		mDynamicAssets[name] = texture->GetID();
+
+		return mMaterialContainer.SetTextureParameter(name, &texture->GetTexture());
+	}
+
+	bool DynamicMaterialAsset::SetRenderTargetParameter(const std::string& name, const std::string& filename, bool useColorMap)
+	{
+		return SetRenderTargetParameter(name, RequestAsset(filename), useColorMap);
+	}
+
+	bool DynamicMaterialAsset::SetRenderTargetParameter(const std::string& name, AssetID renderTargetId, bool useColorMap)
+	{
+		return SetRenderTargetParameter(name, RenderTarget::Get(renderTargetId), useColorMap);
+	}
+
+	bool DynamicMaterialAsset::SetRenderTargetParameter(const std::string& name, RenderTarget* renderTarget, bool useColorMap)
+	{
+		AddAssetRef(renderTarget->GetID());
+
+		ReleaseAssetByKey(name);
+		mDynamicAssets[name] = renderTarget->GetID();
+
+		if (useColorMap) {
+			return mMaterialContainer.SetTextureParameter(name, &renderTarget->GetColorMap());
+		}
+		else {
+			return mMaterialContainer.SetTextureParameter(name, &renderTarget->GetDepthMap());
+		}
+	}
+
+	void DynamicMaterialAsset::ReleaseAssetByKey(const std::string& parameterName)
+	{
+		if (mDynamicAssets.find(parameterName) != mDynamicAssets.end()) {
+			ReleaseAsset(mDynamicAssets[parameterName]);
+			mDynamicAssets.erase(parameterName);
+		}
 	}
 
 

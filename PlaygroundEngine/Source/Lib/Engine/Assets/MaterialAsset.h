@@ -62,19 +62,7 @@ namespace playground
 
 		MaterialContainer& GetMaterialContainer();
 
-		bool SetFloatParameter(const std::string& name, float value);
-		bool SetVectorParameter(const std::string& name, const Vector4f& value);
-
-		bool SetTextureParameter(const std::string& name, const std::string& filename);
-		bool SetTextureParameter(const std::string& name, AssetID textureId);
-		bool SetTextureParameter(const std::string& name, TextureAsset* pTexture);
-
-		bool SetRenderTargetParameter(const std::string& name, const std::string& filename, bool useColorMap);
-		bool SetRenderTargetParameter(const std::string& name, AssetID renderTargetId, bool useColorMap);
-		bool SetRenderTargetParameter(const std::string& name, RenderTarget* renderTarget, bool useColorMap);
-
 	private:
-		void ReleaseAssetByKey(const std::string& parameterName);
 		void ReleaseAssets();
 
 	protected:
@@ -100,8 +88,7 @@ namespace playground
 
 	protected:
 		AssetID mShaderID;
-		std::vector<AssetID> mStaticAssets;
-		std::map<std::string, AssetID> mDynamicAssets;
+		std::vector<AssetID> mAssets;
 
 		MaterialContainer mMaterialContainer;
 	};
@@ -130,8 +117,24 @@ namespace playground
 
 		virtual Material& GetMaterial() override;
 
+		bool SetFloatParameter(const std::string& name, float value);
+		bool SetVectorParameter(const std::string& name, const Vector4f& value);
+
+		bool SetTextureParameter(const std::string& name, const std::string& filename);
+		bool SetTextureParameter(const std::string& name, AssetID textureId);
+		bool SetTextureParameter(const std::string& name, TextureAsset* pTexture);
+
+		bool SetRenderTargetParameter(const std::string& name, const std::string& filename, bool useColorMap);
+		bool SetRenderTargetParameter(const std::string& name, AssetID renderTargetId, bool useColorMap);
+		bool SetRenderTargetParameter(const std::string& name, RenderTarget* renderTarget, bool useColorMap);
+
+	private:
+		void ReleaseAssetByKey(const std::string& parameterName);
+
 	private:
 		DynamicMaterial mMaterial;
+
+		std::map<std::string, AssetID> mDynamicAssets;
 	};
 
 	bool MaterialSystemInit();
