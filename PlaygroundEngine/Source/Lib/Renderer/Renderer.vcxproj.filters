@@ -43,6 +43,18 @@
     <CustomBuild Include="GeneratedCode\RenderTarget.reflgen.h">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
+    <CustomBuild Include="GeneratedCode\Shader.reflgen.cpp">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\Shader.reflgen.h">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\Skybox.reflgen.cpp">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GeneratedCode\Skybox.reflgen.h">
+      <Filter>GeneratedCode</Filter>
+    </CustomBuild>
     <CustomBuild Include="ImguiRenderer.cpp">
     </CustomBuild>
     <CustomBuild Include="ImguiRenderer.h">

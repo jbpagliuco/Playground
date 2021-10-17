@@ -70,16 +70,6 @@ ForEach(.config in .AllReflConfigs) {
     }
 }
 
-Alias('all-refl')
-{
-    .Targets = {
-        'Core-Debug-refl'
-        'Renderer-Debug-refl'
-        'Engine-Debug-refl'
-        'Game-Debug-refl'
-    }
-}
-
 // Executables
 ForEach(.config in .AllConfigs) {
     Using(.config)
@@ -156,7 +146,10 @@ VSSolution('Playground-sln')
     .SolutionConfigs    = { }
     ForEach(.platform in .AllPlatformNames) {
         ForEach(.config in .AllConfigNames) {
-            .SolutionConfig = [ .Platform = .platform .Config = .config ]
+            .SolutionConfig = [ 
+                .Platform = .platform 
+                .Config = .config
+            ]
             ^SolutionConfigs + .SolutionConfig
         }
     }
@@ -177,12 +170,21 @@ VSSolution('Playground-sln')
         }
     ]
     .SolutionFolders = { .EngineFolder }
-
-    .SolutionBuildProjects = '$ProjectName$-proj'
-    .SolutionDeployProjects = '$ProjectName$-proj'
+            
+    .SolutionBuildProject = 'Game-proj'
 }
 
 
 // All
 //------------------------------------------------------------------------------
 Alias( 'sln' ) { .Targets = { 'Playground-sln' } }
+
+Alias('refl')
+{
+    .Targets = {
+        'Core-Debug-refl'
+        'Renderer-Debug-refl'
+        'Engine-Debug-refl'
+        'Game-Debug-refl'
+    }
+}
