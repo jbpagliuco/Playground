@@ -57,18 +57,22 @@
 				<material>red.matx</material>
 			</component>
 			<component type="RigidbodyComponent">
-				<motionType>static</motionType>
-				<collisionType>box</collisionType>
-				<min>
-					<x>-5</x>
-					<y>-0.1</y>
-					<z>-5</z>
-				</min>
-				<max>
-					<x>5</x>
-					<y>0.1</y>
-					<z>5</z>
-				</max>
+				<mMotionType>STATIC</mMotionType>
+				<mShapeInfo>
+					<mType>BOX</mType>
+					<mBoxParams>
+						<mMin>
+							<x>-5</x>
+							<y>-0.1</y>
+							<z>-5</z>
+						</mMin>
+						<mMax>
+							<x>5</x>
+							<y>0.1</y>
+							<z>5</z>
+						</mMax>
+					</mBoxParams>
+				</mShapeInfo>
 			</component>
 		</components>
 	</gameobject>

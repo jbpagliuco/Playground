@@ -8,9 +8,11 @@
 	<mFilename>build_shadow_map.hlsl</mFilename>
 
 	<mVertexFormatDesc>
-		<element>
-			<mFormat>float3</mFormat>
-			<mSemanticType>POSITION</mSemanticType>
-		</element>
+		<mAttributes>
+			<element>
+				<mFormat>float3</mFormat>
+				<mSemanticType>POSITION</mSemanticType>
+			</element>
+		</mAttributes>
 	</mVertexFormatDesc>
 </root>

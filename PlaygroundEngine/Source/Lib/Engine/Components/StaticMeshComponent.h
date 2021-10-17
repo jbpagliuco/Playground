@@ -3,7 +3,8 @@
 #include "Core/Reflection/ReflMarkup.h"
 #include "Renderer/Scene/Renderables/MeshInstance.h"
 
-#include "GameComponent.h"
+#include "Engine/Assets/MaterialAsset.h"
+#include "Engine/Components/GameComponent.h"
 
 #include "StaticMeshComponent.reflgen.h"
 
@@ -11,22 +12,13 @@ namespace playground
 {
 	class MaterialAsset;
 
-	enum class REFLECTED MaterialParameterOverrideType : uint8_t
-	{
-		FLOAT,
-		VECTOR,
-		TEXTURE,
-		RENDER_TARGET,
-		RENDER_TARGET_DEPTH,
-	};
-
 	struct REFLECTED MaterialParameterOverride
 	{
 		GENERATED_REFLECTION_CODE();
 
 	public:
 		std::string mName						REFLECTED;
-		MaterialParameterOverrideType mType		REFLECTED;
+		MaterialParameterType mType				REFLECTED;
 
 		float mFloat		REFL_ENUM_MATCH("mValue", mType, FLOAT);
 		Vector4f mVector	REFL_ENUM_MATCH("mValue", mType, VECTOR);

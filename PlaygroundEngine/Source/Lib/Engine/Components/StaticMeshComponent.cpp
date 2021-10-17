@@ -33,15 +33,15 @@ namespace playground
 				ReflectionDeserialize(MaterialParameterOverride::StaticClass(), &materialOverride, overrideParam);
 
 				switch (materialOverride.mType) {
-				case MaterialParameterOverrideType::FLOAT:
+				case MaterialParameterType::FLOAT:
 					mMaterialAsset->SetFloatParameter(materialOverride.mName, materialOverride.mFloat);
 					break;
 
-				case MaterialParameterOverrideType::VECTOR:
+				case MaterialParameterType::VECTOR:
 					mMaterialAsset->SetVectorParameter(materialOverride.mName, materialOverride.mVector);
 					break;
 
-				case MaterialParameterOverrideType::TEXTURE:
+				case MaterialParameterType::TEXTURE:
 				{
 					mMaterialAsset->SetTextureParameter(materialOverride.mName, materialOverride.mAssetId);
 
@@ -50,10 +50,10 @@ namespace playground
 					break;
 				}
 
-				case MaterialParameterOverrideType::RENDER_TARGET:
-				case MaterialParameterOverrideType::RENDER_TARGET_DEPTH:
+				case MaterialParameterType::RENDER_TARGET:
+				case MaterialParameterType::RENDER_TARGET_DEPTH:
 				{
-					const bool useColorMap = materialOverride.mType == MaterialParameterOverrideType::RENDER_TARGET;
+					const bool useColorMap = materialOverride.mType == MaterialParameterType::RENDER_TARGET;
 					mMaterialAsset->SetRenderTargetParameter(materialOverride.mName, materialOverride.mAssetId, useColorMap);
 
 					// Release our reference to this asset immediately. The material will still hold a reference.

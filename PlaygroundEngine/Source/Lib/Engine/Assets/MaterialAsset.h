@@ -1,16 +1,53 @@
 #pragma once
 
+#include "Core/Reflection/ReflMarkup.h"
 #include "Core/Streaming/Stream.h"
 
 #include "Renderer/Material/DynamicMaterial.h"
 #include "Renderer/Material/MaterialContainer.h"
 #include "Renderer/Material/StaticMaterial.h"
 
+#include "MaterialAsset.reflgen.h"
+
 namespace playground
 {
 	class Material;
 	class RenderTarget;
 	class TextureAsset;
+
+	enum class REFLECTED MaterialParameterType : uint8_t
+	{
+		FLOAT,
+		COLOR,
+		VECTOR,
+		TEXTURE,
+		RENDER_TARGET,
+		RENDER_TARGET_DEPTH,
+	};
+
+	struct REFLECTED MaterialParameter
+	{
+		GENERATED_REFLECTION_CODE();
+
+	public:
+		std::string mName				REFLECTED;
+		MaterialParameterType mType		REFLECTED;
+
+		float mFloat		REFL_ENUM_MATCH("mValue", mType, FLOAT);
+		ColorF mColor		REFL_ENUM_MATCH("mValue", mType, COLOR);
+		Vector4f mVector	REFL_ENUM_MATCH("mValue", mType, VECTOR);
+		AssetID mAssetId	REFL_ENUM_MATCH("mValue", mType, TEXTURE, RENDER_TARGET, RENDER_TARGET_DEPTH) = INVALID_ASSET_ID;
+	};
+
+	struct REFLECTED MaterialAssetDesc
+	{
+		GENERATED_REFLECTION_CODE();
+
+	public:
+		std::string mShaderFilename						REFLECTED REFL_FILEPATH;
+		std::vector<MaterialParameter> mParameters		REFLECTED;
+		bool mIsDynamic									REFLECTED = false;
+	};
 
 	class MaterialAsset
 	{

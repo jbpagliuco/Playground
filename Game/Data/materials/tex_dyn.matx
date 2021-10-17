@@ -1,22 +1,32 @@
 <?xml version="1.0"?>
 
 <root>
-    <shaderFile>tex_map.shaderx</shaderFile>
-	<dynamic>true</dynamic>
-	<parameters>
-		<parameter name="diffuse" type="color">
-			<r>1.0</r>
-			<g>1.0</g>
-			<b>1.0</b>
-		</parameter>
-		<parameter name="specular" type="color">
-			<r>0.0</r>
-			<g>0.0</g>
-			<b>0.0</b>
-			<a>1.0</a>
-		</parameter>
-		<parameter name="DiffuseTexture" type="texture">
-			earth2k.dds
-		</parameter>
-	</parameters>
+	<mShaderFilename>tex_map.shaderx</mShaderFilename>
+	<mParameters>
+		<element>
+			<mName>diffuse</mName>
+			<mType>COLOR</mType>
+			<mValue>
+				<r>1.0</r>
+				<g>1.0</g>
+				<b>1.0</b>
+			</mValue>
+		</element>
+		<element>
+			<mName>specular</mName>
+			<mType>COLOR</mType>
+			<mValue>
+				<r>0.0</r>
+				<g>0.0</g>
+				<b>0.0</b>
+				<a>1.0</a>
+			</mValue>
+		</element>
+		<element>
+			<mName>DiffuseTexture</mName>
+			<mType>TEXTURE</mType>
+			<mValue>earth2k.dds</mValue>
+		</element>
+	</mParameters>
+	<mIsDynamic>true</mIsDynamic>
 </root>

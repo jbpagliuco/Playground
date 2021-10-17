@@ -1,3 +1,4 @@
+#include "Assets/MaterialAsset.h"
 #include "Components/BasicMovementComponent.h"
 #include "Components/CameraComponent.h"
 #include "Components/LightComponent.h"

@@ -8,17 +8,19 @@
 	<mFilename>tex_map.hlsl</mFilename>
 	
     <mVertexFormatDesc>
-        <element>
-            <mFormat>float3</mFormat>
-            <mSemanticType>POSITION</mSemanticType>
-        </element>
-        <element>
-            <mFormat>float3</mFormat>
-            <mSemanticType>NORMAL</mSemanticType>
-        </element>
-        <element>
-            <mFormat>float2</mFormat>
-            <mSemanticType>TEXCOORD</mSemanticType>
-        </element>
+		<mAttributes>
+            <element>
+                <mFormat>float3</mFormat>
+                <mSemanticType>POSITION</mSemanticType>
+            </element>
+            <element>
+                <mFormat>float3</mFormat>
+                <mSemanticType>NORMAL</mSemanticType>
+            </element>
+            <element>
+                <mFormat>float2</mFormat>
+                <mSemanticType>TEXCOORD</mSemanticType>
+            </element>
+		</mAttributes>
     </mVertexFormatDesc>
 </root>

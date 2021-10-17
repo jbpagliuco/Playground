@@ -71,8 +71,6 @@
     <CustomBuild Include="worlds\test_shader2.xml" />
     <CustomBuild Include="worlds\world.xml" />
   </ItemGroup>
-  <ItemGroup>
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{97e102a7-6c94-4f93-bc2a-7f5284b7d434}</ProjectGuid>
     <Keyword>MakeFileProj</Keyword>
