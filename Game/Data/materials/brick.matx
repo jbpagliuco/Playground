@@ -33,4 +33,5 @@
 			<mValue>brick_norm.dds</mValue>
 		</element>
 	</mParameters>
+	<mIsDynamic>true</mIsDynamic>
 </root>

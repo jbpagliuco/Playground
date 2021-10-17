@@ -17,6 +17,8 @@ namespace playground
 			return false;
 		}
 
+		mParameterMap = map;
+
 		// Set default data
 		mDefaultParameterData = CORE_ALLOC(parameterByteLength);
 		memcpy(mDefaultParameterData, defaultParameterData, parameterByteLength);
@@ -59,7 +61,7 @@ namespace playground
 
 	bool DynamicMaterial::GetParameterInfo(DynamicMaterialParameterInfo &info, const std::string &name)
 	{
-		CORE_ASSERT_RETURN_VALUE(mParameterMap.mBufferMap.find(name) != mParameterMap.mBufferMap.end(), false, "Failed to find parameter info for parameter '%s'", name);
+		CORE_ASSERT_RETURN_VALUE(mParameterMap.mBufferMap.find(name) != mParameterMap.mBufferMap.end(), false, "Failed to find parameter info for parameter '%s'", name.c_str());
 
 		info = mParameterMap.mBufferMap[name];
 		return true;
@@ -67,7 +69,7 @@ namespace playground
 
 	int DynamicMaterial::GetTextureParameterIndex(const std::string &name)
 	{
-		CORE_ASSERT_RETURN_VALUE(mParameterMap.mTextureMap.find(name) != mParameterMap.mTextureMap.end(), -1, "Failed to find texture index for parameter '%s'", name);
+		CORE_ASSERT_RETURN_VALUE(mParameterMap.mTextureMap.find(name) != mParameterMap.mTextureMap.end(), -1, "Failed to find texture index for parameter '%s'", name.c_str());
 
 		return mParameterMap.mTextureMap[name];
 	}
