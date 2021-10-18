@@ -28,6 +28,7 @@ namespace playground
 		ImGui::CreateContext();
 		ImGui::StyleColorsDark();
 
+#if CORE_RENDER_API(DX11)
 		if (!ImGui_ImplWin32_Init(Playground_Renderer->GetWindow().handle)) {
 			return false;
 		}
@@ -35,6 +36,7 @@ namespace playground
 		if (!ImGui_ImplDX11_Init(NgaDx11State.mDevice, NgaDx11State.mContext)) {
 			return false;
 		}
+#endif
 
 		RegisterWndProcCallback(ImguiRendererWndProc);
 
