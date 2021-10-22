@@ -104,4 +104,7 @@
     <CustomBuild Include="worlds\world.xml">
     </CustomBuild>
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="worlds\test_empty.xml" />
+  </ItemGroup>
 </Project>

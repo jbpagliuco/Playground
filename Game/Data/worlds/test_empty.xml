@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<root>
+	<gameobject>
+		<name>Camera</name>
+		<transform>
+			<position>
+				<x>0</x>
+				<y>2</y>
+				<z>-10</z>
+			</position>
+			<rotation type="lookat"/>
+		</transform>
+		<components>
+			<component type="CameraComponent">
+				<mCamera>
+					<mEnabled>true</mEnabled>
+					<mFOV>45</mFOV>
+					<mNear>0.1</mNear>
+					<mFar>100</mFar>
+				</mCamera>
+			</component>
+			<component type="BasicMovementComponent">
+				<mSensitivity>0.1</mSensitivity>
+			</component>
+		</components>
+	</gameobject>
+</root>

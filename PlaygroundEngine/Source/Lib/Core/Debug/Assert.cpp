@@ -30,7 +30,7 @@ namespace playground
 			return false;
 
 		case IDCANCEL:
-			exit(-1);
+			std::exit(1);
 			return false;
 		}
 

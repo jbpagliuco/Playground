@@ -1,14 +1,16 @@
 #include "NGA/NGASwapChain.h"
 
-#if CORE_RENDER_API(DX11)
+#if CORE_RENDER_API(DX12)
 
-#include "NGACoreInternalDX11.h"
+#include "NGACoreInternalDX12.h"
+
+#include <dxgi1_4.h>
 
 namespace playground
 {
 	NGA_GPU_CLASS_IMPLEMENT(NGASwapChain);
 
-	bool NGASwapChain::Construct(const NGASwapChainDesc &desc)
+	bool NGASwapChain::Construct(const NGASwapChainDesc& desc)
 	{
 		CORE_ASSERT_RETURN_VALUE(!IsConstructed(), false);
 
@@ -18,7 +20,7 @@ namespace playground
 		swapChainDesc.BufferDesc.Width = desc.mWindow.width;
 		swapChainDesc.BufferDesc.Height = desc.mWindow.height;
 		swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-		swapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
+		swapChainDesc.BufferDesc.RefreshRate.Numerator = 60;
 		swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
 		swapChainDesc.SampleDesc.Count = 1;
 		swapChainDesc.SampleDesc.Quality = 0;
@@ -29,21 +31,8 @@ namespace playground
 		swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
 		swapChainDesc.Flags = 0;
 
-		IDXGIDevice *dxgiDevice;
-		NgaDx11State.mDevice->QueryInterface(__uuidof(dxgiDevice), (void**)&dxgiDevice);
-
-		IDXGIAdapter *dxgiAdapter;
-		dxgiDevice->GetAdapter(&dxgiAdapter);
-
-		IDXGIFactory *dxgiFactory;
-		dxgiAdapter->GetParent(__uuidof(IDXGIFactory), (void**)&dxgiFactory);
-
-		HRESULT hr = dxgiFactory->CreateSwapChain(NgaDx11State.mDevice, &swapChainDesc, &mSwapChain);
-		CORE_FATAL_ERROR(SUCCEEDED(hr), "Failed to create D3D11 swap chain.");
-
-		COM_SAFE_RELEASE(dxgiDevice);
-		COM_SAFE_RELEASE(dxgiAdapter);
-		COM_SAFE_RELEASE(dxgiFactory);
+		HRESULT hr = NgaDx12State.mDXGIFactory->CreateSwapChain(NgaDx12State.mCommandQueue, &swapChainDesc, &mSwapChain);
+		CORE_FATAL_ERROR(SUCCEEDED(hr), "Failed to create D3D12 swap chain.");
 
 		return true;
 	}
@@ -66,6 +55,8 @@ namespace playground
 	void NGASwapChain::Present()
 	{
 		mSwapChain->Present(0, 0);
+
+		mCurrentBackBufferIndex = (mCurrentBackBufferIndex == 0) ? 1 : 0;
 	}
 }
 

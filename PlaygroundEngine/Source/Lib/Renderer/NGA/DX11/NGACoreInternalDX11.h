@@ -7,6 +7,7 @@
 #include <d3d11.h>
 
 #include "NGA/NGACommon.h"
+#include "NGA/NGAUtilDXGI.h"
 
 namespace playground
 {
@@ -17,13 +18,7 @@ namespace playground
 		ID3D11DeviceContext *mContext;
 	};
 
-	DXGI_FORMAT NGAFormatToDXGI(NGAFormat format);
-	DXGI_FORMAT NGATypelessFormatToColorDXGI(NGAFormat format);
-	DXGI_FORMAT NGATypelessFormatToDepthDXGI(NGAFormat format);
-
 	D3D11_USAGE NGAUsageToD3D11(NGAUsage usage);
-
-	NGAFormat DXGIFormatToNGA(DXGI_FORMAT format);
 
 	extern NGAInternalStateDX11 NgaDx11State;
 }

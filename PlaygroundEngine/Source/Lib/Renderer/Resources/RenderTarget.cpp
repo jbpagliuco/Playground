@@ -64,8 +64,8 @@ namespace playground
 		desc.mTextureDesc.mWidth = width;
 		desc.mTextureDesc.mHeight = height;
 
-		success = mDepthMap.Initialize(desc, true);
-		RENDER_ASSERT_RETURN_VALUE(success, false, "Failed to create render target depth map.");
+		//success = mDepthMap.Initialize(desc, true);
+		//RENDER_ASSERT_RETURN_VALUE(success, false, "Failed to create render target depth map.");
 
 		return true;
 	}

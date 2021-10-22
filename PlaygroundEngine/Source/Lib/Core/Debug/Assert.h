@@ -31,7 +31,7 @@ namespace playground
 		}																\
 	}																	
 
-#define CORE_ASSERT_RETURN(cond, ...)        	    						\
+#define CORE_ASSERT_RETURN(cond, ...)        	    					\
 	if (!(cond)) {														\
 		if (CORE_PRINT_ASSERT_MESSAGE(cond, __VA_ARGS__)) {				\
 			DEBUG_BREAK();												\
@@ -58,7 +58,7 @@ namespace playground
 #define CORE_FATAL_ERROR(cond, ...)												\
 	if (!(cond)) {																\
 		playground::PrintErrorMessage(#cond, __FILE__, __LINE__, __VA_ARGS__);	\
-		if (playground::IsDebuggerAttached()) { DEBUG_BREAK(); }					\
+		if (playground::IsDebuggerAttached()) { DEBUG_BREAK(); }				\
 		exit(EXIT_FAILURE);														\
 	}																	
 
@@ -73,7 +73,7 @@ namespace playground
 		return; 														\
 	}																	
 
-#define CORE_ASSERT_RETURN_VALUE_CLEANUP(cond, rv, shutdownFunc, ...)		\
+#define CORE_ASSERT_RETURN_VALUE_CLEANUP(cond, rv, shutdownFunc, ...)	\
 	if (!(cond)) {														\
 		if (CORE_PRINT_ASSERT_MESSAGE(cond, __VA_ARGS__)) {				\
 			DEBUG_BREAK();												\
@@ -82,6 +82,7 @@ namespace playground
 		return rv; 														\
 	}																	
 
+#define CORE_UNIMPLEMENTED(...) CORE_ASSERT(false && !"Unimplemented!", __VA_ARGS__)
 
 #else
 

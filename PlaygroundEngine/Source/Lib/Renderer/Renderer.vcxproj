@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug-DX11|x64">
@@ -123,6 +123,23 @@
     <CustomBuild Include="StateManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="NGA\DX12\NGACommandContextDX12.cpp" />
+    <ClCompile Include="NGA\DX12\NGACoreDX12.cpp" />
+    <ClCompile Include="NGA\DX12\NGACoreInternalDX12.cpp" />
+    <ClCompile Include="NGA\DX12\NGADescriptorHeapDX12.cpp" />
+    <ClCompile Include="NGA\DX12\NGAInputLayoutDX12.cpp" />
+    <ClCompile Include="NGA\DX12\NGAPipelineStateDX12.cpp" />
+    <ClCompile Include="NGA\DX12\NGAResourcesDX12.cpp" />
+    <ClCompile Include="NGA\DX12\NGAResourceViewsDX12.cpp" />
+    <ClCompile Include="NGA\DX12\NGASamplerStateDX12.cpp" />
+    <ClCompile Include="NGA\DX12\NGAShaderDX12.cpp" />
+    <ClCompile Include="NGA\DX12\NGASwapChainDX12.cpp" />
+    <ClCompile Include="NGA\NGAUtilDXGI.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="NGA\DX12\NGACoreInternalDX12.h" />
+    <ClInclude Include="NGA\DX12\NGADescriptorHeapDX12.h" />
+    <ClInclude Include="NGA\NGAUtilDXGI.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6245f607-6c94-4f93-bc2a-7f5284b7d434}</ProjectGuid>

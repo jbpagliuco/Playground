@@ -4,9 +4,10 @@
 
 #include "Core/OS/OS.h"
 
+struct IDXGISwapChain;
+
 namespace playground
 {
-
 	struct NGASwapChainDesc
 	{
 		Window mWindow = INVALID_WINDOW;
@@ -24,12 +25,17 @@ namespace playground
 		bool IsConstructed()const;
 
 		void SetFullscreenState(bool fullscreen)const;
-		void Present()const;
+		void Present();
 
-#if CORE_RENDER_API(DX11)
 	private:
-		struct IDXGISwapChain *mSwapChain;
+#if CORE_RENDER_API(DX11)
+		struct IDXGISwapChain* mSwapChain;
+#elif CORE_RENDER_API(DX12)
+		IDXGISwapChain* mSwapChain;
 #endif
+
+		// Index to whichever back buffer we're currently rendering to.
+		int mCurrentBackBufferIndex = 0;
 
 		// TODO: Might be a better way to handle this
 		friend class NGARenderTargetView;

@@ -179,14 +179,14 @@ namespace playground
 		return true;
 	}
 
-	bool NGARenderTargetView::Construct(const NGASwapChain &swapChain)
+	bool NGARenderTargetView::Construct(const NGASwapChain &swapChain, int buffer)
 	{
 		CORE_ASSERT_RETURN_VALUE(!IsConstructed(), false);
 		CORE_ASSERT_RETURN_VALUE(swapChain.IsConstructed(), false);
 
 		// TODO: Might be a better way to query the back buffer.
 		ID3D11Texture2D *backBuffer;
-		HRESULT hr = swapChain.mSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backBuffer);
+		HRESULT hr = swapChain.mSwapChain->GetBuffer(buffer, __uuidof(ID3D11Texture2D), (void**)&backBuffer);
 		CORE_ASSERT_RETURN_VALUE(SUCCEEDED(hr), false, "Failed to get back buffer. HRESULT %X", hr);
 
 		hr = NgaDx11State.mDevice->CreateRenderTargetView(backBuffer, nullptr, &mView);
