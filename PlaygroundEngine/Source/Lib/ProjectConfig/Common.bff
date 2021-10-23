@@ -145,12 +145,12 @@ Compiler('Compiler-CppReflCompiler-Debug')
 
 .DX11BaseConfig = [
     .RenderConfig = 'DX11'
-    .RenderConfigDefinesArray = { 'CORE_BFF_RENDER_API_PRIVATE_DX11=1' }
+    .RenderConfigDefinesArray = { 'CORE_BFF_RENDER_API_PRIVATE_DX11=1', 'CORE_BFF_DEBUG_ENABLE_PRIVATE_IMGUI=1' }
 ]
 
 .DX12BaseConfig = [
     .RenderConfig = 'DX12'
-    .RenderConfigDefinesArray = { 'CORE_BFF_RENDER_API_PRIVATE_DX12=1' }
+    .RenderConfigDefinesArray = { 'CORE_BFF_RENDER_API_PRIVATE_DX12=1', 'CORE_BFF_DEBUG_ENABLE_PRIVATE_IMGUI=0' }
 ]
 
 Settings

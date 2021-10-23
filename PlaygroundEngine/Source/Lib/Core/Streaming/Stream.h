@@ -82,5 +82,7 @@ namespace playground
 	bool StreamSystemInit();
 	void StreamSystemShutdown();
 
+#if CORE_DEBUG_ENABLE(IMGUI)
 	void StreamSystemDebugRender();
+#endif
 }

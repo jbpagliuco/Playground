@@ -215,6 +215,7 @@ namespace playground
 		CORE_ASSERT(AssetIDs.size() == 0, "There were left over streaming asset ids at shutdown!");
 	}
 
+#if CORE_DEBUG_ENABLE(IMGUI)
 	void StreamSystemDebugRender()
 	{
 		if (!Resources_debug) {
@@ -245,4 +246,6 @@ namespace playground
 
 		ImGui::End();
 	}
+#endif // CORE_DEBUG_ENABLE(IMGUI)
+
 }

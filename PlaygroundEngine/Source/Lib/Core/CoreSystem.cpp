@@ -49,9 +49,11 @@ namespace playground
 	{
 	}
 
+#if CORE_DEBUG_ENABLE(IMGUI)
 	void BaseSystemDebugRender()
 	{
 		ConsoleSystemDebugRender();
 		StreamSystemDebugRender();
 	}
+#endif
 }

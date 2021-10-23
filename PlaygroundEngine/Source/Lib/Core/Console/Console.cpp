@@ -1,5 +1,6 @@
 #include "Console.h"
 
+#include <cstdarg>
 #include <map>
 #include <sstream>
 
@@ -187,7 +188,7 @@ namespace playground
 		return ConsoleDebug;
 	}
 
-
+#if CORE_DEBUG_ENABLE(IMGUI)
 	void ConsoleSystemDebugRender()
 	{
 		if (!ConsoleDebug) {
@@ -266,4 +267,6 @@ namespace playground
 
 		ImGui::End();
 	}
+#endif // CORE_DEBUG_ENABLE(IMGUI)
+
 }

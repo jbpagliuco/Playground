@@ -1,12 +1,20 @@
 #include "ImguiRenderer.h"
 
+#include "Core/Core.h"
+
+#if CORE_DEBUG_ENABLE(IMGUI)
+
 #include "Core/OS/OSWin32.h"
 
 #include "Renderer.h"
 
 #include "Core/Debug/DebugImgui.h"
 
+#if CORE_RENDER_API(DX11)
 #include "NGA/DX11/NGACoreInternalDX11.h"
+#elif CORE_RENDER_API(DX12)
+#include "NGA/DX12/NGACoreInternalDX12.h"
+#endif
 
 namespace playground
 {
@@ -36,6 +44,16 @@ namespace playground
 		if (!ImGui_ImplDX11_Init(NgaDx11State.mDevice, NgaDx11State.mContext)) {
 			return false;
 		}
+#elif CORE_RENDER_API(DX12)
+		if (!ImGui_ImplWin32_Init(Playground_Renderer->GetWindow().handle)) {
+			return false;
+	}
+
+		/*if (!ImGui_ImplDX12_Init(NgaDx12State.mDevice)) {
+			return false;
+		}*/
+#else
+#error Unknown Render API
 #endif
 
 		RegisterWndProcCallback(ImguiRendererWndProc);
@@ -47,15 +65,27 @@ namespace playground
 
 	void ImguiRendererSystemShutdown()
 	{
+#if CORE_RENDER_API(DX11)
 		ImGui_ImplDX11_Shutdown();
 		ImGui_ImplWin32_Shutdown();
+#elif CORE_RENDER_API(DX12)
+		ImGui_ImplDX12_Shutdown();
+		ImGui_ImplWin32_Shutdown();
+#endif
+
 		ImGui::DestroyContext();
 	}
 
 	void ImguiRendererBeginFrame()
 	{
+#if CORE_RENDER_API(DX11)
 		ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();
+#elif CORE_RENDER_API(DX12)
+		ImGui_ImplDX12_NewFrame();
+		ImGui_ImplWin32_NewFrame();
+#endif
+
 		ImGui::NewFrame();
 	}
 
@@ -64,7 +94,12 @@ namespace playground
 		Playground_MainRenderTarget->Bind();
 
 		ImGui::Render();
+
+#if CORE_RENDER_API(DX11)
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+#elif CORE_RENDER_API(DX12)
+		// ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData());
+#endif
 	}
 
 	void ImguiRendererSetFocus(bool focus)
@@ -89,3 +124,21 @@ namespace playground
 		return IsFocused;
 	}
 }
+
+#else
+
+#include "Core/OS/OSWin32.h"
+
+namespace playground
+{
+	bool ImguiRendererWndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) { return false; }
+	bool ImguiRendererSystemInit() { return true; }
+	void ImguiRendererSystemShutdown() {}
+	void ImguiRendererBeginFrame() {}
+	void ImguiRendererEndFrame() {}
+	void ImguiRendererSetFocus(bool focus) {}
+	bool ImguiRendererGetFocus() { return false; }
+}
+
+#endif
+

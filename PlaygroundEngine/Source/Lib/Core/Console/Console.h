@@ -53,5 +53,7 @@ namespace playground
 	void ConsoleSystemActivate(bool active);
 	bool ConsoleSystemIsActive();
 
+#if CORE_DEBUG_ENABLE(IMGUI)
 	void ConsoleSystemDebugRender();
+#endif
 }

@@ -84,10 +84,12 @@ namespace playground
 
 	////////////////////////////////////////////////////////////////
 
+#if CORE_DEBUG_ENABLE(IMGUI)
 	static void DebugRender();
 	static void CheckDebugRendererSwitch();
 
 	static void DebugRenderFrameTime();
+#endif
 
 	////////////////////////////////////////////////////////////////
 	
@@ -252,7 +254,9 @@ namespace playground
 		RenderingSystemBeginFrame();
 		RenderingSystemDoFrame();
 
+#if CORE_DEBUG_ENABLE(IMGUI)
 		DebugRender();
+#endif
 
 		RenderingSystemEndFrame();
 	}
@@ -261,8 +265,11 @@ namespace playground
 	{
 		int numGameTickLoops = 0;
 		int elapsedTime = GetEngineElapsedTimeMilliseconds();
-		while (elapsedTime > NextGameTickTime && numGameTickLoops < UPDATE_GAME_MAX_FRAMESKIP) {
+		while (elapsedTime > NextGameTickTime && numGameTickLoops < UPDATE_GAME_MAX_FRAMESKIP)
+		{
+			#if CORE_DEBUG_ENABLE(IMGUI)
 			CheckDebugRendererSwitch();
+			#endif
 
 			// Calculate delta frame time and update game
 			const float deltaTime = (elapsedTime - LastUpdateGameTickTime) / 1000.0f;
@@ -308,12 +315,14 @@ namespace playground
 	}
 	
 
+#if CORE_DEBUG_ENABLE(IMGUI)
 	static void DebugRender()
 	{
 		BaseSystemDebugRender();
 
 		DebugRenderFrameTime();
 	}
+#endif
 
 	static void CheckDebugRendererSwitch()
 	{
@@ -334,6 +343,7 @@ namespace playground
 	}
 
 
+#if CORE_DEBUG_ENABLE(IMGUI)
 	static void DebugRenderFrameTime()
 	{
 #if CORE_CONFIG(DEBUG)
@@ -347,4 +357,6 @@ namespace playground
 		}
 #endif
 	}
+#endif // CORE_DEBUG_ENABLE(IMGUI)
+
 }
