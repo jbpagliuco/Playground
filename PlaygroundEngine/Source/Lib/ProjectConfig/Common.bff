@@ -36,7 +36,7 @@ ForEach(.library in .PlaygroundEngineLibs) {
 
 // VisualStudio Constants (2019 x64 Compiler)
 .VSBasePath         = 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Community'
-.VSVersion          = '14.28.29910'
+.VSVersion          = '14.29.30133'
 .VSIncPaths = {
     '$VSBasePath$/VC/Tools/MSVC/$VSVersion$/include'
     '$VSBasePath$/VC/Tools/MSVC/$VSVersion$/atlmfc/include'
@@ -57,7 +57,7 @@ ForEach(.library in .PlaygroundEngineLibs) {
 .WindowsSystem32Path = 'C:/Windows/System32'
 
 // Windows Kits Constants
-.WindowsKitsVersion          = '10.0.18362.0'
+.WindowsKitsVersion          = '10.0.19041.0'
 .WindowsKitsNETFXSDKBasePath = 'C:/Program Files (x86)/Windows Kits/NETFXSDK/4.8'
 .WindowsKitsIncBasePath      = 'C:/Program Files (x86)/Windows Kits/10/Include/$WindowsKitsVersion$'
 .WindowsKitsIncPaths = {

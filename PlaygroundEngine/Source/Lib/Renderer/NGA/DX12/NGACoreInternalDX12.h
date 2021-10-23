@@ -4,8 +4,9 @@
 
 #if CORE_RENDER_API(DX12)
 
-#include <d3d12.h>
+#include "DirectX/d3d12.h"
 #include <dxgi.h>
+#include "DirectX/d3dx12.h"
 
 #include "NGA/DX12/NGADescriptorHeapDX12.h"
 #include "NGA/NGACommon.h"

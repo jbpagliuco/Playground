@@ -31,10 +31,10 @@
     <CustomBuild Include="GeneratedCode\NGASamplerState.reflgen.h">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
-    <CustomBuild Include="GeneratedCode\RendererReflection_Release.reflgen.cpp">
+    <CustomBuild Include="GeneratedCode\RendererReflection_Debug.reflgen.cpp">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
-    <CustomBuild Include="GeneratedCode\RendererReflection_Release.reflgen.h">
+    <CustomBuild Include="GeneratedCode\RendererReflection_Debug.reflgen.h">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
     <CustomBuild Include="GeneratedCode\RenderTarget.reflgen.cpp">
@@ -124,6 +124,45 @@
     <CustomBuild Include="NGA\DX11\NGASwapChainDX11.cpp">
       <Filter>NGA\DX11</Filter>
     </CustomBuild>
+    <CustomBuild Include="NGA\DX12\NGACommandContextDX12.cpp">
+      <Filter>NGA\DX12</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\DX12\NGACoreDX12.cpp">
+      <Filter>NGA\DX12</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\DX12\NGACoreInternalDX12.cpp">
+      <Filter>NGA\DX12</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\DX12\NGACoreInternalDX12.h">
+      <Filter>NGA\DX12</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\DX12\NGADescriptorHeapDX12.cpp">
+      <Filter>NGA\DX12</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\DX12\NGADescriptorHeapDX12.h">
+      <Filter>NGA\DX12</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\DX12\NGAInputLayoutDX12.cpp">
+      <Filter>NGA\DX12</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\DX12\NGAPipelineStateDX12.cpp">
+      <Filter>NGA\DX12</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\DX12\NGAResourcesDX12.cpp">
+      <Filter>NGA\DX12</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\DX12\NGAResourceViewsDX12.cpp">
+      <Filter>NGA\DX12</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\DX12\NGASamplerStateDX12.cpp">
+      <Filter>NGA\DX12</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\DX12\NGAShaderDX12.cpp">
+      <Filter>NGA\DX12</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\DX12\NGASwapChainDX12.cpp">
+      <Filter>NGA\DX12</Filter>
+    </CustomBuild>
     <CustomBuild Include="NGA\NGACommandContext.h">
       <Filter>NGA</Filter>
     </CustomBuild>
@@ -164,6 +203,12 @@
       <Filter>NGA</Filter>
     </CustomBuild>
     <CustomBuild Include="NGA\NGASwapChain.h">
+      <Filter>NGA</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\NGAUtilDXGI.cpp">
+      <Filter>NGA</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\NGAUtilDXGI.h">
       <Filter>NGA</Filter>
     </CustomBuild>
     <CustomBuild Include="Pipelines\DebugTexture.cpp">
@@ -313,6 +358,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <Filter Include="NGA\DX12">
+      <UniqueIdentifier>{f62685e2-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
     <Filter Include="Pipelines">
       <UniqueIdentifier>{10ac01db-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
     </Filter>
@@ -336,24 +386,5 @@
     <Filter Include="Shader">
       <UniqueIdentifier>{c565ed05-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="NGA\DX12\NGACoreDX12.cpp" />
-    <ClCompile Include="NGA\DX12\NGACoreInternalDX12.cpp" />
-    <ClCompile Include="NGA\DX12\NGASwapChainDX12.cpp" />
-    <ClCompile Include="NGA\NGAUtilDXGI.cpp" />
-    <ClCompile Include="NGA\DX12\NGAResourceViewsDX12.cpp" />
-    <ClCompile Include="NGA\DX12\NGACommandContextDX12.cpp" />
-    <ClCompile Include="NGA\DX12\NGADescriptorHeapDX12.cpp" />
-    <ClCompile Include="NGA\DX12\NGAInputLayoutDX12.cpp" />
-    <ClCompile Include="NGA\DX12\NGAPipelineStateDX12.cpp" />
-    <ClCompile Include="NGA\DX12\NGAResourcesDX12.cpp" />
-    <ClCompile Include="NGA\DX12\NGASamplerStateDX12.cpp" />
-    <ClCompile Include="NGA\DX12\NGAShaderDX12.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="NGA\DX12\NGACoreInternalDX12.h" />
-    <ClInclude Include="NGA\NGAUtilDXGI.h" />
-    <ClInclude Include="NGA\DX12\NGADescriptorHeapDX12.h" />
   </ItemGroup>
 </Project>

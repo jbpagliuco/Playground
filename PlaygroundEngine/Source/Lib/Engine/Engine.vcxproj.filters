@@ -83,10 +83,10 @@
     <CustomBuild Include="GeneratedCode\CameraComponent.reflgen.h">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
-    <CustomBuild Include="GeneratedCode\EngineReflection_Release.reflgen.cpp">
+    <CustomBuild Include="GeneratedCode\EngineReflection_Debug.reflgen.cpp">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
-    <CustomBuild Include="GeneratedCode\EngineReflection_Release.reflgen.h">
+    <CustomBuild Include="GeneratedCode\EngineReflection_Debug.reflgen.h">
       <Filter>GeneratedCode</Filter>
     </CustomBuild>
     <CustomBuild Include="GeneratedCode\LightComponent.reflgen.cpp">

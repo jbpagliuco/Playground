@@ -31,8 +31,13 @@
     '$PlaygroundVendorPath$/PhysX/bin/win.x86_64.vc141.mt/debug/PhysXFoundation_64.dll'
 }
 
+// Relative to the vendor path (need to include this before the windows SDK)
+.DirectXIncludePath = 'DirectX/include/directx'
+.DirectXIncludePathFull = '$PlaygroundVendorPath$/DirectX/include/directx'
+
 .VendorIncludePaths = {
     'CppRefl/include'
+    .DirectXIncludePath
     'DirectXTK/include'
     'PhysX/include'
 }
@@ -95,7 +100,7 @@
 
 
     .DefinesArray           + { 'CORE_BFF_PLATFORM_PRIVATE_PC=1' }
-    .IncludesArray          + .VSIncPaths + .WindowsKitsIncPaths
+    .IncludesArray          + .VSIncPaths + .DirectXIncludePathFull + .WindowsKitsIncPaths
     .ProjectIncludePaths    + { '.', '..' }
     .LibraryPathsArray      + { .WindowsSystem32Path } + .VSLibPaths + .WindowsKitsLibPaths
 ]

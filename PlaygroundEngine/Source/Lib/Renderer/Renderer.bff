@@ -11,6 +11,8 @@
     '../Core/GeneratedCode'
     '../../Vendor'
     '../../Vendor/CppRefl/include'
+    '../../Vendor/DirectX/include'
+    '../../Vendor/DirectX/include/DirectX'
 }
 .ProjectBinaryExtension = 'lib'
 
