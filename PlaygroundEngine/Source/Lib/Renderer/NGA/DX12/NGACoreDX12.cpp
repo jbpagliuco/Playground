@@ -29,6 +29,7 @@ namespace playground
 		ID3D12Debug* debugInterface;
 		D3D12GetDebugInterface(IID_PPV_ARGS(&debugInterface));
 		debugInterface->EnableDebugLayer();
+		COM_SAFE_RELEASE(debugInterface);
 #endif // CORE_CONFIG(DEBUG)
 
 		// Create DXGI factory.
@@ -37,6 +38,14 @@ namespace playground
 		// Create device.
 		HRESULT hr = D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_12_0, IID_PPV_ARGS(&NgaDx12State.mDevice));
 		CORE_FATAL_ERROR(SUCCEEDED(hr), "Failed to create DirectX 12 device.");
+
+		// Break on errors
+#if CORE_CONFIG(DEBUG)
+		ID3D12InfoQueue* infoQueue;
+		NgaDx12State.mDevice->QueryInterface(IID_PPV_ARGS(&infoQueue));
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
+		COM_SAFE_RELEASE(infoQueue);
+#endif // CORE_CONFIG(DEBUG)
 
 		// Create synchronization fence.
 		hr = NgaDx12State.mDevice->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&NgaDx12State.mFence));
@@ -85,6 +94,7 @@ namespace playground
 		if (SUCCEEDED(DXGIGetDebugInterface1(0, IID_PPV_ARGS(&dxgiDebug)))) {
 			dxgiDebug->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_FLAGS(DXGI_DEBUG_RLO_SUMMARY | DXGI_DEBUG_RLO_IGNORE_INTERNAL));
 		}
+		COM_SAFE_RELEASE(dxgiDebug);
 #endif // CORE_CONFIG(DEBUG)
 	}
 }

@@ -64,6 +64,11 @@ namespace playground
 		mCommandContext.Reset();
 	}
 
+	void StateManager::ResetCommandList()
+	{
+		mCommandContext.Reset();
+	}
+
 	void StateManager::CloseCommandList()
 	{
 		mCommandContext.Close();

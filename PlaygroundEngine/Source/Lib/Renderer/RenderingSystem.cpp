@@ -153,6 +153,7 @@ namespace playground
 
 	void RenderingSystemShutdown()
 	{
+		Playground_RendererStateManager->ResetCommandList();
 		Playground_RendererStateManager->CloseCommandList();
 
 		MainSceneRenderer.Shutdown();

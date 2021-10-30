@@ -64,6 +64,8 @@ namespace playground
 
 		// Opens the command list for commands to be added.
 		void OpenCommandList();
+		// Resets the command list.
+		void ResetCommandList();
 		// Closes and flushes the command list.
 		void CloseCommandList();
 
