@@ -9,6 +9,9 @@
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "d3dcompiler.lib")
 
+#include <dxgi1_3.h>
+#include <dxgidebug.h>
+
 #include "Core/Debug/Assert.h"
 
 #include "NGACoreInternalDX12.h"
@@ -64,18 +67,26 @@ namespace playground
 
 	void NGAShutdown()
 	{
-		COM_SAFE_RELEASE(NgaDx12State.mDevice);
-		COM_SAFE_RELEASE(NgaDx12State.mDXGIFactory);
-		COM_SAFE_RELEASE(NgaDx12State.mFence);
-
-		COM_SAFE_RELEASE(NgaDx12State.mCommandQueue);
-		COM_SAFE_RELEASE(NgaDx12State.mCommandAllocator);
-		COM_SAFE_RELEASE(NgaDx12State.mCommandList);
-
-		NgaDx12State.mRtvHeap.Shutdown();
-		NgaDx12State.mDsvHeap.Shutdown();
 		NgaDx12State.mCbvSrvUavHeap.Shutdown();
+		NgaDx12State.mDsvHeap.Shutdown();
+		NgaDx12State.mRtvHeap.Shutdown();
+
+		COM_SAFE_RELEASE(NgaDx12State.mCommandList);
+		COM_SAFE_RELEASE(NgaDx12State.mCommandAllocator);
+		COM_SAFE_RELEASE(NgaDx12State.mCommandQueue);
+
+		COM_SAFE_RELEASE(NgaDx12State.mFence);
+		COM_SAFE_RELEASE(NgaDx12State.mDXGIFactory);
+		COM_SAFE_RELEASE(NgaDx12State.mDevice);
+
+		// Report live objects
+#if CORE_CONFIG(DEBUG)
+		IDXGIDebug1* dxgiDebug;
+		if (SUCCEEDED(DXGIGetDebugInterface1(0, IID_PPV_ARGS(&dxgiDebug)))) {
+			dxgiDebug->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_FLAGS(DXGI_DEBUG_RLO_SUMMARY | DXGI_DEBUG_RLO_IGNORE_INTERNAL));
+		}
+#endif // CORE_CONFIG(DEBUG)
 	}
 }
 
-#endif // CORE_RENDER_API(DX11)
+#endif // CORE_RENDER_API(DX12)

@@ -58,7 +58,8 @@ namespace playground
 		struct ID3D11RasterizerState *mRasterizerState = nullptr;
 		struct ID3D11DepthStencilState *mDepthStencilState = nullptr;
 #elif CORE_RENDER_API(DX12)
-		ID3D12PipelineState* mPSO;
+		ID3D12PipelineState* mPSO = nullptr;
+		ID3D12RootSignature* mRootSignature = nullptr;
 #endif
 
 		friend class NGACommandContext;

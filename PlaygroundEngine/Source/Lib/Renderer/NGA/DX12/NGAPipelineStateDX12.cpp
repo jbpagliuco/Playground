@@ -62,8 +62,9 @@ namespace playground
 			return false;
 		}
 
-		hr = NgaDx12State.mDevice->CreateRootSignature(0, serializedRootSignature->GetBufferPointer(), serializedRootSignature->GetBufferSize(), IID_PPV_ARGS(&desc.pRootSignature));
+		hr = NgaDx12State.mDevice->CreateRootSignature(0, serializedRootSignature->GetBufferPointer(), serializedRootSignature->GetBufferSize(), IID_PPV_ARGS(&mRootSignature));
 		CORE_ASSERT_RETURN_VALUE(SUCCEEDED(hr), false);
+		desc.pRootSignature = mRootSignature;
 
 		// Shaders
 		desc.VS = (D3D12_SHADER_BYTECODE)*pipelineDesc.mVertexShader;
@@ -152,13 +153,13 @@ namespace playground
 
 	void NGAPipelineState::Destruct()
 	{
-		CORE_UNIMPLEMENTED();
+		COM_SAFE_RELEASE(mRootSignature);
+		COM_SAFE_RELEASE(mPSO);
 	}
 
 	bool NGAPipelineState::IsConstructed()const
 	{
-		CORE_UNIMPLEMENTED();
-		return false;
+		return mPSO != nullptr;
 	}
 }
 
