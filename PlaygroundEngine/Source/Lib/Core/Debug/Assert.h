@@ -24,6 +24,8 @@ namespace playground
 
 #define CORE_PRINT_ASSERT_MESSAGE(cond, ...) playground::PrintAssertMessage(#cond, __FILE__, __LINE__, __VA_ARGS__)
 
+#define CORE_ERROR(...) CORE_PRINT_ASSERT_MESSAGE("Error")
+
 #define CORE_ASSERT(cond, ...)											\
 	if (!(cond)) {														\
 		if (CORE_PRINT_ASSERT_MESSAGE(cond, __VA_ARGS__)) {				\
@@ -86,6 +88,7 @@ namespace playground
 
 #else
 
+#define CORE_ERROR(...) 
 #define CORE_ASSERT(...)
 #define CORE_ASSERT_RETURN(cond, ...)					if (!(cond)) { return; }
 #define CORE_ASSERT_RETURN_VALUE(cond, rv, ...)		if (!(cond)) { return rv; }

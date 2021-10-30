@@ -9,9 +9,7 @@
 #define ASSERT_LOG_FILTER "Asserts"
 
 #define LOG_ASSERT_MESSAGE(fmt, ...)							\
-	playground::LogError(ASSERT_LOG_FILTER, fmt, __VA_ARGS__);			\
-	playground::LogError(ASSERT_LOG_FILTER, "Filename: %s", file);		\
-	playground::LogError(ASSERT_LOG_FILTER, "Line: %d", line)		
+	playground::LogError(ASSERT_LOG_FILTER, "%s(%d): " fmt, file, line, __VA_ARGS__)
 
 
 namespace playground
