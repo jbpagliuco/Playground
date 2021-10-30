@@ -11,9 +11,43 @@
 
 namespace playground
 {
+	void NGACommandContext::Reset()
+	{
+		NgaDx12State.mCommandList->Reset(NgaDx12State.mCommandAllocator, nullptr);
+	}
+
+	void NGACommandContext::Close()
+	{
+		NgaDx12State.mCommandList->Close();
+
+		ID3D12CommandList* cmdLists[] = { NgaDx12State.mCommandList };
+		NgaDx12State.mCommandQueue->ExecuteCommandLists(1, cmdLists);
+	}
+
+	void NGACommandContext::Flush()
+	{
+		// Increment the fence value.
+		++NgaDx12State.mCurrentFence;
+
+		// Process all commands prior to this one.
+		NgaDx12State.mCommandQueue->Signal(NgaDx12State.mFence, NgaDx12State.mCurrentFence);
+
+		// Wait for the GPU to complete all commands.
+		if (NgaDx12State.mFence->GetCompletedValue() < NgaDx12State.mCurrentFence) {
+			// Fire event when the GPU hits the fence.
+			HANDLE eventHandle = CreateEventEx(nullptr, false, false, EVENT_ALL_ACCESS);
+			NgaDx12State.mFence->SetEventOnCompletion(NgaDx12State.mCurrentFence, eventHandle);
+
+			WaitForSingleObject(eventHandle, INFINITE);
+			CloseHandle(eventHandle);
+		}
+	}
+
+
+
 	void NGACommandContext::BindPipelineState(const NGAPipelineState& pipelineState)
 	{
-		CORE_UNIMPLEMENTED();
+		NgaDx12State.mCommandList->SetPipelineState(pipelineState.mPSO);
 	}
 
 	void NGACommandContext::DrawIndexed(unsigned int indexCount)
@@ -44,14 +78,14 @@ namespace playground
 		CORE_UNIMPLEMENTED();
 	}
 
-	void NGACommandContext::BindIndexBuffer(const NGABuffer& indexBuffer, NGAIndexBufferType indexBufferType)
+	void NGACommandContext::BindIndexBuffer(const NGABuffer& indexBuffer)
 	{
-		CORE_UNIMPLEMENTED();
+		NgaDx12State.mCommandList->IASetIndexBuffer(&indexBuffer.mIndexBufferView);
 	}
 
-	void NGACommandContext::BindVertexBuffer(const NGABuffer& vertexBuffer, size_t vertexStride)
+	void NGACommandContext::BindVertexBuffer(const NGABuffer& vertexBuffer)
 	{
-		CORE_UNIMPLEMENTED();
+		NgaDx12State.mCommandList->IASetVertexBuffers(0, 1, &vertexBuffer.mVertexBufferView);
 	}
 
 	void NGACommandContext::BindInputLayout(const NGAInputLayout& inputLayout)
@@ -71,12 +105,12 @@ namespace playground
 
 	void NGACommandContext::BindShaderResource(const NGAShaderResourceView& view, NGAShaderStage stage, int slot)
 	{
-		CORE_UNIMPLEMENTED();
+		// CORE_UNIMPLEMENTED();
 	}
 
 	void NGACommandContext::BindSamplerState(const NGASamplerState& samplerState, NGAShaderStage stage, int slot)
 	{
-		CORE_UNIMPLEMENTED();
+		// CORE_UNIMPLEMENTED();
 	}
 
 	void NGACommandContext::ClearRenderTarget(const NGARenderTargetView& renderTargetView, const float* clearColor)

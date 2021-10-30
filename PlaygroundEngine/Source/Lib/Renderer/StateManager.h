@@ -62,6 +62,11 @@ namespace playground
 		bool Initialize();
 		void Shutdown();
 
+		// Opens the command list for commands to be added.
+		void OpenCommandList();
+		// Closes and flushes the command list.
+		void CloseCommandList();
+
 		void ClearAllUserResources();
 
 		void SetPerFrameData(const Matrix &cameraViewProj, Matrix lightViewProj[MAX_SHADOWMAPS], int numShadowCasters);

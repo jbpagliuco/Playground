@@ -25,6 +25,10 @@ namespace playground
 
 		NGAShaderType GetType()const;
 
+#if CORE_RENDER_API(DX12)
+		operator D3D12_SHADER_BYTECODE()const;
+#endif
+
 	private:
 		NGAShaderType mType;
 
@@ -36,6 +40,9 @@ namespace playground
 		};
 
 		struct ID3D10Blob *mBytecode;
+#elif CORE_RENDER_API(DX12)
+	private:
+		ID3DBlob* mBytecode = nullptr;
 #endif
 
 		friend class NGACommandContext;

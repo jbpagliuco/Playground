@@ -43,7 +43,10 @@ namespace playground
 		R16_FLOAT,
 		R16G16_FLOAT,
 		R16G16B16A16_FLOAT,
-		
+
+		R16_UINT,
+		R32_UINT,
+
 		BC1_UNORM,
 		B8G8R8A8_UNORM,
 		

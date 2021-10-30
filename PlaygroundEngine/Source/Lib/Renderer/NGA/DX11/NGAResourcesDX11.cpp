@@ -10,10 +10,6 @@
 
 namespace playground
 {
-	NGA_GPU_CLASS_IMPLEMENT(NGATexture);
-	NGA_GPU_CLASS_IMPLEMENT(NGABuffer);
-
-
 	static UINT CreateBindFlags(const NGATextureDesc &desc)
 	{
 		UINT bindFlags = 0;

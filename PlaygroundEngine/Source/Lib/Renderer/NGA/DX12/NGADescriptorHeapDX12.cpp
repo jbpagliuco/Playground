@@ -8,7 +8,7 @@
 
 namespace playground
 {
-	bool NGAResourceDescriptorHeap::Initialize(D3D12_DESCRIPTOR_HEAP_TYPE type, int maxDescriptors)
+	bool NGAResourceDescriptorHeap::Initialize(D3D12_DESCRIPTOR_HEAP_TYPE type, int maxDescriptors, D3D12_DESCRIPTOR_HEAP_FLAGS flags)
 	{
 		mType = type;
 		mMaxDescriptors = maxDescriptors;
@@ -20,7 +20,7 @@ namespace playground
 		D3D12_DESCRIPTOR_HEAP_DESC heapDesc{};
 		heapDesc.NumDescriptors = maxDescriptors;
 		heapDesc.Type = type;
-		heapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+		heapDesc.Flags = flags;
 		heapDesc.NodeMask = 0;
 
 		HRESULT hr = NgaDx12State.mDevice->CreateDescriptorHeap(&heapDesc, IID_PPV_ARGS(&mHeap));

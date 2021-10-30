@@ -17,6 +17,7 @@ namespace playground
 {
 	constexpr UINT NUM_RTV_DESCRIPTORS = 5;
 	constexpr UINT NUM_DSV_DESCRIPTORS = 5;
+	constexpr UINT NUM_CBV_SRV_UAV_DESCRIPTORS = 15;
 
 	void NGAInitialize(const NGAInitParams& params)
 	{
@@ -58,6 +59,7 @@ namespace playground
 
 		NgaDx12State.mRtvHeap.Initialize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV, NUM_RTV_DESCRIPTORS);
 		NgaDx12State.mDsvHeap.Initialize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV, NUM_DSV_DESCRIPTORS);
+		NgaDx12State.mCbvSrvUavHeap.Initialize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, NUM_CBV_SRV_UAV_DESCRIPTORS, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
 	}
 
 	void NGAShutdown()
@@ -72,7 +74,7 @@ namespace playground
 
 		NgaDx12State.mRtvHeap.Shutdown();
 		NgaDx12State.mDsvHeap.Shutdown();
-		NgaDx12State.mCbvSrvHeap.Shutdown();
+		NgaDx12State.mCbvSrvUavHeap.Shutdown();
 	}
 }
 

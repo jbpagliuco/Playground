@@ -19,7 +19,7 @@ namespace playground
 		bool success = mShadowMapBuilder.Initialize(MAX_SHADOWMAPS);
 		CORE_ASSERT_RETURN_VALUE(success, false, "Failed to initialize shadowmap builder.");
 
-		success = mRenderPipelineState.Construct(NGAFixedFunctionStateDesc(), NGAGraphicsPipelineInputAssemblyDesc());
+		//success = mRenderPipelineState.Construct(NGAFixedFunctionStateDesc(), NGAGraphicsPipelineInputAssemblyDesc());
 		CORE_ASSERT_RETURN_VALUE(success, false, "Failed to render pipeline state.");
 
 		// Register engine assets
@@ -37,10 +37,12 @@ namespace playground
 
 	void ForwardRenderer::BeginRender()
 	{
+		Playground_RendererStateManager->OpenCommandList();
 	}
 
 	void ForwardRenderer::EndRender()
 	{
+		Playground_RendererStateManager->CloseCommandList();
 	}
 
 	void ForwardRenderer::RenderScene(Scene &scene, const Camera &camera)
@@ -154,7 +156,7 @@ namespace playground
 
 		// Draw skybox last
 		if (camera.mSkybox != nullptr) {
-			RenderSkybox(*camera.mSkybox, camera);
+			 RenderSkybox(*camera.mSkybox, camera);
 		}
 
 		// Draw debug texture, if set

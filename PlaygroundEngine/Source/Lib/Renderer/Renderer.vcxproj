@@ -51,6 +51,9 @@
     <CustomBuild Include="Material\StaticMaterial.h" />
     <CustomBuild Include="Mesh.cpp" />
     <CustomBuild Include="Mesh.h" />
+    <CustomBuild Include="NGA\Common\NGADirectXUtil.cpp" />
+    <CustomBuild Include="NGA\Common\NGADirectXUtil.h" />
+    <CustomBuild Include="NGA\Common\NGAResourcesCommon.cpp" />
     <CustomBuild Include="NGA\DX11\NGACommandContextDX11.cpp" />
     <CustomBuild Include="NGA\DX11\NGACoreDX11.cpp" />
     <CustomBuild Include="NGA\DX11\NGACoreInternalDX11.cpp" />
@@ -89,8 +92,6 @@
     <CustomBuild Include="NGA\NGAShader.h" />
     <CustomBuild Include="NGA\NGAShapes.h" />
     <CustomBuild Include="NGA\NGASwapChain.h" />
-    <CustomBuild Include="NGA\NGAUtilDXGI.cpp" />
-    <CustomBuild Include="NGA\NGAUtilDXGI.h" />
     <CustomBuild Include="Pipelines\DebugTexture.cpp" />
     <CustomBuild Include="Pipelines\DebugTexture.h" />
     <CustomBuild Include="Pipelines\ShadowMap.cpp" />
@@ -138,6 +139,11 @@
     <CustomBuild Include="StateManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="NGA\Common\NGAShaderCommon.cpp" />
+    <ClCompile Include="Scene\Renderers\EmptySceneRenderer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Scene\Renderers\EmptySceneRenderer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6245f607-6c94-4f93-bc2a-7f5284b7d434}</ProjectGuid>
@@ -184,29 +190,29 @@
     <NMakeBuildCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  "Renderer-x64-Debug-DX11"</NMakeBuildCommandLine>
     <NMakeReBuildCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  -clean "Renderer-x64-Debug-DX11"</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  -clean "Renderer-x64-Debug-DX11"</NMakeCleanCommandLine>
-    <NMakePreprocessorDefinitions>UNICODE;_UNICODE;CORE_BFF_PLATFORM_PRIVATE_PC=1;CORE_BFF_CONFIG_PRIVATE_DEBUG=1;_DEBUG;CORE_BFF_RENDER_API_PRIVATE_DX11=1;</NMakePreprocessorDefinitions>
-    <NMakeIncludeSearchPath>C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/atlmfc/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Auxiliary/VS/include;DirectX/include/directx;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/um;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/shared;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/winrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/cppwinrt;C:/Program Files (x86)/Windows Kits/NETFXSDK/4.8/Include/um;.;GeneratedCode;..;../Core;../Core/GeneratedCode;../../Vendor;../../Vendor/CppRefl/include;../../Vendor/DirectX/include;../../Vendor/DirectX/include/DirectX;.;..;</NMakeIncludeSearchPath>
+    <NMakePreprocessorDefinitions>UNICODE;_UNICODE;CORE_BFF_PLATFORM_PRIVATE_PC=1;CORE_BFF_CONFIG_PRIVATE_DEBUG=1;_DEBUG;CORE_BFF_RENDER_API_PRIVATE_DX11=1;CORE_BFF_DEBUG_ENABLE_PRIVATE_IMGUI=1;</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/atlmfc/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Auxiliary/VS/include;../../../PlaygroundEngine/Source/Vendor/DirectX/include/directx;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/um;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/shared;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/winrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/cppwinrt;C:/Program Files (x86)/Windows Kits/NETFXSDK/4.8/Include/um;.;GeneratedCode;..;../Core;../Core/GeneratedCode;../../Vendor;../../Vendor/CppRefl/include;../../Vendor/DirectX/include;../../Vendor/DirectX/include/DirectX;.;..;</NMakeIncludeSearchPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-DX12|x64'">
     <NMakeBuildCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  "Renderer-x64-Debug-DX12"</NMakeBuildCommandLine>
     <NMakeReBuildCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  -clean "Renderer-x64-Debug-DX12"</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  -clean "Renderer-x64-Debug-DX12"</NMakeCleanCommandLine>
-    <NMakePreprocessorDefinitions>UNICODE;_UNICODE;CORE_BFF_PLATFORM_PRIVATE_PC=1;CORE_BFF_CONFIG_PRIVATE_DEBUG=1;_DEBUG;CORE_BFF_RENDER_API_PRIVATE_DX12=1;</NMakePreprocessorDefinitions>
-    <NMakeIncludeSearchPath>C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/atlmfc/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Auxiliary/VS/include;DirectX/include/directx;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/um;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/shared;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/winrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/cppwinrt;C:/Program Files (x86)/Windows Kits/NETFXSDK/4.8/Include/um;.;GeneratedCode;..;../Core;../Core/GeneratedCode;../../Vendor;../../Vendor/CppRefl/include;../../Vendor/DirectX/include;../../Vendor/DirectX/include/DirectX;.;..;</NMakeIncludeSearchPath>
+    <NMakePreprocessorDefinitions>UNICODE;_UNICODE;CORE_BFF_PLATFORM_PRIVATE_PC=1;CORE_BFF_CONFIG_PRIVATE_DEBUG=1;_DEBUG;CORE_BFF_RENDER_API_PRIVATE_DX12=1;CORE_BFF_DEBUG_ENABLE_PRIVATE_IMGUI=0;</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/atlmfc/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Auxiliary/VS/include;../../../PlaygroundEngine/Source/Vendor/DirectX/include/directx;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/um;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/shared;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/winrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/cppwinrt;C:/Program Files (x86)/Windows Kits/NETFXSDK/4.8/Include/um;.;GeneratedCode;..;../Core;../Core/GeneratedCode;../../Vendor;../../Vendor/CppRefl/include;../../Vendor/DirectX/include;../../Vendor/DirectX/include/DirectX;.;..;</NMakeIncludeSearchPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-DX11|x64'">
     <NMakeBuildCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  "Renderer-x64-Release-DX11"</NMakeBuildCommandLine>
     <NMakeReBuildCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  -clean "Renderer-x64-Release-DX11"</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  -clean "Renderer-x64-Release-DX11"</NMakeCleanCommandLine>
-    <NMakePreprocessorDefinitions>UNICODE;_UNICODE;CORE_BFF_PLATFORM_PRIVATE_PC=1;CORE_BFF_CONFIG_PRIVATE_RELEASE=1;NDEBUG;CORE_BFF_RENDER_API_PRIVATE_DX11=1;</NMakePreprocessorDefinitions>
-    <NMakeIncludeSearchPath>C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/atlmfc/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Auxiliary/VS/include;DirectX/include/directx;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/um;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/shared;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/winrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/cppwinrt;C:/Program Files (x86)/Windows Kits/NETFXSDK/4.8/Include/um;.;GeneratedCode;..;../Core;../Core/GeneratedCode;../../Vendor;../../Vendor/CppRefl/include;../../Vendor/DirectX/include;../../Vendor/DirectX/include/DirectX;.;..;</NMakeIncludeSearchPath>
+    <NMakePreprocessorDefinitions>UNICODE;_UNICODE;CORE_BFF_PLATFORM_PRIVATE_PC=1;CORE_BFF_CONFIG_PRIVATE_RELEASE=1;NDEBUG;CORE_BFF_RENDER_API_PRIVATE_DX11=1;CORE_BFF_DEBUG_ENABLE_PRIVATE_IMGUI=1;</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/atlmfc/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Auxiliary/VS/include;../../../PlaygroundEngine/Source/Vendor/DirectX/include/directx;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/um;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/shared;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/winrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/cppwinrt;C:/Program Files (x86)/Windows Kits/NETFXSDK/4.8/Include/um;.;GeneratedCode;..;../Core;../Core/GeneratedCode;../../Vendor;../../Vendor/CppRefl/include;../../Vendor/DirectX/include;../../Vendor/DirectX/include/DirectX;.;..;</NMakeIncludeSearchPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-DX12|x64'">
     <NMakeBuildCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  "Renderer-x64-Release-DX12"</NMakeBuildCommandLine>
     <NMakeReBuildCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  -clean "Renderer-x64-Release-DX12"</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  -clean "Renderer-x64-Release-DX12"</NMakeCleanCommandLine>
-    <NMakePreprocessorDefinitions>UNICODE;_UNICODE;CORE_BFF_PLATFORM_PRIVATE_PC=1;CORE_BFF_CONFIG_PRIVATE_RELEASE=1;NDEBUG;CORE_BFF_RENDER_API_PRIVATE_DX12=1;</NMakePreprocessorDefinitions>
-    <NMakeIncludeSearchPath>C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/atlmfc/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Auxiliary/VS/include;DirectX/include/directx;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/um;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/shared;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/winrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/cppwinrt;C:/Program Files (x86)/Windows Kits/NETFXSDK/4.8/Include/um;.;GeneratedCode;..;../Core;../Core/GeneratedCode;../../Vendor;../../Vendor/CppRefl/include;../../Vendor/DirectX/include;../../Vendor/DirectX/include/DirectX;.;..;</NMakeIncludeSearchPath>
+    <NMakePreprocessorDefinitions>UNICODE;_UNICODE;CORE_BFF_PLATFORM_PRIVATE_PC=1;CORE_BFF_CONFIG_PRIVATE_RELEASE=1;NDEBUG;CORE_BFF_RENDER_API_PRIVATE_DX12=1;CORE_BFF_DEBUG_ENABLE_PRIVATE_IMGUI=0;</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/atlmfc/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Auxiliary/VS/include;../../../PlaygroundEngine/Source/Vendor/DirectX/include/directx;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/um;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/shared;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/winrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/cppwinrt;C:/Program Files (x86)/Windows Kits/NETFXSDK/4.8/Include/um;.;GeneratedCode;..;../Core;../Core/GeneratedCode;../../Vendor;../../Vendor/CppRefl/include;../../Vendor/DirectX/include;../../Vendor/DirectX/include/DirectX;.;..;</NMakeIncludeSearchPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug-DX11|x64'">
     <BuildLog>

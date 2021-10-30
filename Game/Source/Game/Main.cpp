@@ -22,9 +22,17 @@
 
 #if !CORE_BUILD_TYPE(TOOLS)
 
+static void ReflectionErrorHandler(refl::ErrorType errorType, const char* message, const char* file, int line)
+{
+	if (errorType == refl::ErrorType::ERROR) {
+		CORE_ASSERT(false, message);
+	}
+}
+
 static int GameMain()
 {
 	// Initialize reflection
+	refl::SetErrorHandler(&ReflectionErrorHandler);
 	const bool imported = refl::GetSystemRegistry().Import("Source/Game/GameReflection_Debug.refl");
 	CORE_ASSERT_RETURN_VALUE(imported, 1, "Failed to import reflection.");
 

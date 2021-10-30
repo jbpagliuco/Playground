@@ -8,6 +8,8 @@ namespace playground
 
 	bool Shader::Initialize(const ShaderDesc& shaderDesc)
 	{
+		mVertexFormat = shaderDesc.mVertexFormatDesc;
+
 		mVertexShader.Initialize(shaderDesc.mFilename, shaderDesc.mVertexFormatDesc);
 		mPixelShader.Initialize(shaderDesc.mFilename);
 

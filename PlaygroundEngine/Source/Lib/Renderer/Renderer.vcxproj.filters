@@ -91,6 +91,15 @@
     </CustomBuild>
     <CustomBuild Include="Mesh.h">
     </CustomBuild>
+    <CustomBuild Include="NGA\Common\NGADirectXUtil.cpp">
+      <Filter>NGA\Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\Common\NGADirectXUtil.h">
+      <Filter>NGA\Common</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NGA\Common\NGAResourcesCommon.cpp">
+      <Filter>NGA\Common</Filter>
+    </CustomBuild>
     <CustomBuild Include="NGA\DX11\NGACommandContextDX11.cpp">
       <Filter>NGA\DX11</Filter>
     </CustomBuild>
@@ -203,12 +212,6 @@
       <Filter>NGA</Filter>
     </CustomBuild>
     <CustomBuild Include="NGA\NGASwapChain.h">
-      <Filter>NGA</Filter>
-    </CustomBuild>
-    <CustomBuild Include="NGA\NGAUtilDXGI.cpp">
-      <Filter>NGA</Filter>
-    </CustomBuild>
-    <CustomBuild Include="NGA\NGAUtilDXGI.h">
       <Filter>NGA</Filter>
     </CustomBuild>
     <CustomBuild Include="Pipelines\DebugTexture.cpp">
@@ -348,13 +351,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="NGA\DX11">
-      <UniqueIdentifier>{f8158ec2-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    <Filter Include="NGA\Common">
+      <UniqueIdentifier>{451052f0-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="NGA">
       <UniqueIdentifier>{589f8da5-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="NGA\DX11">
+      <UniqueIdentifier>{f8158ec2-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -386,5 +394,12 @@
     <Filter Include="Shader">
       <UniqueIdentifier>{c565ed05-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="NGA\Common\NGAShaderCommon.cpp" />
+    <ClCompile Include="Scene\Renderers\EmptySceneRenderer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Scene\Renderers\EmptySceneRenderer.h" />
   </ItemGroup>
 </Project>

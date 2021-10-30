@@ -17,6 +17,7 @@
 #include "Renderer/Pipelines/SkyboxPipeline.h"
 #include "Renderer/Renderer.h"
 #include "Renderer/Scene/Camera.h"
+#include "Renderer/Scene/Renderers/EmptySceneRenderer.h"
 #include "Renderer/Scene/ForwardRenderer.h"
 #include "Renderer/Scene/Scene.h"
 #include "Renderer/Shader/Shader.h"
@@ -35,7 +36,8 @@ namespace playground
 	static Timer RenderFrameTimer;
 
 	Scene MainScene;
-	ForwardRenderer FRenderer;
+	// ForwardRenderer MainSceneRenderer;
+	EmptySceneRenderer MainSceneRenderer;
 
 	static std::map<std::string, const Texture*> EngineTextures;
 	static std::map<std::string, RenderTarget*> EngineRenderTargets;
@@ -108,7 +110,7 @@ namespace playground
 		RendererInitParams p;
 		p.mWidth = width;
 		p.mHeight = height;
-		p.mWindow = CreateAndShowWindow(-1, -1, width, height, L"NA Game LUL");
+		p.mWindow = CreateAndShowWindow(-1, -1, width, height, L"Playground");
 
 		CORE_FATAL_ERROR(p.mWindow != INVALID_WINDOW, "Failed to create main window.");
 
@@ -128,6 +130,8 @@ namespace playground
 
 	bool RenderingSystemInitLate()
 	{
+		Playground_RendererStateManager->OpenCommandList();
+
 		// Create engine meshes
 		RegisterEngineMesh(EngineMesh::QUAD, "quad.meshx");
 
@@ -140,14 +144,16 @@ namespace playground
 		ShadowMapSystemInitialize();
 		SkyboxSystemInitialize();
 
-		FRenderer.Initialize();
+		MainSceneRenderer.Initialize();
+
+		Playground_RendererStateManager->CloseCommandList();
 
 		return true;
 	}
 
 	void RenderingSystemShutdown()
 	{
-		FRenderer.Shutdown();
+		MainSceneRenderer.Shutdown();
 
 		SkyboxSystemShutdown();
 		ShadowMapSystemShutdown();
@@ -185,9 +191,9 @@ namespace playground
 					continue;
 				}
 
-				FRenderer.BeginRender();
-				FRenderer.RenderScene(*mainScene, *camera);
-				FRenderer.EndRender();
+				MainSceneRenderer.BeginRender();
+				MainSceneRenderer.RenderScene(*mainScene, *camera);
+				MainSceneRenderer.EndRender();
 			}
 
 			RenderFrameTimer.Start();

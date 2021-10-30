@@ -26,10 +26,14 @@ namespace playground
 
 		void Bind();
 
+		inline const NGAVertexFormatDesc& GetVertexFormat()const { return mVertexFormat; }
+
 		inline const VertexShader& GetVertexShader()const { return mVertexShader; }
 		inline const PixelShader& GetPixelShader()const { return mPixelShader; }
 
 	private:
+		NGAVertexFormatDesc mVertexFormat;
+
 		VertexShader mVertexShader;
 		PixelShader mPixelShader;
 	};

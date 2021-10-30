@@ -36,6 +36,8 @@ namespace playground
 
 	bool StateManager::Initialize()
 	{
+		OpenCommandList();
+
 		bool success = mPerFrameBuffer.Initialize(ConstantBufferUsage::CPU_WRITE, nullptr, sizeof(PerFrameData));
 		CORE_ASSERT_RETURN_VALUE(success, false, "Failed to initialize per frame buffer.");
 
@@ -45,6 +47,8 @@ namespace playground
 		success = mLightsBuffer.Initialize(ConstantBufferUsage::CPU_WRITE, nullptr, sizeof(LightsData));
 		CORE_ASSERT_RETURN_VALUE(success, false, "Failed to initialize lights buffer.");
 
+		CloseCommandList();
+
 		return true;
 	}
 
@@ -53,6 +57,17 @@ namespace playground
 		mPerFrameBuffer.Shutdown();
 		mObjectDataBuffer.Shutdown();
 		mLightsBuffer.Shutdown();
+	}
+
+	void StateManager::OpenCommandList()
+	{
+		mCommandContext.Reset();
+	}
+
+	void StateManager::CloseCommandList()
+	{
+		mCommandContext.Close();
+		mCommandContext.Flush();
 	}
 
 	void StateManager::ClearAllUserResources()
@@ -112,12 +127,12 @@ namespace playground
 
 	void StateManager::BindIndexBuffer(const IndexBuffer &ib)
 	{
-		mCommandContext.BindIndexBuffer(ib.GetBuffer(), NGAIndexBufferType::IBT_32BIT);
+		mCommandContext.BindIndexBuffer(ib.GetBuffer());
 	}
 
 	void StateManager::BindVertexBuffer(const VertexBuffer &vb)
 	{
-		mCommandContext.BindVertexBuffer(vb.GetBuffer(), vb.GetVertexStride());
+		mCommandContext.BindVertexBuffer(vb.GetBuffer());
 	}
 
 	void StateManager::BindInputLayout(const NGAInputLayout &inputLayout)
@@ -159,13 +174,18 @@ namespace playground
 
 	void StateManager::BindShaderResource(const NGAShaderResourceView &view, NGAShaderStage stage, int slot)
 	{
-		if ((mBoundRenderTarget != nullptr && view.PointsToSameResource(*mBoundRenderTarget)) || 
-			(mBoundDepthStencilView != nullptr && view.PointsToSameResource(*mBoundDepthStencilView))) {
-			mCommandContext.BindShaderResource(NGAShaderResourceView::INVALID, stage, slot);
+		if (view != NGAShaderResourceView::INVALID) {
+			const bool isBoundForOutput =
+				(mBoundRenderTarget != nullptr && view.PointsToSameResource(*mBoundRenderTarget)) ||
+				(mBoundDepthStencilView != nullptr && view.PointsToSameResource(*mBoundDepthStencilView));
+
+			if (isBoundForOutput) {
+				mCommandContext.BindShaderResource(NGAShaderResourceView::INVALID, stage, slot);
+				return;
+			}
 		}
-		else {
-			mCommandContext.BindShaderResource(view, stage, slot);
-		}
+		
+		mCommandContext.BindShaderResource(view, stage, slot);
 	}
 
 

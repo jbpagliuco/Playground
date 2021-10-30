@@ -57,15 +57,14 @@ namespace playground
 		NgaDx11State.mContext->IASetPrimitiveTopology((D3D11_PRIMITIVE_TOPOLOGY)primTopology);
 	}
 
-	void NGACommandContext::BindIndexBuffer(const NGABuffer &indexBuffer, NGAIndexBufferType indexBufferType)
+	void NGACommandContext::BindIndexBuffer(const NGABuffer &indexBuffer)
 	{
-		const DXGI_FORMAT indexFormat = (indexBufferType == NGAIndexBufferType::IBT_16BIT) ? DXGI_FORMAT_R16_UINT : DXGI_FORMAT_R32_UINT;
-		NgaDx11State.mContext->IASetIndexBuffer(indexBuffer.mBuffer, indexFormat, 0);
+		NgaDx11State.mContext->IASetIndexBuffer(indexBuffer.mBuffer, NGAFormatToDXGI(indexBuffer.GetIndexBufferFormat()), 0);
 	}
 
-	void NGACommandContext::BindVertexBuffer(const NGABuffer &vertexBuffer, size_t vertexStride)
+	void NGACommandContext::BindVertexBuffer(const NGABuffer &vertexBuffer)
 	{
-		UINT stride = (UINT)vertexStride;
+		UINT stride = (UINT)vertexBuffer.GetVertexStride();
 		UINT offset = 0;
 		NgaDx11State.mContext->IASetVertexBuffers(0, 1, &vertexBuffer.mBuffer, &stride, &offset);
 	}

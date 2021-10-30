@@ -4,6 +4,12 @@
 
 #include "Core/Util/BitUtil.h"
 
+#if CORE_RENDER_API(DX12)
+#include "NGA/DX12/NGADescriptorHeapDX12.h"
+#endif
+
+struct ID3D12Resource;
+
 namespace playground
 {
 	/////////////////////////////////////////////////////
@@ -79,8 +85,15 @@ namespace playground
 
 	struct NGABufferDesc
 	{
+		// General buffer info
 		NGABufferUsage mUsage = NGA_BUFFER_USAGE_NONE;
 		uint32_t mSizeInBytes = 0;
+
+		// Vertex buffer info
+		size_t mVertexStride = 0;
+
+		// Index buffer info
+		NGAFormat mIndexFormat = NGAFormat::R16_UINT;
 	};
 
 	class NGABuffer
@@ -94,14 +107,36 @@ namespace playground
 
 		bool IsConstructed()const;
 
+		bool IsVertexBuffer()const;
+		bool IsIndexBuffer()const;
+		bool IsConstantBuffer()const;
+
+		size_t GetVertexStride()const;
+		NGAFormat GetIndexBufferFormat()const;
+
 	private:
 		NGABufferDesc mDesc;
 
 #if CORE_RENDER_API(DX11)
 	private:
-		struct ID3D11Buffer *mBuffer;
+		struct ID3D11Buffer* mBuffer = nullptr;
+#elif CORE_RENDER_API(DX12)
+	private:
+		bool CreateBuffer(const NGABufferDesc &desc);
+		bool CreateUploadBuffer(const NGABufferDesc &desc);
+		bool CreateView(const NGABufferDesc &desc);
+
+		ID3D12Resource* mBuffer = nullptr;
+		ID3D12Resource* mUploadBuffer = nullptr;
+
+		// View to this buffer.
+		union {
+			D3D12_VERTEX_BUFFER_VIEW mVertexBufferView;
+			D3D12_INDEX_BUFFER_VIEW mIndexBufferView;
+			D3D12_CONSTANT_BUFFER_VIEW_DESC mConstantBufferView;
+		};
+#endif
 
 		friend class NGACommandContext;
-#endif
 	};
 }

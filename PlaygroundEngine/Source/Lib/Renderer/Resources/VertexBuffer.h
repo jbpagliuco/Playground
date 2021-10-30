@@ -17,6 +17,5 @@ namespace playground
 	private:
 		NGABuffer mBuffer;
 		size_t mNumVertices;
-		size_t mVertexStride;
 	};
 }

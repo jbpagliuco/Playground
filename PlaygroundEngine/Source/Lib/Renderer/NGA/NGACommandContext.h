@@ -20,20 +20,34 @@ namespace playground
 	class NGACommandContext
 	{
 	public:
+		// Reset the command context
+		void Reset();
+
+		// Closes the command queue.
+		void Close();
+
+		// Flush all queued commands.
+		void Flush();
+
+
+		// Bind a pipeline state object.
 		void BindPipelineState(const NGAPipelineState &pipelineState);
 
+		// Draw an indexed mesh.
 		void DrawIndexed(unsigned int indexCount);
 
+		// Map data to a buffer.
 		void MapBufferData(const NGABuffer &buffer, const void *data);
 
+		// Set the current viewport.
 		void SetViewport(const NGARect &rect, float minDepth = 0.0f, float maxDepth = 1.0f);
 
 
 
 		void SetPrimitiveTopology(NGAPrimitiveTopology primTopology);
 
-		void BindIndexBuffer(const NGABuffer &indexBuffer, NGAIndexBufferType indexBufferType);
-		void BindVertexBuffer(const NGABuffer &vertexBuffer, size_t vertexStride);
+		void BindIndexBuffer(const NGABuffer &indexBuffer);
+		void BindVertexBuffer(const NGABuffer &vertexBuffer);
 
 		void BindInputLayout(const NGAInputLayout &inputLayout);
 

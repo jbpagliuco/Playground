@@ -19,11 +19,17 @@ namespace playground
 
 	bool SkyboxSystemInitialize()
 	{
-		NGAFixedFunctionStateDesc fixedDesc;
-		fixedDesc.mRasterizerStateDesc.mCullMode = NGACullMode::CULL_FRONT;
-		fixedDesc.mDepthStencilStateDesc.mDepthFunc = NGADepthFunc::LESS_EQUAL;
+		const Shader* skyboxShader = GetEngineShader(EngineShader::SKYBOX);
 
-		bool success = SkyboxPipelineState.Construct(fixedDesc, NGAGraphicsPipelineInputAssemblyDesc());
+		NGAPipelineStateDesc pipelineDesc;
+		pipelineDesc.mVertexShader = &skyboxShader->GetVertexShader().GetShader();
+		pipelineDesc.mPixelShader = &skyboxShader->GetPixelShader().GetShader();
+		pipelineDesc.mVertexFormat = skyboxShader->GetVertexFormat();
+
+		pipelineDesc.mRasterizerState.mCullMode = NGACullMode::CULL_FRONT;
+		pipelineDesc.mDepthStencilState.mDepthFunc = NGADepthFunc::LESS_EQUAL;
+		
+		bool success = SkyboxPipelineState.Construct(pipelineDesc);
 		CORE_ASSERT_RETURN_VALUE(success, false, "Failed to create skybox pipeline.");
 
 		success = SkyboxPerFrameBuffer.Initialize(ConstantBufferUsage::CPU_WRITE, nullptr, sizeof(Matrix));
@@ -47,9 +53,6 @@ namespace playground
 	void RenderSkybox(const Skybox& skybox, const Camera& camera)
 	{
 		Playground_RendererStateManager->BindPipelineState(SkyboxPipelineState);
-
-		Playground_RendererStateManager->BindShader(GetEngineShader(EngineShader::SKYBOX)->GetVertexShader());
-		Playground_RendererStateManager->BindShader(GetEngineShader(EngineShader::SKYBOX)->GetPixelShader());
 
 		Matrix vp = camera.GetViewProj() * Matrix::Translation(camera.mTransform.mPosition);
 		SkyboxPerFrameBuffer.Map(&vp);

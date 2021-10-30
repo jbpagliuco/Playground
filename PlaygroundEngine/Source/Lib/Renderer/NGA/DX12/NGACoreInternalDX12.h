@@ -8,9 +8,9 @@
 #include <dxgi.h>
 #include "DirectX/d3dx12.h"
 
+#include "NGA/Common/NGADirectXUtil.h"
 #include "NGA/DX12/NGADescriptorHeapDX12.h"
 #include "NGA/NGACommon.h"
-#include "NGA/NGAUtilDXGI.h"
 
 namespace playground
 {
@@ -19,7 +19,9 @@ namespace playground
 	public:
 		ID3D12Device* mDevice;
 		IDXGIFactory* mDXGIFactory;
+
 		ID3D12Fence* mFence;
+		size_t mCurrentFence = 0;
 
 		// Command queue
 		ID3D12CommandQueue* mCommandQueue;
@@ -29,7 +31,7 @@ namespace playground
 		// Descriptor heaps
 		NGAResourceDescriptorHeap mRtvHeap;
 		NGAResourceDescriptorHeap mDsvHeap;
-		NGAResourceDescriptorHeap mCbvSrvHeap;
+		NGAResourceDescriptorHeap mCbvSrvUavHeap;
 	};
 
 	extern NGAInternalStateDX12 NgaDx12State;

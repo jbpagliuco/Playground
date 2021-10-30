@@ -30,7 +30,7 @@ namespace playground
 	class NGAResourceDescriptorHeap
 	{
 	public:
-		bool Initialize(D3D12_DESCRIPTOR_HEAP_TYPE type, int maxDescriptors);
+		bool Initialize(D3D12_DESCRIPTOR_HEAP_TYPE type, int maxDescriptors, D3D12_DESCRIPTOR_HEAP_FLAGS flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE);
 		void Shutdown();
 
 		// Allocate a new resource descriptor from the heap.

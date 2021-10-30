@@ -5,16 +5,14 @@
 
 namespace playground
 {
-	struct NGAGraphicsPipelineInputAssemblyDesc
-	{
-		NGAPrimitiveTopology mPrimitiveTopology;
-	};
+	class NGAInputLayout;
+	class NGAShader;
 
 	struct NGARasterizerStateDesc
 	{
-		bool mAntialias = false;
 		NGACullMode mCullMode = NGACullMode::CULL_BACK;
 		NGAFillMode mFillMode = NGAFillMode::SOLID;
+		bool mAntialias = false;
 		bool mFrontCounterClockwise = false;
 	};
 
@@ -23,10 +21,24 @@ namespace playground
 		NGADepthFunc mDepthFunc = NGADepthFunc::LESS;
 	};
 
-	struct NGAFixedFunctionStateDesc
+	class NGAPipelineStateDesc
 	{
-		NGARasterizerStateDesc mRasterizerStateDesc;
-		NGADepthStencilStateDesc mDepthStencilStateDesc;
+	public:
+		// Shaders
+		const NGAShader* mVertexShader = nullptr;
+		const NGAShader* mPixelShader = nullptr;
+
+		// Fixed function configuration
+		NGARasterizerStateDesc mRasterizerState;
+		NGADepthStencilStateDesc mDepthStencilState;
+
+		// Input assembler
+		NGAPrimitiveTopology mPrimitiveTopology = NGAPrimitiveTopology::TRIANGLE_LIST;
+		NGAVertexFormatDesc mVertexFormat;
+
+		// Formats
+		NGAFormat mRTVFormat;
+		NGAFormat mDSVFormat;
 	};
 
 	class NGAPipelineState
@@ -34,7 +46,7 @@ namespace playground
 		NGA_GPU_CLASS(NGAPipelineState);
 
 	public:
-		bool Construct(const NGAFixedFunctionStateDesc &fixedFunctionDesc, const NGAGraphicsPipelineInputAssemblyDesc &inputAssemblyDesc);
+		bool Construct(const NGAPipelineStateDesc &desc);
 		void Destruct();
 
 		bool IsConstructed()const;
@@ -45,6 +57,8 @@ namespace playground
 
 		struct ID3D11RasterizerState *mRasterizerState = nullptr;
 		struct ID3D11DepthStencilState *mDepthStencilState = nullptr;
+#elif CORE_RENDER_API(DX12)
+		ID3D12PipelineState* mPSO;
 #endif
 
 		friend class NGACommandContext;
