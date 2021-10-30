@@ -1,6 +1,7 @@
 #include "Timer.h"
 
 #include "Debug/Assert.h"
+#include "Debug/Log.h"
 
 namespace playground
 {
@@ -76,5 +77,18 @@ namespace playground
 	void Timer::Invalidate()
 	{
 		mValid = false;
+	}
+
+
+	TimeProfiler::TimeProfiler(const char* name)
+	{
+		mName = name;
+		mStartTime = Timestamp::Now();
+	}
+
+	TimeProfiler::~TimeProfiler()
+	{
+		const Duration duration = Timestamp::Now() - mStartTime;
+		LogInfo("Timer", "%s took %lu microseconds", mName, duration.AsMicroseconds());
 	}
 }

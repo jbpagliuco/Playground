@@ -22,7 +22,11 @@ namespace playground
 		mType = type;
 
 		const bool compiled = CompileHLSL(&mBytecode, filename, type);
-		CORE_ASSERT_RETURN_VALUE(compiled, false, "Failed to compile shader %s", filename);
+		if (!compiled) {
+			CORE_ASSERT("Failed to compile shader %s", filename);
+			Destruct();
+			return false;
+		}
 
 		return true;
 	}

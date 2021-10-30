@@ -141,7 +141,11 @@ namespace playground
 		desc.SampleDesc.Quality = 0;
 
 		hr = NgaDx12State.mDevice->CreateGraphicsPipelineState(&desc, IID_PPV_ARGS(&mPSO));
-		CORE_ASSERT_RETURN_VALUE(SUCCEEDED(hr), false);
+
+		COM_SAFE_RELEASE(serializedRootSignature);
+		COM_SAFE_RELEASE(errorBlob);
+
+		CORE_ASSERT_RETURN_VALUE(SUCCEEDED(hr), false, "Failed to create PSO. (%X)", hr);
 
 		return true;
 	}

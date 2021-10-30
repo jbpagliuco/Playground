@@ -108,14 +108,17 @@ namespace playground
 		mDesc = desc;
 
 		if (!CreateBuffer(desc)) {
+			Destruct();
 			return false;
 		}
 
 		if (!CreateView(desc)) {
+			Destruct();
 			return false;
 		}
 
 		if (!CreateUploadBuffer(desc)) {
+			Destruct();
 			return false;
 		}
 
@@ -125,6 +128,7 @@ namespace playground
 	bool NGABuffer::Construct(const NGABufferDesc& desc, void* initialData)
 	{
 		if (!Construct(desc)) {
+			Destruct();
 			return false;
 		}
 

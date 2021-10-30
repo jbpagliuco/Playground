@@ -43,11 +43,27 @@ namespace playground
 		bool Valid()const;
 		void Invalidate();
 
+		Duration GetTimeSince()const;
+		Duration GetTimeUntil()const;
+
 	private:
 		static constexpr int INVALID_INTERVAL = -1;
 		int mInterval = INVALID_INTERVAL;
 
 		bool mValid = false;
 		Timestamp mStart;
+	};
+
+
+	// Measures and logs how long a block of code takes to execute.
+	class TimeProfiler
+	{
+	public:
+		TimeProfiler(const char* name);
+		~TimeProfiler();
+
+	private:
+		const char* mName;
+		Timestamp mStartTime;
 	};
 }

@@ -85,7 +85,11 @@ namespace playground
 
 		ID3D12Resource* backBuffer;
 		HRESULT hr = swapChain.mSwapChain->GetBuffer(buffer, IID_PPV_ARGS(&backBuffer));
-		CORE_ASSERT_RETURN_VALUE(SUCCEEDED(hr), false, "Failed to get back buffer. HRESULT %X", hr);
+		if (FAILED(hr)) {
+			CORE_ERROR("Failed to get back buffer. (%X)", hr);
+			COM_SAFE_RELEASE(backBuffer);
+			return false;
+		}
 
 		mDescriptorHandle = NgaDx12State.mRtvHeap.Allocate();
 		NgaDx12State.mDevice->CreateRenderTargetView(backBuffer, nullptr, mDescriptorHandle);

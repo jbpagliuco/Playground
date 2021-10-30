@@ -2,6 +2,8 @@
 
 #if CORE_RENDER_API(DX12)
 
+#include "Core/Util/Timer.h"
+
 #include "NGA/NGAInputLayout.h"
 #include "NGA/NGAResources.h"
 #include "NGA/NGAResourceViews.h"
