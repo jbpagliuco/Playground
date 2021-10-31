@@ -5,9 +5,13 @@
 
 namespace playground
 {
-	bool Material::Initialize(Shader *shader)
+	bool Material::Initialize(Shader *shader, const std::string& name)
 	{
 		mShader = shader;
+
+#if RENDER_DEBUG_FEATURE(STORE_NAMES)
+		mDebugName = name;
+#endif
 
 		return true;
 	}

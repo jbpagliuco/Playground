@@ -5,17 +5,17 @@
 
 namespace playground
 {
-	bool StaticMaterial::Initialize(Shader *shader, void *parameterData, size_t parameterByteLength, const std::vector<const Texture*> &textures)
+	bool StaticMaterial::Initialize(const StaticMaterialDesc& desc)
 	{
-		if (!Material::Initialize(shader)) {
+		if (!Material::Initialize(desc.mShader, desc.mName)) {
 			return false;
 		}
 
-		if (parameterByteLength > 0 && !mConstantBuffer.Initialize(ConstantBufferUsage::IMMUTABLE, parameterData, parameterByteLength)) {
+		if (desc.mParameterDataByteLength > 0 && !mConstantBuffer.Initialize(ConstantBufferUsage::IMMUTABLE, desc.mParameterData, desc.mParameterDataByteLength)) {
 			return false;
 		}
 
-		mTextures = textures;
+		mTextures = desc.mTextures;
 
 		// Make sure all of these textures are shader resources
 		for (auto& texture : mTextures) {

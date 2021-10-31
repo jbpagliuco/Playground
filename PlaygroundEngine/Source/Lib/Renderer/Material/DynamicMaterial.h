@@ -27,10 +27,23 @@ namespace playground
 		std::map<std::string, int> mTextureMap;
 	};
 
+	struct DynamicMaterialDesc
+	{
+		std::string mName;
+
+		Shader* mShader;
+
+		DynamicMaterialParameterMap mParameterMap;
+		void* mDefaultParameterData;
+		size_t mParameterDataByteLength;
+
+		std::vector<const Texture*> mDefaultTextures;
+	};
+
 	class DynamicMaterial : public Material
 	{
 	public:
-		virtual bool Initialize(Shader* shader, size_t parameterByteLength, const DynamicMaterialParameterMap& map, void* defaultParameterData, const std::vector<const Texture*>& defaultTextures);
+		virtual bool Initialize(const DynamicMaterialDesc& desc);
 		virtual void Shutdown() override;
 
 		virtual void Bind() override;

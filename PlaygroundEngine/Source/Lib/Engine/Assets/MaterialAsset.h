@@ -47,6 +47,8 @@ namespace playground
 		AssetID mShaderID								REFLECTED REFL_NAME("shader");
 		std::vector<MaterialParameter> mParameters		REFLECTED;
 		bool mIsDynamic									REFLECTED = false;
+
+		std::string mName;
 	};
 
 	class MaterialAsset

@@ -159,7 +159,14 @@ namespace playground
 		// Process our parameter list.
 		const ProcessedParameters parameters = ProcessParameters(materialDesc.mParameters);
 
-		bool success = mMaterial.Initialize(&GetShader(), parameters.mConstantBuffer, parameters.mConstantBufferSize, parameters.mTextures);
+		StaticMaterialDesc staticMaterialDesc;
+		staticMaterialDesc.mName = materialDesc.mName;
+		staticMaterialDesc.mShader = &GetShader();
+		staticMaterialDesc.mParameterData = parameters.mConstantBuffer;
+		staticMaterialDesc.mParameterDataByteLength = parameters.mConstantBufferSize;
+		staticMaterialDesc.mTextures = parameters.mTextures;
+
+		bool success = mMaterial.Initialize(staticMaterialDesc);
 		MATERIAL_ASSERT_CLEANUP(success, false, "Failed to create static material.");
 
 		mMaterialContainer.Initialize(&mMaterial);
@@ -198,8 +205,16 @@ namespace playground
 		// Process our parameter list.
 		const ProcessedParameters parameters = ProcessParameters(materialDesc.mParameters);
 
+		DynamicMaterialDesc dynamicMaterialDesc;
+		dynamicMaterialDesc.mName = materialDesc.mName;
+		dynamicMaterialDesc.mShader = &GetShader();
+		dynamicMaterialDesc.mParameterMap = parameters.mDynamicMaterialParameterMap;
+		dynamicMaterialDesc.mDefaultParameterData = parameters.mConstantBuffer;
+		dynamicMaterialDesc.mParameterDataByteLength = parameters.mConstantBufferSize;
+		dynamicMaterialDesc.mDefaultTextures = parameters.mTextures;
+
 		// Initialize material.
-		bool success = mMaterial.Initialize(&GetShader(), parameters.mConstantBufferSize, parameters.mDynamicMaterialParameterMap, parameters.mConstantBuffer, parameters.mTextures);
+		bool success = mMaterial.Initialize(dynamicMaterialDesc);
 		MATERIAL_ASSERT_CLEANUP(success, false, "Failed to create static material.");
 
 		// Initialize material container.
@@ -349,6 +364,7 @@ namespace playground
 	{
 		MaterialAssetDesc materialDesc;
 		ReflectionDeserialize(MaterialAssetDesc::StaticClass(), &materialDesc, parameters);
+		materialDesc.mName = filename;
 
 		// Create the material asset
 		MaterialAsset* materialAsset;

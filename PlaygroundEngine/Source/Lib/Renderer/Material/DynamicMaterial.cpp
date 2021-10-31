@@ -6,24 +6,24 @@
 
 namespace playground
 {
-	bool DynamicMaterial::Initialize(Shader* shader, size_t parameterByteLength, const DynamicMaterialParameterMap& map, void* defaultParameterData, const std::vector<const Texture*>& defaultTextures)
+	bool DynamicMaterial::Initialize(const DynamicMaterialDesc& desc)
 	{
-		if (!Material::Initialize(shader)) {
+		if (!Material::Initialize(desc.mShader, desc.mName)) {
 			return false;
 		}
 
 		// Initialize writable constant buffer.
-		if (!mConstantBuffer.Initialize(ConstantBufferUsage::CPU_WRITE, nullptr, parameterByteLength)) {
+		if (!mConstantBuffer.Initialize(ConstantBufferUsage::CPU_WRITE, nullptr, desc.mParameterDataByteLength)) {
 			return false;
 		}
 
-		mParameterMap = map;
+		mParameterMap = desc.mParameterMap;
 
 		// Set default data
-		mDefaultParameterData = CORE_ALLOC(parameterByteLength);
-		memcpy(mDefaultParameterData, defaultParameterData, parameterByteLength);
+		mDefaultParameterData = CORE_ALLOC(desc.mParameterDataByteLength);
+		memcpy(mDefaultParameterData, desc.mDefaultParameterData, desc.mParameterDataByteLength);
 
-		mDefaultTextures = defaultTextures;
+		mDefaultTextures = desc.mDefaultTextures;
 
 		// Make sure all of these textures are shader resources
 		for (auto& texture : mDefaultTextures) {

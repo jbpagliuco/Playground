@@ -210,6 +210,7 @@ namespace playground
 		meshData.indices = (IndexType*)indexData;
 		meshData.numIndices = numIndices;
 		meshData.mVertexFormat = vDesc;
+		meshData.mName = filename;
 		
 		const bool initialized = mesh->Initialize(meshData);
 

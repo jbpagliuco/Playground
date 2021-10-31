@@ -10,7 +10,7 @@ namespace playground
 	class Material
 	{
 	public:
-		bool Initialize(Shader *shader);
+		bool Initialize(Shader *shader, const std::string& name);
 		virtual void Shutdown();
 
 		virtual void Bind();
@@ -20,6 +20,10 @@ namespace playground
 		inline Shader* GetShader()const { return mShader; }
 
 	private:
-		Shader *mShader;
+		Shader* mShader;
+
+#if RENDER_DEBUG_FEATURE(STORE_NAMES)
+		std::string mDebugName;
+#endif
 	};
 }

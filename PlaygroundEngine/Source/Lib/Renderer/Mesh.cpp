@@ -8,6 +8,10 @@ namespace playground
 
 	bool Mesh::Initialize(const MeshData &meshData)
 	{
+#if RENDER_DEBUG_FEATURE(STORE_NAMES)
+		mDebugName = meshData.mName;
+#endif
+
 		if (!mVertexBuffer.Initialize(meshData.vertices, meshData.numVertices, meshData.vertexStride)) {
 			return false;
 		}

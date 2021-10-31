@@ -3,6 +3,7 @@
 #include "Core/Streaming/AssetFactory.h"
 #include "Core/Reflection/ReflMarkup.h"
 
+#include "Renderer/RenderDefs.h"
 #include "ShaderProgram.h"
 
 #include "Shader.reflgen.h"
@@ -36,5 +37,9 @@ namespace playground
 
 		VertexShader mVertexShader;
 		PixelShader mPixelShader;
+
+#if RENDER_DEBUG_FEATURE(STORE_NAMES)
+		std::string mDebugName;
+#endif
 	};
 }

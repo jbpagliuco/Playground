@@ -2,6 +2,7 @@
 
 #include "Core/Streaming/AssetFactory.h"
 
+#include "Renderer/RenderDefs.h"
 #include "Renderer/NGA/NGACommon.h"
 #include "Resources/IndexBuffer.h"
 #include "Resources/VertexBuffer.h"
@@ -18,6 +19,8 @@ namespace playground
 		size_t numIndices;
 
 		NGAVertexFormatDesc mVertexFormat;
+
+		std::string mName;
 	};
 
 	class Mesh : public AssetFactory<Mesh>
@@ -35,5 +38,9 @@ namespace playground
 		IndexBuffer mIndexBuffer;
 
 		NGAVertexFormatDesc mVertexFormat;
+
+#if RENDER_DEBUG_FEATURE(STORE_NAMES)
+		std::string mDebugName;
+#endif
 	};
 }

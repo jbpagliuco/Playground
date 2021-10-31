@@ -13,6 +13,10 @@ namespace playground
 		mVertexShader.Initialize(shaderDesc.mFilename, shaderDesc.mVertexFormatDesc);
 		mPixelShader.Initialize(shaderDesc.mFilename);
 
+#if RENDER_DEBUG_FEATURE(STORE_NAMES)
+		mDebugName = shaderDesc.mFilename;
+#endif
+
 		return true;
 	}
 

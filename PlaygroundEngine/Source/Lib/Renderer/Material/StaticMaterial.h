@@ -9,10 +9,22 @@ namespace playground
 {
 	class Texture;
 
+	struct StaticMaterialDesc
+	{
+		std::string mName;
+
+		Shader* mShader;
+
+		void* mParameterData;
+		size_t mParameterDataByteLength;
+
+		std::vector<const Texture*> mTextures;
+	};
+
 	class StaticMaterial : public Material
 	{
 	public:
-		bool Initialize(Shader *shader, void *parameterData, size_t parameterByteLength, const std::vector<const Texture*> &textures);
+		bool Initialize(const StaticMaterialDesc& desc);
 		virtual void Shutdown() override;
 
 		virtual void Bind() override;
