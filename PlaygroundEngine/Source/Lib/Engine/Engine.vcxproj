@@ -5,12 +5,12 @@
       <Configuration>Debug-DX11</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug-DX12|x64">
-      <Configuration>Debug-DX12</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Release-DX11|x64">
       <Configuration>Release-DX11</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug-DX12|x64">
+      <Configuration>Debug-DX12</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release-DX12|x64">
@@ -97,12 +97,12 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-DX12|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-DX11|x64'" Label="Configuration">
     <ConfigurationType>Makefile</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-DX11|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-DX12|x64'" Label="Configuration">
     <ConfigurationType>Makefile</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
@@ -118,10 +118,10 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug-DX11|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug-DX12|x64'">
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release-DX11|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release-DX11|x64'">
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug-DX12|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release-DX12|x64'">
@@ -135,18 +135,18 @@
     <NMakePreprocessorDefinitions>UNICODE;_UNICODE;CORE_BFF_PLATFORM_PRIVATE_PC=1;CORE_BFF_CONFIG_PRIVATE_DEBUG=1;_DEBUG;CORE_BFF_RENDER_API_PRIVATE_DX11=1;CORE_BFF_DEBUG_ENABLE_PRIVATE_IMGUI=1;</NMakePreprocessorDefinitions>
     <NMakeIncludeSearchPath>C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/atlmfc/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Auxiliary/VS/include;../../../PlaygroundEngine/Source/Vendor/DirectX/include/directx;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/um;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/shared;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/winrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/cppwinrt;C:/Program Files (x86)/Windows Kits/NETFXSDK/4.8/Include/um;.;GeneratedCode;..;../Core;../Core/GeneratedCode;../Renderer;../Renderer/GeneratedCode;../../Vendor;../../Vendor/CppRefl/include;../../Vendor/DirectXTK/include;../../Vendor/Physx/include;.;..;</NMakeIncludeSearchPath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-DX12|x64'">
-    <NMakeBuildCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  "Engine-x64-Debug-DX12"</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  -clean "Engine-x64-Debug-DX12"</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  -clean "Engine-x64-Debug-DX12"</NMakeCleanCommandLine>
-    <NMakePreprocessorDefinitions>UNICODE;_UNICODE;CORE_BFF_PLATFORM_PRIVATE_PC=1;CORE_BFF_CONFIG_PRIVATE_DEBUG=1;_DEBUG;CORE_BFF_RENDER_API_PRIVATE_DX12=1;CORE_BFF_DEBUG_ENABLE_PRIVATE_IMGUI=0;</NMakePreprocessorDefinitions>
-    <NMakeIncludeSearchPath>C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/atlmfc/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Auxiliary/VS/include;../../../PlaygroundEngine/Source/Vendor/DirectX/include/directx;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/um;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/shared;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/winrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/cppwinrt;C:/Program Files (x86)/Windows Kits/NETFXSDK/4.8/Include/um;.;GeneratedCode;..;../Core;../Core/GeneratedCode;../Renderer;../Renderer/GeneratedCode;../../Vendor;../../Vendor/CppRefl/include;../../Vendor/DirectXTK/include;../../Vendor/Physx/include;.;..;</NMakeIncludeSearchPath>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-DX11|x64'">
     <NMakeBuildCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  "Engine-x64-Release-DX11"</NMakeBuildCommandLine>
     <NMakeReBuildCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  -clean "Engine-x64-Release-DX11"</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  -clean "Engine-x64-Release-DX11"</NMakeCleanCommandLine>
     <NMakePreprocessorDefinitions>UNICODE;_UNICODE;CORE_BFF_PLATFORM_PRIVATE_PC=1;CORE_BFF_CONFIG_PRIVATE_RELEASE=1;NDEBUG;CORE_BFF_RENDER_API_PRIVATE_DX11=1;CORE_BFF_DEBUG_ENABLE_PRIVATE_IMGUI=1;</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/atlmfc/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Auxiliary/VS/include;../../../PlaygroundEngine/Source/Vendor/DirectX/include/directx;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/um;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/shared;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/winrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/cppwinrt;C:/Program Files (x86)/Windows Kits/NETFXSDK/4.8/Include/um;.;GeneratedCode;..;../Core;../Core/GeneratedCode;../Renderer;../Renderer/GeneratedCode;../../Vendor;../../Vendor/CppRefl/include;../../Vendor/DirectXTK/include;../../Vendor/Physx/include;.;..;</NMakeIncludeSearchPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-DX12|x64'">
+    <NMakeBuildCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  "Engine-x64-Debug-DX12"</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  -clean "Engine-x64-Debug-DX12"</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>cd $(SolutionDir) &amp; "../../../PlaygroundEngine/Source/Vendor/FastBuild/FBuild.exe" -ide  -clean "Engine-x64-Debug-DX12"</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>UNICODE;_UNICODE;CORE_BFF_PLATFORM_PRIVATE_PC=1;CORE_BFF_CONFIG_PRIVATE_DEBUG=1;_DEBUG;CORE_BFF_RENDER_API_PRIVATE_DX12=1;CORE_BFF_DEBUG_ENABLE_PRIVATE_IMGUI=0;</NMakePreprocessorDefinitions>
     <NMakeIncludeSearchPath>C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/atlmfc/include;C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Auxiliary/VS/include;../../../PlaygroundEngine/Source/Vendor/DirectX/include/directx;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/um;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/shared;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/winrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/cppwinrt;C:/Program Files (x86)/Windows Kits/NETFXSDK/4.8/Include/um;.;GeneratedCode;..;../Core;../Core/GeneratedCode;../Renderer;../Renderer/GeneratedCode;../../Vendor;../../Vendor/CppRefl/include;../../Vendor/DirectXTK/include;../../Vendor/Physx/include;.;..;</NMakeIncludeSearchPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-DX12|x64'">
@@ -161,12 +161,12 @@
       <Path />
     </BuildLog>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug-DX12|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release-DX11|x64'">
     <BuildLog>
       <Path />
     </BuildLog>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release-DX11|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug-DX12|x64'">
     <BuildLog>
       <Path />
     </BuildLog>

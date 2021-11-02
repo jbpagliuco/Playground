@@ -38,7 +38,6 @@
 .VendorIncludePaths = {
     'CppRefl/include'
     .DirectXIncludePath
-    'DirectXTK/include'
     'PhysX/include'
 }
 
@@ -49,6 +48,10 @@
 .DirectXTKDebugLibraryPath      = '$PlaygroundVendorPath$/DirectXTK/Lib/x64/debug'
 .DirectXTKReleaseLibraryPath    = '$PlaygroundVendorPath$/DirectXTK/Lib/x64/release'
 .DirectXTKLibraries             = { 'directxtk.lib' }
+
+.DirectXTK12DebugLibraryPath      = '$PlaygroundVendorPath$/DirectXTK12/Lib/x64/debug'
+.DirectXTK12ReleaseLibraryPath    = '$PlaygroundVendorPath$/DirectXTK12/Lib/x64/release'
+.DirectXTK12Libraries             = { 'directxtk12.lib' }
 
 .PhysXDebugLibraryPath      = '$PlaygroundVendorPath$/PhysX/bin/win.x86_64.vc141.mt/debug'
 .PhysXReleaseLibraryPath    = '$PlaygroundVendorPath$/PhysX/bin/win.x86_64.vc141.mt/release'
@@ -125,64 +128,105 @@
     .CompilerOptions + ' /MD'
 ]
 
-// List of x64 base configs
-.x64Configs = { .x64DebugConfig, .x64ReleaseConfig }
-
 // x64 DirectX 11 Configuration
 .x64DX11Config = [
     Using(.DX11BaseConfig)
+
+    .RenderConfigIncludes = {
+        'DirectXTK/include'
+    }
+]
+
+.x64DX11DebugConfig = [
+    Using(.x64DebugConfig)
+    Using(.x64DX11Config)
+
+    .RenderConfigLibPaths = {
+        '$DirectXTKDebugLibraryPath$'
+    }
+]
+
+.x64DX11ReleaseConfig = [
+    Using(.x64ReleaseConfig)
+    Using(.x64DX11Config)
+
+    .RenderConfigIncludes = {
+        '$DirectXTKReleaseLibraryPath$'
+    }
 ]
 
 // x64 DirectX 12 Configuration
 .x64DX12Config = [
     Using(.DX12BaseConfig)
+
+    .RenderConfigIncludes = {
+        'DirectXTK12/include'
+    }
 ]
 
-// List of all x64 render configs
-.x64RenderConfigs = { .x64DX11Config, .x64DX12Config }
+.x64DX12DebugConfig = [
+    Using(.x64DebugConfig)
+    Using(.x64DX12Config)
+
+    .RenderConfigLibPaths = {
+        '$DirectXTK12DebugLibraryPath$'
+    }
+]
+
+.x64DX12ReleaseConfig = [
+    Using(.x64ReleaseConfig)
+    Using(.x64DX12Config)
+
+    .RenderConfigIncludes = {
+        '$DirectXTK12ReleaseLibraryPath$'
+    }
+]
+
+// List of x64 base configs
+.x64Configs = { 
+    .x64DX11DebugConfig, .x64DX11ReleaseConfig,
+    .x64DX12DebugConfig, .x64DX12ReleaseConfig
+}
 
 .Allx64Configs = { }
 ForEach(.baseConfig in .x64Configs) {
-    ForEach(.renderConfig in .x64RenderConfigs) {
-        .Config = [
-            Using(.baseConfig)
-            Using(.renderConfig)
+    .Config = [
+        Using(.baseConfig)
                 
-            .TargetName = '$ProjectName$-$Platform$-$Config$-$RenderConfig$'
+        .TargetName = '$ProjectName$-$Platform$-$Config$-$RenderConfig$'
 
-            .DefinesArray + .RenderConfigDefinesArray
-            #include "CreateDefineStrings.bff"
-            .CompilerOptions + .Defines
+        .DefinesArray + .RenderConfigDefinesArray
+        #include "CreateDefineStrings.bff"
+        .CompilerOptions + .Defines
 
-            .SearchPaths = .IncludesArray + .ProjectIncludePaths
-            ForEach(.include in .SearchPaths) {
-                ^IncludeSearchPath + '$include$;'
-            }
+        .SearchPaths = .IncludesArray + .ProjectIncludePaths
+        ForEach(.include in .SearchPaths) {
+            ^IncludeSearchPath + '$include$;'
+        }
 
-            ForEach(.include in .ProjectIncludePaths) {
-                ^IncludesArray + '$ProjectBasePath$/$include$'
-            }
-            #include "CreateIncludeStrings.bff"
-            .CompilerOptions + .Includes
+        ForEach(.include in .ProjectIncludePaths) {
+            ^IncludesArray + '$ProjectBasePath$/$include$'
+        }
+        #include "CreateIncludeStrings.bff"
+        .CompilerOptions + .Includes
 
-            #include "CreateLibraryPathStrings.bff"
-            .LinkerOptions + .LibraryPaths
+        #include "CreateLibraryPathStrings.bff"
+        .LinkerOptions + .LibraryPaths
 
-            .LibrariesString = ''
-            #include "CreateLibraryStrings.bff"
-            .LinkerOptions + .LibrariesString
+        .LibrariesString = ''
+        #include "CreateLibraryStrings.bff"
+        .LinkerOptions + .LibrariesString
 
-            .ExeOutputRelativeToProject = 'Output/$Platform$-$RenderConfig$/$Config$/$ProjectName$.exe'
-            .ExeOutput                  = '$ProjectBasePath$/$ExeOutputRelativeToProject$'
+        .ExeOutputRelativeToProject = 'Output/$Platform$-$RenderConfig$/$Config$/$ProjectName$.exe'
+        .ExeOutput                  = '$ProjectBasePath$/$ExeOutputRelativeToProject$'
 
-            .CompilerInputPath      = '$ProjectBasePath$'
-            .CompilerOutputPath     = '$ProjectBasePath$/Output/$Platform$-$RenderConfig$/$Config$'
-            .LibrarianOutput        = '$ProjectBasePath$/Output/$Platform$-$RenderConfig$/$Config$/$ProjectName$.lib'
-            .LinkerOutput           = .ExeOutput
-        ]
+        .CompilerInputPath      = '$ProjectBasePath$'
+        .CompilerOutputPath     = '$ProjectBasePath$/Output/$Platform$-$RenderConfig$/$Config$'
+        .LibrarianOutput        = '$ProjectBasePath$/Output/$Platform$-$RenderConfig$/$Config$/$ProjectName$.lib'
+        .LinkerOutput           = .ExeOutput
+    ]
 
-        ^Allx64Configs + .Config
-    }
+    ^Allx64Configs + .Config
 }
     
 .Allx64VCXProjectConfigs = { }
