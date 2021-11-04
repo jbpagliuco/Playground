@@ -133,10 +133,10 @@ namespace playground
 		NgaDx12State.mCommandList->ClearDepthStencilView(depthStencilView.mDescriptorHandle, D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0.0f, 0, nullptr);
 	}
 
-	void NGACommandContext::BindRenderTarget(const NGARenderTargetView& renderTarget, const NGADepthStencilView& depthStencilView)
+	void NGACommandContext::BindRenderTarget(const NGARenderTargetView& renderTargetView, const NGADepthStencilView& depthStencilView)
 	{
-		const int numRenderTargets = renderTarget.IsConstructed() ? 1 : 0;
-		NgaDx12State.mCommandList->OMSetRenderTargets(numRenderTargets, &renderTarget.mDescriptorHandle, true, &depthStencilView.mDescriptorHandle);
+		const int numRenderTargets = renderTargetView.IsConstructed() ? 1 : 0;
+		NgaDx12State.mCommandList->OMSetRenderTargets(numRenderTargets, &renderTargetView.mDescriptorHandle, true, &depthStencilView.mDescriptorHandle);
 	}
 
 	void NGACommandContext::PresentRenderTarget(const NGARenderTargetView& renderTargetView)

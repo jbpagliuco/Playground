@@ -174,15 +174,16 @@ namespace playground
 
 	void RenderingSystemBeginFrame()
 	{
-		Playground_Renderer->BeginRender();
-		ImguiRendererBeginFrame();
-
-		MainSceneRenderer.BeginRender();
 	}
 
 	void RenderingSystemDoFrame()
 	{
 		if (RenderFrameTimer.Elapsed()) {
+			Playground_Renderer->BeginRender();
+			ImguiRendererBeginFrame();
+
+			MainSceneRenderer.BeginRender();
+
 			Scene* mainScene = Scene::Get();
 
 			const auto& cameras = mainScene->GetCameras();
@@ -199,16 +200,17 @@ namespace playground
 				MainSceneRenderer.RenderScene(*mainScene, *camera);
 			}
 
+			ImguiRendererEndFrame();
+			Playground_Renderer->EndRender();
+
+			MainSceneRenderer.EndRender();
+
 			RenderFrameTimer.Start();
 		}
 	}
 
 	void RenderingSystemEndFrame()
 	{
-		ImguiRendererEndFrame();
-		Playground_Renderer->EndRender();
-
-		MainSceneRenderer.EndRender();
 	}
 
 
