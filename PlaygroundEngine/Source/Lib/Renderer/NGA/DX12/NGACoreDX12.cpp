@@ -38,6 +38,7 @@ namespace playground
 		// Create device.
 		HRESULT hr = D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_12_0, IID_PPV_ARGS(&NgaDx12State.mDevice));
 		CORE_FATAL_ERROR(SUCCEEDED(hr), "Failed to create DirectX 12 device.");
+		SetDebugName(NgaDx12State.mDevice, "D3D12 Device");
 
 		// Break on errors
 #if CORE_CONFIG(DEBUG)
@@ -50,6 +51,7 @@ namespace playground
 		// Create synchronization fence.
 		hr = NgaDx12State.mDevice->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&NgaDx12State.mFence));
 		CORE_FATAL_ERROR(SUCCEEDED(hr), "Failed to create fence.");
+		SetDebugName(NgaDx12State.mFence, "D3D12 Fence");
 
 		// Query for 4X MSAA support.
 		D3D12_FEATURE_DATA_MULTISAMPLE_QUALITY_LEVELS msQualityLevels;
@@ -68,6 +70,7 @@ namespace playground
 		NgaDx12State.mDevice->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&NgaDx12State.mCommandAllocator));
 		NgaDx12State.mDevice->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, NgaDx12State.mCommandAllocator, nullptr, IID_PPV_ARGS(&NgaDx12State.mCommandList));
 		NgaDx12State.mCommandList->Close();
+		SetDebugName(NgaDx12State.mCommandList, "D3D12 Command List");
 
 		NgaDx12State.mRtvHeap.Initialize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV, NUM_RTV_DESCRIPTORS);
 		NgaDx12State.mDsvHeap.Initialize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV, NUM_DSV_DESCRIPTORS);

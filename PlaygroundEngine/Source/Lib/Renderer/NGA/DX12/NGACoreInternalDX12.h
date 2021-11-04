@@ -34,6 +34,14 @@ namespace playground
 		NGAResourceDescriptorHeap mCbvSrvUavHeap;
 	};
 
+#if RENDER_DEBUG_FEATURE(STORE_NAMES)
+	void SetDebugName(IDXGIObject* object, const char* name);
+	void SetDebugName(ID3D12Object* object, const char* name);
+#else
+	void SetDebugName(IDXGIObject* object, const char* name) {}
+	void SetDebugName(ID3D12Object* object, const char* name) {}
+#endif
+
 	extern NGAInternalStateDX12 NgaDx12State;
 }
 

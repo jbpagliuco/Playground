@@ -37,6 +37,20 @@ namespace playground
 		HRESULT hr = NgaDx12State.mDXGIFactory->CreateSwapChain(NgaDx12State.mCommandQueue, &swapChainDesc, &mSwapChain);
 		CORE_FATAL_ERROR(SUCCEEDED(hr), "Failed to create D3D12 swap chain.");
 
+#if RENDER_DEBUG_FEATURE(STORE_NAMES)
+		SetDebugName(mSwapChain, "Swap Chain");
+		for (int i = 0; i < desc.mBufferCount; ++i) {
+			ID3D12Resource* backBuffer;
+			hr = mSwapChain->GetBuffer(i, IID_PPV_ARGS(&backBuffer));
+			if (SUCCEEDED(hr)) {
+				char name[128];
+				snprintf(name, sizeof(name), "Back Buffer %d", i);
+				SetDebugName(backBuffer, name);
+			}
+			COM_SAFE_RELEASE(backBuffer);
+		}
+#endif
+
 		return true;
 	}
 
