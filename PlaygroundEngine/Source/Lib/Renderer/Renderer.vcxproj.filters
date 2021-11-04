@@ -100,6 +100,9 @@
     <CustomBuild Include="NGA\Common\NGAResourcesCommon.cpp">
       <Filter>NGA\Common</Filter>
     </CustomBuild>
+    <CustomBuild Include="NGA\Common\NGAShaderCommon.cpp">
+      <Filter>NGA\Common</Filter>
+    </CustomBuild>
     <CustomBuild Include="NGA\DX11\NGACommandContextDX11.cpp">
       <Filter>NGA\DX11</Filter>
     </CustomBuild>
@@ -290,12 +293,6 @@
     <CustomBuild Include="Scene\Camera.h">
       <Filter>Scene</Filter>
     </CustomBuild>
-    <CustomBuild Include="Scene\ForwardRenderer.cpp">
-      <Filter>Scene</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Scene\ForwardRenderer.h">
-      <Filter>Scene</Filter>
-    </CustomBuild>
     <CustomBuild Include="Scene\Renderables\MeshInstance.cpp">
       <Filter>Scene\Renderables</Filter>
     </CustomBuild>
@@ -304,6 +301,18 @@
     </CustomBuild>
     <CustomBuild Include="Scene\Renderables\RenderableInstance.h">
       <Filter>Scene\Renderables</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Scene\Renderers\EmptySceneRenderer.cpp">
+      <Filter>Scene\Renderers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Scene\Renderers\EmptySceneRenderer.h">
+      <Filter>Scene\Renderers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Scene\Renderers\ForwardSceneRenderer.cpp">
+      <Filter>Scene\Renderers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Scene\Renderers\ForwardSceneRenderer.h">
+      <Filter>Scene\Renderers</Filter>
     </CustomBuild>
     <CustomBuild Include="Scene\Scene.cpp">
       <Filter>Scene</Filter>
@@ -391,15 +400,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Shader">
-      <UniqueIdentifier>{c565ed05-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    <Filter Include="Scene\Renderers">
+      <UniqueIdentifier>{6f7499b6-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="NGA\Common\NGAShaderCommon.cpp" />
-    <ClCompile Include="Scene\Renderers\EmptySceneRenderer.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Scene\Renderers\EmptySceneRenderer.h" />
+    <Filter Include="Shader">
+      <UniqueIdentifier>{c565ed05-6c94-4f93-bc2a-7f5284b7d434}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

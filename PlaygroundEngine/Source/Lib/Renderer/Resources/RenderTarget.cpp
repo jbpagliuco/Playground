@@ -63,9 +63,13 @@ namespace playground
 		desc.mTextureDesc.mBindFlags |= NGA_TEXTURE_BIND_DEPTH_STENCIL;
 		desc.mTextureDesc.mWidth = width;
 		desc.mTextureDesc.mHeight = height;
+		desc.mTextureDesc.mClear = true;
+		desc.mTextureDesc.mClearValue.mColor = COLOR_CORNFLOWERBLUE;
+		desc.mTextureDesc.mClearValue.mDepth = 1.0f;
+		desc.mTextureDesc.mClearValue.mStencil = 0;
 
-		//success = mDepthMap.Initialize(desc, true);
-		//RENDER_ASSERT_RETURN_VALUE(success, false, "Failed to create render target depth map.");
+		success = mDepthMap.Initialize(desc, false);
+		RENDER_ASSERT_RETURN_VALUE(success, false, "Failed to create render target depth map.");
 
 		return true;
 	}
@@ -98,7 +102,7 @@ namespace playground
 
 	void RenderTarget::Bind(int slice)const
 	{
-		Playground_RendererStateManager->BindRenderTarget(mColorMap.GetRenderTargetView(slice), mDepthMap.GetDepthStencilView(slice));
+		Playground_RendererStateManager->BindRenderTarget(mColorMap.GetRenderTargetView(slice), mDepthMap.GetDepthStencilView());
 	}
 	
 	void RenderTarget::Clear(const float* clearColor, bool clearDepth, int slice)const
@@ -108,7 +112,12 @@ namespace playground
 		}
 
 		if (clearDepth && HasDepthMap()) {
-			Playground_RendererStateManager->ClearDepthStencilView(GetDepthMap().GetDepthStencilView(slice));
+			Playground_RendererStateManager->ClearDepthStencilView(GetDepthMap().GetDepthStencilView());
 		}
+	}
+
+	void RenderTarget::Present(int slice)const
+	{
+		Playground_RendererStateManager->PresentRenderTarget(mColorMap.GetRenderTargetView(slice));
 	}
 }

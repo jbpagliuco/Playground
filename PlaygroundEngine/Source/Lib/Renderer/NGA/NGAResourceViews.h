@@ -73,6 +73,7 @@ namespace playground
 #elif CORE_RENDER_API(DX12)
 	private:
 		NGACPUDescriptorHandle mDescriptorHandle;
+		ID3D12Resource* mResource = nullptr;
 #endif
 
 		friend class NGACommandContext;

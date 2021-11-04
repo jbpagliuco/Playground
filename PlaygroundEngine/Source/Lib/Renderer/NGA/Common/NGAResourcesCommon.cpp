@@ -6,6 +6,19 @@ namespace playground
 	NGA_GPU_CLASS_IMPLEMENT(NGABuffer);
 
 
+
+	bool NGATexture::IsArray()const
+	{
+		return mDesc.mArraySize > 1;
+	}
+
+	const NGATextureDesc& NGATexture::GetDesc()const
+	{
+		return mDesc;
+	}
+
+
+
 	bool NGABuffer::IsVertexBuffer()const
 	{
 		return mDesc.mUsage & NGABufferUsage::NGA_BUFFER_USAGE_VERTEX;

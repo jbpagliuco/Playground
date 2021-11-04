@@ -2,6 +2,7 @@
 
 #if CORE_RENDER_API(DX12)
 
+#include "Core/Debug/Log.h"
 #include "Core/Util/Timer.h"
 
 #include "NGA/NGAInputLayout.h"
@@ -15,7 +16,11 @@ namespace playground
 {
 	void NGACommandContext::Reset()
 	{
-		NgaDx12State.mCommandList->Reset(NgaDx12State.mCommandAllocator, nullptr);
+		HRESULT hr = NgaDx12State.mCommandAllocator->Reset();
+		CORE_ASSERT(SUCCEEDED(hr), "Failed to reset command allocator.");
+
+		hr = NgaDx12State.mCommandList->Reset(NgaDx12State.mCommandAllocator, nullptr);
+		CORE_ASSERT(SUCCEEDED(hr), "Failed to reset command list.");
 	}
 
 	void NGACommandContext::Close()
@@ -117,6 +122,9 @@ namespace playground
 
 	void NGACommandContext::ClearRenderTarget(const NGARenderTargetView& renderTargetView, const float* clearColor)
 	{
+		const D3D12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(renderTargetView.mResource, D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
+		NgaDx12State.mCommandList->ResourceBarrier(1, &barrier);
+
 		NgaDx12State.mCommandList->ClearRenderTargetView(renderTargetView.mDescriptorHandle, clearColor, 0, nullptr);
 	}
 
@@ -129,6 +137,12 @@ namespace playground
 	{
 		const int numRenderTargets = renderTarget.IsConstructed() ? 1 : 0;
 		NgaDx12State.mCommandList->OMSetRenderTargets(numRenderTargets, &renderTarget.mDescriptorHandle, true, &depthStencilView.mDescriptorHandle);
+	}
+
+	void NGACommandContext::PresentRenderTarget(const NGARenderTargetView& renderTargetView)
+	{
+		const D3D12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(renderTargetView.mResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
+		NgaDx12State.mCommandList->ResourceBarrier(1, &barrier);
 	}
 }
 

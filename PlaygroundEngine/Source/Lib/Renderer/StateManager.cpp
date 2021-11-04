@@ -25,7 +25,7 @@ namespace playground
 		Matrix world;
 		Matrix worldInverseTranspose;
 	};
-	
+
 
 
 	StateManager::StateManager() :
@@ -61,18 +61,18 @@ namespace playground
 
 	void StateManager::OpenCommandList()
 	{
-		mCommandContext.Reset();
+		GetCurrentCommandContext().Reset();
 	}
 
 	void StateManager::ResetCommandList()
 	{
-		mCommandContext.Reset();
+		GetCurrentCommandContext().Reset();
 	}
 
 	void StateManager::CloseCommandList()
 	{
-		mCommandContext.Close();
-		mCommandContext.Flush();
+		GetCurrentCommandContext().Close();
+		GetCurrentCommandContext().Flush();
 	}
 
 	void StateManager::ClearAllUserResources()
@@ -85,8 +85,8 @@ namespace playground
 			BindUserSamplerState(NGASamplerState::INVALID, NGA_SHADER_STAGE_ALL, i);
 		}
 	}
-	
-	void StateManager::SetPerFrameData(const Matrix &cameraViewProj, Matrix lightViewProj[MAX_SHADOWMAPS], int numShadowCasters)
+
+	void StateManager::SetPerFrameData(const Matrix& cameraViewProj, Matrix lightViewProj[MAX_SHADOWMAPS], int numShadowCasters)
 	{
 		PerFrameData data;
 		data.cameraViewProj = cameraViewProj;
@@ -99,10 +99,10 @@ namespace playground
 
 		mPerFrameBuffer.Map(&data);
 
-		mCommandContext.BindConstantBuffer(mPerFrameBuffer.GetBuffer(), NGA_SHADER_STAGE_VERTEX, (int)ShaderConstantBuffers::PERFRAME);
+		GetCurrentCommandContext().BindConstantBuffer(mPerFrameBuffer.GetBuffer(), NGA_SHADER_STAGE_VERTEX, (int)ShaderConstantBuffers::PERFRAME);
 	}
 
-	void StateManager::SetObjectTransform(const Matrix &transform)
+	void StateManager::SetObjectTransform(const Matrix& transform)
 	{
 		PerObjectData data;
 		data.world = transform;
@@ -110,74 +110,74 @@ namespace playground
 
 		mObjectDataBuffer.Map(&data);
 
-		mCommandContext.BindConstantBuffer(mObjectDataBuffer.GetBuffer(), NGA_SHADER_STAGE_VERTEX, (int)ShaderConstantBuffers::OBJECTDATA);
+		GetCurrentCommandContext().BindConstantBuffer(mObjectDataBuffer.GetBuffer(), NGA_SHADER_STAGE_VERTEX, (int)ShaderConstantBuffers::OBJECTDATA);
 	}
 
-	void StateManager::SetLightsData(const LightsData &lights)
+	void StateManager::SetLightsData(const LightsData& lights)
 	{
 		mLightsBuffer.Map((void*)&lights);
 
-		mCommandContext.BindConstantBuffer(mLightsBuffer.GetBuffer(), NGA_SHADER_STAGE_PIXEL, (int)ShaderConstantBuffers::LIGHTS);
+		GetCurrentCommandContext().BindConstantBuffer(mLightsBuffer.GetBuffer(), NGA_SHADER_STAGE_PIXEL, (int)ShaderConstantBuffers::LIGHTS);
 	}
 
-	void StateManager::SetViewport(const NGARect &rect)
+	void StateManager::SetViewport(const NGARect& rect)
 	{
-		mCommandContext.SetViewport(rect);
+		GetCurrentCommandContext().SetViewport(rect);
 	}
 
 	void StateManager::SetPrimitiveTopology(NGAPrimitiveTopology primTopology)
 	{
-		mCommandContext.SetPrimitiveTopology(primTopology);
+		GetCurrentCommandContext().SetPrimitiveTopology(primTopology);
 	}
 
-	void StateManager::BindIndexBuffer(const IndexBuffer &ib)
+	void StateManager::BindIndexBuffer(const IndexBuffer& ib)
 	{
-		mCommandContext.BindIndexBuffer(ib.GetBuffer());
+		GetCurrentCommandContext().BindIndexBuffer(ib.GetBuffer());
 	}
 
-	void StateManager::BindVertexBuffer(const VertexBuffer &vb)
+	void StateManager::BindVertexBuffer(const VertexBuffer& vb)
 	{
-		mCommandContext.BindVertexBuffer(vb.GetBuffer());
+		GetCurrentCommandContext().BindVertexBuffer(vb.GetBuffer());
 	}
 
-	void StateManager::BindInputLayout(const NGAInputLayout &inputLayout)
+	void StateManager::BindInputLayout(const NGAInputLayout& inputLayout)
 	{
-		mCommandContext.BindInputLayout(inputLayout);
+		GetCurrentCommandContext().BindInputLayout(inputLayout);
 	}
 
-	void StateManager::BindShader(const ShaderProgram &shader)
+	void StateManager::BindShader(const ShaderProgram& shader)
 	{
-		mCommandContext.BindShader(shader.GetShader());
+		GetCurrentCommandContext().BindShader(shader.GetShader());
 	}
 
 
-	void StateManager::BindUserShaderResource(const Texture &texture, NGAShaderStage stage, int slot)
+	void StateManager::BindUserShaderResource(const Texture& texture, NGAShaderStage stage, int slot)
 	{
 		BindShaderResource(texture.GetShaderResourceView(), stage, slot + (int)TextureRegisters::USER);
 	}
 
-	void StateManager::BindUserShaderResource(const NGAShaderResourceView &view, NGAShaderStage stage, int slot)
+	void StateManager::BindUserShaderResource(const NGAShaderResourceView& view, NGAShaderStage stage, int slot)
 	{
 		BindShaderResource(view, stage, slot + (int)TextureRegisters::USER);
 	}
 
-	void StateManager::BindShaderResource(const Texture &texture, NGAShaderStage stage, int slot)
+	void StateManager::BindShaderResource(const Texture& texture, NGAShaderStage stage, int slot)
 	{
 		// Can't bind a shader resource if it's already been bound as an output
 		if (texture.GetRenderTargetView() == *mBoundRenderTarget) {
-			mCommandContext.BindShaderResource(NGAShaderResourceView::INVALID, stage, slot);
+			GetCurrentCommandContext().BindShaderResource(NGAShaderResourceView::INVALID, stage, slot);
 			return;
 		}
 
 		if (texture.GetDepthStencilView() == *mBoundDepthStencilView) {
-			mCommandContext.BindShaderResource(NGAShaderResourceView::INVALID, stage, slot);
+			GetCurrentCommandContext().BindShaderResource(NGAShaderResourceView::INVALID, stage, slot);
 			return;
 		}
 
-		mCommandContext.BindShaderResource(texture.GetShaderResourceView(), stage, slot);
+		GetCurrentCommandContext().BindShaderResource(texture.GetShaderResourceView(), stage, slot);
 	}
 
-	void StateManager::BindShaderResource(const NGAShaderResourceView &view, NGAShaderStage stage, int slot)
+	void StateManager::BindShaderResource(const NGAShaderResourceView& view, NGAShaderStage stage, int slot)
 	{
 		if (view != NGAShaderResourceView::INVALID) {
 			const bool isBoundForOutput =
@@ -185,75 +185,87 @@ namespace playground
 				(mBoundDepthStencilView != nullptr && view.PointsToSameResource(*mBoundDepthStencilView));
 
 			if (isBoundForOutput) {
-				mCommandContext.BindShaderResource(NGAShaderResourceView::INVALID, stage, slot);
+				GetCurrentCommandContext().BindShaderResource(NGAShaderResourceView::INVALID, stage, slot);
 				return;
 			}
 		}
-		
-		mCommandContext.BindShaderResource(view, stage, slot);
+
+		GetCurrentCommandContext().BindShaderResource(view, stage, slot);
 	}
 
 
-	void StateManager::BindUserConstantBuffer(const NGABuffer &constantBuffer, NGAShaderStage stage, int slot)
+	void StateManager::BindUserConstantBuffer(const NGABuffer& constantBuffer, NGAShaderStage stage, int slot)
 	{
 		BindConstantBuffer(constantBuffer, stage, slot + (int)ShaderConstantBuffers::USER);
 	}
 
-	void StateManager::BindConstantBuffer(const NGABuffer &constantBuffer, NGAShaderStage stage, int slot)
+	void StateManager::BindConstantBuffer(const NGABuffer& constantBuffer, NGAShaderStage stage, int slot)
 	{
 		CORE_ASSERT_RETURN(stage != NGA_SHADER_STAGE_ALL, "Need to implement this.");
 
 		if (stage & NGA_SHADER_STAGE_VERTEX) {
-			mCommandContext.BindConstantBuffer(constantBuffer, NGA_SHADER_STAGE_VERTEX, slot);
+			GetCurrentCommandContext().BindConstantBuffer(constantBuffer, NGA_SHADER_STAGE_VERTEX, slot);
 		}
 
 		if (stage & NGA_SHADER_STAGE_PIXEL) {
-			mCommandContext.BindConstantBuffer(constantBuffer, NGA_SHADER_STAGE_PIXEL, slot);
+			GetCurrentCommandContext().BindConstantBuffer(constantBuffer, NGA_SHADER_STAGE_PIXEL, slot);
 		}
 	}
 
 
-	void StateManager::BindUserSamplerState(const NGASamplerState &samplerState, NGAShaderStage stage, int slot)
+	void StateManager::BindUserSamplerState(const NGASamplerState& samplerState, NGAShaderStage stage, int slot)
 	{
 		BindSamplerState(samplerState, stage, slot + (int)SamplerStateRegisters::USER);
 	}
 
-	void StateManager::BindSamplerState(const NGASamplerState &samplerState, NGAShaderStage stage, int slot)
+	void StateManager::BindSamplerState(const NGASamplerState& samplerState, NGAShaderStage stage, int slot)
 	{
-		mCommandContext.BindSamplerState(samplerState, stage, slot);
+		GetCurrentCommandContext().BindSamplerState(samplerState, stage, slot);
 	}
 
 
 
-	void StateManager::ClearRenderTarget(const NGARenderTargetView &renderTargetView, const float *clearColor)
-	{
-		mCommandContext.ClearRenderTarget(renderTargetView, clearColor);
-	}
-
-	void StateManager::ClearDepthStencilView(const NGADepthStencilView &depthStencilView)
-	{
-		mCommandContext.ClearDepthStencilView(depthStencilView);
-	}
-
-	void StateManager::BindRenderTarget(const NGARenderTargetView &renderTargetView, const NGADepthStencilView &depthStencilView)
+	void StateManager::BindRenderTarget(const NGARenderTargetView& renderTargetView, const NGADepthStencilView& depthStencilView)
 	{
 		mBoundRenderTarget = &renderTargetView;
 		mBoundDepthStencilView = &depthStencilView;
-		mCommandContext.BindRenderTarget(renderTargetView, depthStencilView);
+		GetCurrentCommandContext().BindRenderTarget(renderTargetView, depthStencilView);
 	}
 
-	void StateManager::MapBufferData(const NGABuffer &buffer, const void *data)
+	void StateManager::ClearRenderTarget(const NGARenderTargetView& renderTargetView, const float* clearColor)
 	{
-		mCommandContext.MapBufferData(buffer, data);
+		GetCurrentCommandContext().ClearRenderTarget(renderTargetView, clearColor);
 	}
 
-	void StateManager::DrawIndexed(const IndexBuffer &buffer)
+	void StateManager::PresentRenderTarget(const NGARenderTargetView& renderTargetView)
 	{
-		mCommandContext.DrawIndexed((unsigned int)buffer.GetNumIndices());
+		GetCurrentCommandContext().PresentRenderTarget(renderTargetView);
+	}
+
+
+	void StateManager::ClearDepthStencilView(const NGADepthStencilView& depthStencilView)
+	{
+		GetCurrentCommandContext().ClearDepthStencilView(depthStencilView);
+	}
+
+	void StateManager::MapBufferData(const NGABuffer& buffer, const void* data)
+	{
+		GetCurrentCommandContext().MapBufferData(buffer, data);
+	}
+
+	void StateManager::DrawIndexed(const IndexBuffer& buffer)
+	{
+		GetCurrentCommandContext().DrawIndexed((unsigned int)buffer.GetNumIndices());
 	}
 
 	void StateManager::BindPipelineState(const NGAPipelineState& state)
 	{
-		mCommandContext.BindPipelineState(state);
+		GetCurrentCommandContext().BindPipelineState(state);
+	}
+
+
+	NGACommandContext& StateManager::GetCurrentCommandContext()
+	{
+		return mCommandContexts[Playground_SwapChain->GetBufferIndex()];
 	}
 }

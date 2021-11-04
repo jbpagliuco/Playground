@@ -57,9 +57,14 @@ namespace playground
 		void BindShaderResource(const NGAShaderResourceView &view, NGAShaderStage stage, int slot);
 		void BindSamplerState(const NGASamplerState &samplerState, NGAShaderStage stage, int slot);
 
-		void ClearRenderTarget(const NGARenderTargetView &renderTargetView, const float *clearColor);
+		void ClearRenderTarget(const NGARenderTargetView& renderTargetView, const float* clearColor);
 		void ClearDepthStencilView(const NGADepthStencilView &depthStencilView);
-		void BindRenderTarget(const NGARenderTargetView &renderTargetView, const NGADepthStencilView &depthStencilView);
+		void BindRenderTarget(const NGARenderTargetView& renderTargetView, const NGADepthStencilView& depthStencilView);
+		void PresentRenderTarget(const NGARenderTargetView& renderTargetView);
 
+#if CORE_RENDER_API(DX12)
+	private:
+		D3D12_RESOURCE_STATES mCurrentState;
+#endif
 	};
 }

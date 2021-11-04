@@ -19,7 +19,7 @@ namespace playground
 		swapChainDesc.mWindow = params.mWindow;
 		bool success = mSwapChain.Construct(swapChainDesc);
 		CORE_FATAL_ERROR(success, "Failed to construct swap chain.");
-				
+
 		RenderTargetTextureDesc depthBufferDesc;
 		depthBufferDesc.mFormat = NGAFormat::D24_UNORM_S8_UINT;
 		depthBufferDesc.mType = NGATextureType::TEXTURE2D;
@@ -47,16 +47,14 @@ namespace playground
 
 	void Renderer::BeginRender()
 	{
-		/*NGARect r;
-		r.x = 0.0f;
-		r.y = 0.0f;
-		r.width = (float)mWindow.width;
-		r.height = (float)mWindow.height;
-		mStateManager.SetViewport(r);*/
+		Playground_RendererStateManager->OpenCommandList();
 	}
 
 	void Renderer::EndRender()
 	{
+		Playground_MainRenderTarget->Present(Playground_SwapChain->GetBufferIndex());
+		Playground_RendererStateManager->CloseCommandList();
+
 		mSwapChain.Present();
 	}
 }

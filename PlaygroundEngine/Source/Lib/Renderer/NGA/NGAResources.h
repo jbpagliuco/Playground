@@ -3,6 +3,7 @@
 #include "NGA/NGACommon.h"
 
 #include "Core/Util/BitUtil.h"
+#include "Core/Util/Color.h"
 
 #if CORE_RENDER_API(DX12)
 #include "NGA/DX12/NGADescriptorHeapDX12.h"
@@ -23,6 +24,13 @@ namespace playground
 		UNKNOWN
 	};
 
+	struct NGAClearValue
+	{
+		ColorF mColor;
+		float mDepth;
+		uint8_t mStencil;
+	};
+
 	struct NGATextureDesc
 	{
 		NGATextureType mType = NGATextureType::UNKNOWN;
@@ -36,6 +44,9 @@ namespace playground
 		int mHeight = 0;
 
 		int mArraySize = 1;
+
+		bool mClear = false;
+		NGAClearValue mClearValue;
 	};
 
 	class NGATexture
@@ -58,7 +69,10 @@ namespace playground
 
 #if CORE_RENDER_API(DX11)
 	private:
-		struct ID3D11Resource *mResource;
+		struct ID3D11Resource* mResource = nullptr;
+#elif CORE_RENDER_API(DX12)
+	private:
+		ID3D12Resource* mResource = nullptr;
 #endif
 
 		friend class NGAShaderResourceView;

@@ -3,6 +3,7 @@
 #include "Core/Math/Matrix.h"
 
 #include "NGA/NGACommandContext.h"
+#include "NGA/NGASwapChain.h"
 
 #include "Renderer/Light.h"
 #include "Renderer/Resources/ConstantBuffer.h"
@@ -69,13 +70,19 @@ namespace playground
 		// Closes and flushes the command list.
 		void CloseCommandList();
 
+		// Clears all user-bound resources from the graphics pipeline.
 		void ClearAllUserResources();
 
+		// Sets per-frame data. Should be called once before rendering the scene.
 		void SetPerFrameData(const Matrix &cameraViewProj, Matrix lightViewProj[MAX_SHADOWMAPS], int numShadowCasters);
+		
+		// Sets data for the object about to be rendered.
 		void SetObjectTransform(const Matrix &transform);
 
+		// Sets light data.
 		void SetLightsData(const LightsData &lights);
 
+		// Set the current viewport.
 		void SetViewport(const NGARect &rect);
 
 		void SetPrimitiveTopology(NGAPrimitiveTopology primTopology);
@@ -98,10 +105,11 @@ namespace playground
 		void BindUserSamplerState(const NGASamplerState &samplerState, NGAShaderStage stage, int slot);
 		void BindSamplerState(const NGASamplerState &samplerState, NGAShaderStage stage, int slot);
 
-		void ClearRenderTarget(const NGARenderTargetView &renderTargetView, const float *clearColor);
 		void ClearDepthStencilView(const NGADepthStencilView &depthStencilView);
 
-		void BindRenderTarget(const NGARenderTargetView &renderTargetView, const NGADepthStencilView &depthStencilView);
+		void BindRenderTarget(const NGARenderTargetView& renderTargetView, const NGADepthStencilView& depthStencilView);
+		void ClearRenderTarget(const NGARenderTargetView& renderTargetView, const float* clearColor);
+		void PresentRenderTarget(const NGARenderTargetView& renderTargetView);
 
 		void MapBufferData(const NGABuffer &buffer, const void *data);
 
@@ -110,7 +118,10 @@ namespace playground
 		void BindPipelineState(const NGAPipelineState& state);
 		
 	private:
-		NGACommandContext mCommandContext;
+		NGACommandContext& GetCurrentCommandContext();
+
+	private:
+		NGACommandContext mCommandContexts[MAX_SWAP_CHAIN_BUFFERS];
 
 		ConstantBuffer mPerFrameBuffer;
 		ConstantBuffer mObjectDataBuffer;

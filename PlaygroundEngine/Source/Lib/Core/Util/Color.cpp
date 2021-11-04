@@ -171,4 +171,12 @@ namespace playground
 	{
 		return &r;
 	}
+
+	void ColorF::ToFloatArray(float output[4])const
+	{
+		output[0] = r;
+		output[1] = g;
+		output[2] = b;
+		output[3] = a;
+	}
 }

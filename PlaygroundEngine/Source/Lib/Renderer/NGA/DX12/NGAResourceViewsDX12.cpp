@@ -83,24 +83,21 @@ namespace playground
 		CORE_ASSERT_RETURN_VALUE(!IsConstructed(), false);
 		CORE_ASSERT_RETURN_VALUE(swapChain.IsConstructed(), false);
 
-		ID3D12Resource* backBuffer;
-		HRESULT hr = swapChain.mSwapChain->GetBuffer(buffer, IID_PPV_ARGS(&backBuffer));
+		HRESULT hr = swapChain.mSwapChain->GetBuffer(buffer, IID_PPV_ARGS(&mResource));
 		if (FAILED(hr)) {
 			CORE_ERROR("Failed to get back buffer. (%X)", hr);
-			COM_SAFE_RELEASE(backBuffer);
 			return false;
 		}
 
 		mDescriptorHandle = NgaDx12State.mRtvHeap.Allocate();
-		NgaDx12State.mDevice->CreateRenderTargetView(backBuffer, nullptr, mDescriptorHandle);
+		NgaDx12State.mDevice->CreateRenderTargetView(mResource, nullptr, mDescriptorHandle);
 		
-		COM_SAFE_RELEASE(backBuffer);
-
 		return true;
 	}
 
 	void NGARenderTargetView::Destruct()
 	{
+		COM_SAFE_RELEASE(mResource);
 		mDescriptorHandle.Clear();
 	}
 
@@ -141,8 +138,55 @@ namespace playground
 
 	bool NGADepthStencilView::Construct(const NGATexture& texture, int slice)
 	{
-		CORE_UNIMPLEMENTED();
-		return false;
+		CORE_ASSERT_RETURN_VALUE(!IsConstructed(), false);
+		CORE_ASSERT_RETURN_VALUE(texture.IsConstructed(), false);
+
+		const NGATextureDesc& textureDesc = texture.GetDesc();
+
+		D3D12_DEPTH_STENCIL_VIEW_DESC desc{};
+
+		// Convert typeless format to strict format
+		if (NGAFormatIsTypeless(textureDesc.mFormat)) {
+			desc.Format = NGATypelessFormatToDepthDXGI(textureDesc.mFormat);
+		}
+		else {
+			desc.Format = NGAFormatToDXGI(textureDesc.mFormat);
+		}
+
+		switch (textureDesc.mType) {
+		case NGATextureType::TEXTURE1D:
+			if (texture.IsArray()) {
+				desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE1DARRAY;
+				desc.Texture1DArray.MipSlice = 0;
+				desc.Texture1DArray.ArraySize = 1;
+				desc.Texture1DArray.FirstArraySlice = D3D12CalcSubresource(0, slice, 0, 1, 1);
+			}
+			else {
+				desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE1D;
+			}
+			break;
+
+		case NGATextureType::TEXTURE2D:
+			if (texture.IsArray()) {
+				desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2DARRAY;
+				desc.Texture2DArray.MipSlice = 0;
+				desc.Texture2DArray.ArraySize = 1;
+				desc.Texture1DArray.FirstArraySlice = D3D12CalcSubresource(0, slice, 0, 1, 1);
+			}
+			else {
+				desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+			}
+			break;
+
+		default:
+			desc.ViewDimension = D3D12_DSV_DIMENSION_UNKNOWN;
+			break;
+		}
+
+		mDescriptorHandle = NgaDx12State.mDsvHeap.Allocate();
+		NgaDx12State.mDevice->CreateDepthStencilView(texture.mResource, &desc, mDescriptorHandle);
+
+		return true;
 	}
 
 	void NGADepthStencilView::Destruct()

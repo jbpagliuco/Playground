@@ -1,4 +1,4 @@
-#include "ForwardRenderer.h"
+#include "ForwardSceneRenderer.h"
 
 #include "Core/File/File.h"
 #include "Core/Util/Color.h"

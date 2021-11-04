@@ -51,9 +51,11 @@ namespace playground
 
 	bool Texture::Initialize(const NGASwapChain& swapChain)
 	{
-		NGARenderTargetView& rtv = mRenderTargetViews.emplace_back();
-		bool success = rtv.Construct(swapChain);
-		RENDER_ASSERT_RETURN_VALUE(success, false, "Failed to create render target view from swap chain.");
+		mRenderTargetViews = std::vector<NGARenderTargetView>(swapChain.GetNumBuffers());
+		for (int i = 0; i < swapChain.GetNumBuffers(); ++i) {
+			bool success = mRenderTargetViews[i].Construct(swapChain, i);
+			RENDER_ASSERT_RETURN_VALUE(success, false, "Failed to create render target view from swap chain buffer %d.", i);
+		}
 
 		return true;
 	}

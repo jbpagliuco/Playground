@@ -18,7 +18,7 @@
 #include "Renderer/Renderer.h"
 #include "Renderer/Scene/Camera.h"
 #include "Renderer/Scene/Renderers/EmptySceneRenderer.h"
-#include "Renderer/Scene/ForwardRenderer.h"
+#include "Renderer/Scene/Renderers/ForwardSceneRenderer.h"
 #include "Renderer/Scene/Scene.h"
 #include "Renderer/Shader/Shader.h"
 
@@ -176,6 +176,8 @@ namespace playground
 	{
 		Playground_Renderer->BeginRender();
 		ImguiRendererBeginFrame();
+
+		MainSceneRenderer.BeginRender();
 	}
 
 	void RenderingSystemDoFrame()
@@ -194,9 +196,7 @@ namespace playground
 					continue;
 				}
 
-				MainSceneRenderer.BeginRender();
 				MainSceneRenderer.RenderScene(*mainScene, *camera);
-				MainSceneRenderer.EndRender();
 			}
 
 			RenderFrameTimer.Start();
@@ -207,6 +207,8 @@ namespace playground
 	{
 		ImguiRendererEndFrame();
 		Playground_Renderer->EndRender();
+
+		MainSceneRenderer.EndRender();
 	}
 
 

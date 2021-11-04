@@ -56,6 +56,7 @@ namespace playground
 
 		void Bind(int slice = 0)const;
 		void Clear(const float *clearColor, bool clearDepth, int slice = 0)const;
+		void Present(int slice = 0)const;
 
 	private:
 		Texture mColorMap;

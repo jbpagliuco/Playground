@@ -8,6 +8,8 @@ struct IDXGISwapChain;
 
 namespace playground
 {
+	constexpr int MAX_SWAP_CHAIN_BUFFERS = 2;
+
 	struct NGASwapChainDesc
 	{
 		Window mWindow = INVALID_WINDOW;
@@ -27,6 +29,9 @@ namespace playground
 		void SetFullscreenState(bool fullscreen)const;
 		void Present();
 
+		inline int GetNumBuffers()const { return mNumBuffers; }
+		inline int GetBufferIndex()const { return mCurrentBackBufferIndex; }
+
 	private:
 #if CORE_RENDER_API(DX11)
 		struct IDXGISwapChain* mSwapChain;
@@ -34,8 +39,11 @@ namespace playground
 		IDXGISwapChain* mSwapChain;
 #endif
 
+		int mNumBuffers;
+
 		// Index to whichever back buffer we're currently rendering to.
 		int mCurrentBackBufferIndex = 0;
+
 
 		// TODO: Might be a better way to handle this
 		friend class NGARenderTargetView;

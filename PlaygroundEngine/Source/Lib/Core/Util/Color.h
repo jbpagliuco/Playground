@@ -84,5 +84,6 @@ namespace playground
 		ColorF& operator-=(const ColorF &rhs);
 
 		float* FloatArray();
+		void ToFloatArray(float output[4])const;
 	};
 }

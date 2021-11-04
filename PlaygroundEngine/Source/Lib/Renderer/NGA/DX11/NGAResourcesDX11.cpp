@@ -144,16 +144,6 @@ namespace playground
 		return mResource != nullptr;
 	}
 
-	bool NGATexture::IsArray()const
-	{
-		return mDesc.mArraySize > 1;
-	}
-
-	const NGATextureDesc& NGATexture::GetDesc()const
-	{
-		return mDesc;
-	}
-
 
 
 	D3D11_USAGE NgaDx11TranslateUsage(NGABufferUsage usage)

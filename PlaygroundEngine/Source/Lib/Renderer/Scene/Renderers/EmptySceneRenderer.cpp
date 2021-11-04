@@ -1,6 +1,7 @@
 #include "EmptySceneRenderer.h"
 
 #include "Renderer.h"
+#include "Renderer/Scene/Scene.h"
 
 namespace playground
 {
@@ -15,15 +16,16 @@ namespace playground
 
 	void EmptySceneRenderer::BeginRender()
 	{
-		Playground_RendererStateManager->OpenCommandList();
 	}
 
 	void EmptySceneRenderer::EndRender()
 	{
-		Playground_RendererStateManager->CloseCommandList();
 	}
 
 	void EmptySceneRenderer::RenderScene(Scene& scene, const Camera& camera)
-	{	
+	{
+		// Bind render target
+		Playground_MainRenderTarget->Bind(Playground_SwapChain->GetBufferIndex());
+		Playground_MainRenderTarget->Clear(ColorF(COLOR_CORNFLOWERBLUE).FloatArray(), true, Playground_SwapChain->GetBufferIndex());
 	}
 }

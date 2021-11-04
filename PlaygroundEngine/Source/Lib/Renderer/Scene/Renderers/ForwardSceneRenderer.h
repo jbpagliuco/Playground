@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SceneRenderer.h"
+#include "Renderer/Scene/SceneRenderer.h"
 
 #include "Renderer/NGA/NGAPipelineState.h"
 #include "Renderer/Pipelines/ShadowMap.h"

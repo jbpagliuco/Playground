@@ -13,6 +13,9 @@ namespace playground
 	bool NGASwapChain::Construct(const NGASwapChainDesc& desc)
 	{
 		CORE_ASSERT_RETURN_VALUE(!IsConstructed(), false);
+		CORE_ASSERT_RETURN_VALUE(desc.mBufferCount > 1 && desc.mBufferCount <= MAX_SWAP_CHAIN_BUFFERS, false);
+
+		mNumBuffers = desc.mBufferCount;
 
 		DXGI_SWAP_CHAIN_DESC swapChainDesc{};
 		swapChainDesc.BufferCount = desc.mBufferCount;
