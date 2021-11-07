@@ -121,10 +121,17 @@ namespace playground
 
 		bool IsConstructed()const;
 
+		size_t GetBufferSize()const;
+
+		// Buffer type
 		bool IsVertexBuffer()const;
 		bool IsIndexBuffer()const;
 		bool IsConstantBuffer()const;
 
+		// Read/Write access
+		bool IsCPUWritable()const;
+
+		// Vertex buffers
 		size_t GetVertexStride()const;
 		NGAFormat GetIndexBufferFormat()const;
 
@@ -141,8 +148,11 @@ namespace playground
 		bool CreateView(const NGABufferDesc &desc);
 
 		ID3D12Resource* mBuffer = nullptr;
-		ID3D12Resource* mUploadBuffer = nullptr;
-		ID3DBlob* mBlobCPU = nullptr;
+
+		// TODO: Ideally these shouldn't be stored here. These two fields are used for uploading the
+		// initial data to the constant buffer. We must keep references to these since the upload is deferred.
+		ID3D12Resource* mIntermediateUploadBuffer = nullptr;
+		ID3DBlob* mIntermediateBlobCPU = nullptr;
 
 		// View to this buffer.
 		union {

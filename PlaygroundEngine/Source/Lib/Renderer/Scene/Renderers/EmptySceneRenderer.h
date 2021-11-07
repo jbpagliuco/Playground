@@ -11,8 +11,8 @@ namespace playground
 		virtual bool Initialize() override;
 		virtual void Shutdown() override;
 
-		virtual void BeginRender() override;
-		virtual void EndRender() override;
+		virtual void BeginRender(Scene& scene) override;
+		virtual void EndRender(Scene& scene) override;
 
 		virtual void RenderScene(Scene& scene, const Camera& camera) override;
 	};

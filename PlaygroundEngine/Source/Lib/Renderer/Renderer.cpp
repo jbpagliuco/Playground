@@ -46,16 +46,8 @@ namespace playground
 		mSwapChain.Destruct();
 	}
 
-	void Renderer::BeginRender()
+	void Renderer::Present()
 	{
-		Playground_RendererStateManager->OpenCommandList();
-	}
-
-	void Renderer::EndRender()
-	{
-		Playground_MainRenderTarget->Present(Playground_SwapChain->GetBufferIndex());
-		Playground_RendererStateManager->CloseCommandList();
-
 		mSwapChain.Present();
 	}
 

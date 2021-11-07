@@ -63,17 +63,18 @@ namespace playground
 		NgaDx12State.mCommandList->DrawIndexedInstanced(indexCount, 1, 0, 0, 0);
 	}
 
-	void NGACommandContext::MapBufferData(const NGABuffer& buffer, const void* data)
+	void NGACommandContext::MapBufferData(const NGABuffer& buffer, const void* data, size_t size)
 	{
 		const NGABufferUsage usage = buffer.mDesc.mUsage;
 		CORE_ASSERT_RETURN((usage & NGA_BUFFER_USAGE_CPU_WRITE) || (usage & NGA_BUFFER_USAGE_CPU_READ_WRITE));
 
 		BYTE* mappedData;
-		buffer.mUploadBuffer->Map(0, nullptr, reinterpret_cast<void**>(&mappedData));
+		HRESULT hr = buffer.mBuffer->Map(0, nullptr, reinterpret_cast<void**>(&mappedData));
+		CORE_ASSERT_RETURN(SUCCEEDED(hr), "Failed to map constant buffer data.");
 
-		memcpy(mappedData, data, buffer.mDesc.mSizeInBytes);
+		memcpy(mappedData, data, size);
 
-		buffer.mUploadBuffer->Unmap(0, nullptr);
+		buffer.mBuffer->Unmap(0, nullptr);
 	}
 
 	void NGACommandContext::SetViewport(const NGARect& rect, float minDepth, float maxDepth)

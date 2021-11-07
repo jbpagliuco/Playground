@@ -22,6 +22,7 @@ namespace playground
 		mParameterMap = desc.mParameterMap;
 
 		// Set default data
+		mDefaultParameterDataSize = desc.mParameterDataByteLength;
 		mDefaultParameterData = CORE_ALLOC(desc.mParameterDataByteLength);
 		memcpy(mDefaultParameterData, desc.mDefaultParameterData, desc.mParameterDataByteLength);
 
@@ -49,7 +50,7 @@ namespace playground
 		Material::Bind();
 
 		// Bind default data. This is not great.
-		mConstantBuffer.Map(mDefaultParameterData);
+		mConstantBuffer.Map(mDefaultParameterData, mDefaultParameterDataSize);
 
 		// Bind constant data
 		Playground_RendererStateManager->BindUserConstantBuffer(mConstantBuffer.GetBuffer(), NGA_SHADER_STAGE_PIXEL, 0);
@@ -112,7 +113,7 @@ namespace playground
 	void DynamicMaterialInstance::BindDynamicData()
 	{
 		// Map our data to the material's constant buffer.
-		mParent->mConstantBuffer.Map(mParameterData);
+		mParent->mConstantBuffer.Map(mParameterData, mParent->mDefaultParameterDataSize);
 
 		// Bind textures
 		for (int i = 0; i < mTextures.size(); ++i) {

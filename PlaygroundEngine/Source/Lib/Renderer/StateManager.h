@@ -74,13 +74,15 @@ namespace playground
 		void ClearAllUserResources();
 
 		// Sets per-frame data. Should be called once before rendering the scene.
-		void SetPerFrameData(const Matrix &cameraViewProj, Matrix lightViewProj[MAX_SHADOWMAPS], int numShadowCasters);
+		void MapPerFrameData(const Matrix& cameraViewProj, Matrix lightViewProj[MAX_SHADOWMAPS], int numShadowCasters);
+		void BindPerFrameData();
 		
 		// Sets data for the object about to be rendered.
 		void SetObjectTransform(const Matrix &transform);
 
 		// Sets light data.
-		void SetLightsData(const LightsData &lights);
+		void MapLightsData(const LightsData& lights);
+		void BindLightsData();
 
 		// Set the current viewport.
 		void SetViewport(const NGARect &rect);
@@ -111,7 +113,13 @@ namespace playground
 		void ClearRenderTarget(const NGARenderTargetView& renderTargetView, const float* clearColor);
 		void PresentRenderTarget(const NGARenderTargetView& renderTargetView);
 
-		void MapBufferData(const NGABuffer &buffer, const void *data);
+		// Map data to a buffer.
+		void MapBufferData(const NGABuffer &buffer, const void *data, size_t size);
+		template <typename T>
+		void MapBufferData(const NGABuffer& buffer, const T* data)
+		{
+			MapBufferData(buffer, data, sizeof(T));
+		}
 
 		void DrawIndexed(const IndexBuffer &buffer);
 

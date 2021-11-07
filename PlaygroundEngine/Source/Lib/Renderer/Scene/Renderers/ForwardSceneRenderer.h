@@ -18,22 +18,21 @@ namespace playground
 		virtual bool Initialize() override;
 		virtual void Shutdown() override;
 
-		virtual void BeginRender() override;
-		virtual void EndRender() override;
+		virtual void BeginRender(Scene& scene) override;
+		virtual void EndRender(Scene& scene) override;
 
 		virtual void RenderScene(Scene &scene, const Camera &camera) override;
 
 	private:
+		void MapPerFrameData(Scene& scene);
 		void CollectShadowCastingLights(Scene &scene);
 		void BuildShadowMaps(Scene &scene, const Camera &camera);
 		void RenderSceneToBackBuffer(Scene &scene, const Camera &camera);
 
 	private:
-#if RENDER_FEATURE(SHADOWS)
 		Light* mShadowCastingLights[MAX_SHADOWMAPS];
-		int mNumShadowCastingLights;
+		int mNumShadowCastingLights = 0;
 
 		ShadowMapBuilder mShadowMapBuilder;
-#endif
 	};
 }

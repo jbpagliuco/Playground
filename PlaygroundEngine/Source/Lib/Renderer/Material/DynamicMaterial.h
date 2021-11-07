@@ -63,6 +63,7 @@ namespace playground
 		DynamicMaterialParameterMap mParameterMap;
 
 		void *mDefaultParameterData;
+		size_t mDefaultParameterDataSize;
 		std::vector<const Texture*> mDefaultTextures;
 
 		friend class DynamicMaterialInstance;

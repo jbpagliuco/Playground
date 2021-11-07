@@ -95,7 +95,7 @@ namespace playground
 		}
 	}
 
-	void StateManager::SetPerFrameData(const Matrix& cameraViewProj, Matrix lightViewProj[MAX_SHADOWMAPS], int numShadowCasters)
+	void StateManager::MapPerFrameData(const Matrix& cameraViewProj, Matrix lightViewProj[MAX_SHADOWMAPS], int numShadowCasters)
 	{
 		PerFrameData data;
 		data.cameraViewProj = cameraViewProj;
@@ -107,7 +107,10 @@ namespace playground
 		data.mNumShadowCasters = numShadowCasters;
 
 		mPerFrameBuffer.Map(&data);
+	}
 
+	void StateManager::BindPerFrameData()
+	{
 		GetCurrentCommandContext().BindConstantBuffer(mPerFrameBuffer.GetBuffer(), NGA_SHADER_STAGE_VERTEX, (int)ShaderConstantBuffers::PERFRAME);
 	}
 
@@ -122,10 +125,13 @@ namespace playground
 		GetCurrentCommandContext().BindConstantBuffer(mObjectDataBuffer.GetBuffer(), NGA_SHADER_STAGE_VERTEX, (int)ShaderConstantBuffers::OBJECTDATA);
 	}
 
-	void StateManager::SetLightsData(const LightsData& lights)
+	void StateManager::MapLightsData(const LightsData& lights)
 	{
-		mLightsBuffer.Map((void*)&lights);
+		mLightsBuffer.Map(&lights);
+	}
 
+	void StateManager::BindLightsData()
+	{
 		GetCurrentCommandContext().BindConstantBuffer(mLightsBuffer.GetBuffer(), NGA_SHADER_STAGE_PIXEL, (int)ShaderConstantBuffers::LIGHTS);
 	}
 
@@ -257,9 +263,9 @@ namespace playground
 		GetCurrentCommandContext().ClearDepthStencilView(depthStencilView);
 	}
 
-	void StateManager::MapBufferData(const NGABuffer& buffer, const void* data)
+	void StateManager::MapBufferData(const NGABuffer& buffer, const void* data, size_t size)
 	{
-		GetCurrentCommandContext().MapBufferData(buffer, data);
+		GetCurrentCommandContext().MapBufferData(buffer, data, size);
 	}
 
 	void StateManager::DrawIndexed(const IndexBuffer& buffer)

@@ -34,29 +34,33 @@ namespace playground
 #endif
 	}
 
-	void ForwardRenderer::BeginRender()
+	void ForwardRenderer::BeginRender(Scene& scene)
 	{
+		MapPerFrameData(scene);
+
+		// Open the command list.
 		Playground_RendererStateManager->OpenCommandList();
-	}
 
-	void ForwardRenderer::EndRender()
-	{
-		Playground_RendererStateManager->CloseCommandList();
-	}
-
-	void ForwardRenderer::RenderScene(Scene &scene, const Camera &camera)
-	{
-#if RENDER_FEATURE(SHADOWS)
-		CollectShadowCastingLights(scene);
-#endif
-
+		// Set the viewport.
 		NGARect r;
 		r.x = 0.0f;
 		r.y = 0.0f;
 		r.width = (float)Playground_Renderer->GetWindow().width;
 		r.height = (float)Playground_Renderer->GetWindow().height;
 		Playground_RendererStateManager->SetViewport(r);
+	}
 
+	void ForwardRenderer::EndRender(Scene& scene)
+	{
+		// Present the main render target
+		Playground_MainRenderTarget->Present(Playground_SwapChain->GetBufferIndex());
+
+		// Close and flush the command list.
+		Playground_RendererStateManager->CloseCommandList();
+	}
+
+	void ForwardRenderer::RenderScene(Scene &scene, const Camera &camera)
+	{
 #if RENDER_FEATURE(SHADOWS)
 		BuildShadowMaps(scene, camera);
 #endif
@@ -68,6 +72,36 @@ namespace playground
 		Playground_RendererStateManager->BindSamplerState(NGASamplerState::INVALID, NGA_SHADER_STAGE_PIXEL, (int)SamplerStateRegisters::SHADOWMAP);
 	}
 
+
+
+	void ForwardRenderer::MapPerFrameData(Scene& scene)
+	{
+		Matrix shadowCasterMatrices[MAX_SHADOWMAPS];
+#if RENDER_FEATURE(SHADOWS)
+		CollectShadowCastingLights(scene);
+		for (int i = 0; i < MAX_SHADOWMAPS; ++i) {
+			if (mShadowCastingLights[i] != nullptr) {
+				shadowCasterMatrices[i] = mShadowCastingLights[i]->GetViewProj();
+			}
+		}
+#endif
+
+		auto& lights = scene.GetLights();
+		for (const auto& camera : scene.GetCameras()) {
+			constexpr float ambient = 0.3f;
+			const Vector3f cameraPos = camera->mTransform.mPosition.AsVector3();
+
+			LightsData lightsData;
+			lightsData.globalAmbient = Tuple4f(ambient, ambient, ambient, 1.0f);
+			lightsData.eyePosition = Tuple3f(cameraPos.x, cameraPos.y, cameraPos.z);
+			lightsData.numLights = (int)lights.size();
+			for (int i = 0; i < lightsData.numLights; ++i) {
+				lightsData.lights[i] = *lights[i];
+			}
+
+			Playground_RendererStateManager->MapPerFrameData(camera->GetViewProj(), shadowCasterMatrices, mNumShadowCastingLights);
+		}
+	}
 
 	void ForwardRenderer::CollectShadowCastingLights(Scene& scene)
 	{
@@ -109,26 +143,6 @@ namespace playground
 	{
 		Playground_RendererStateManager->ClearAllUserResources();
 
-		const auto& window = Playground_Renderer->GetWindow();
-		NGARect r;
-		r.x = 0.0f;
-		r.y = 0.0f;
-		r.width = (float)window.width;
-		r.height = (float)window.height;
-		Playground_RendererStateManager->SetViewport(r);
-
-		// Set per frame data
-#if RENDER_FEATURE(SHADOWS)
-		Matrix shadowCasterMatrices[MAX_SHADOWMAPS];
-		for (int i = 0; i < MAX_SHADOWMAPS; ++i) {
-			if (mShadowCastingLights[i] != nullptr) {
-				shadowCasterMatrices[i] = mShadowCastingLights[i]->GetViewProj();
-			}
-		}
-
-		Playground_RendererStateManager->SetPerFrameData(camera.GetViewProj(), shadowCasterMatrices, mNumShadowCastingLights);
-#endif
-
 		// Bind render target
 		RenderTarget* rt = (camera.mRenderTarget == nullptr) ? Playground_MainRenderTarget : camera.mRenderTarget;
 		rt->Bind(Playground_SwapChain->GetBufferIndex());
@@ -141,20 +155,6 @@ namespace playground
 		Playground_RendererStateManager->BindSamplerState(depthMap.GetSamplerState(), NGA_SHADER_STAGE_PIXEL, (int)SamplerStateRegisters::SHADOWMAP);
 #endif
 
-		// Set up shader data
-		auto &lights = scene.GetLights();
-
-		constexpr float ambient = 0.3f;
-		Vector3f cameraPos = camera.mTransform.mPosition.AsVector3();
-
-		LightsData lightsData;
-		lightsData.globalAmbient = Tuple4f(ambient, ambient, ambient, 1.0f);
-		lightsData.eyePosition = Tuple3f(cameraPos.x, cameraPos.y, cameraPos.z);
-		lightsData.numLights = (int)lights.size();
-		for (int i = 0; i < lightsData.numLights; ++i) {
-			lightsData.lights[i] = *lights[i];
-		}
-
 		// Render all the renderables in the scene
 		for (auto &it : scene.GetRenderables()) {
 			const NGAPipelineState* pso = it.first;
@@ -162,7 +162,8 @@ namespace playground
 
 			Playground_RendererStateManager->BindPipelineState(*pso);
 
-			Playground_RendererStateManager->SetLightsData(lightsData);
+			Playground_RendererStateManager->BindPerFrameData();
+			Playground_RendererStateManager->BindLightsData();
 
 			for (auto& renderable : bucket) {
 				Playground_RendererStateManager->SetObjectTransform(renderable->GetWorldTransform());

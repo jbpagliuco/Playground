@@ -177,19 +177,23 @@ namespace playground
 	void RenderingSystemDoFrame()
 	{
 		if (RenderFrameTimer.Elapsed()) {
-			Playground_Renderer->BeginRender();
-			ImguiRendererBeginFrame();
-
-			MainSceneRenderer.BeginRender();
-
+			// Render to each camera in the main scene.
 			Scene* mainScene = Scene::Get();
-
 			const auto& cameras = mainScene->GetCameras();
 
 			// Make sure there's only a single camera rendering to the back buffer.
+			// NB: This could be one assert, but doing two to give the most relevant error message.
 			size_t numMainCameras = std::count_if(cameras.begin(), cameras.end(), [](const Camera* a) { return a->mEnabled && a->mRenderTarget == nullptr; });
-			CORE_ASSERT(numMainCameras == 1, "Only one camera can render to the back buffer.");
+			CORE_ASSERT(numMainCameras > 0, "No cameras are currently rendering to the screen.");
+			CORE_ASSERT(numMainCameras < 2, "Only one camera can render to the back buffer.");
 
+			// Setup the scene for rendering
+			MainSceneRenderer.BeginRender(*mainScene);
+
+			// Do debug imgui stuff
+			ImguiRendererBeginFrame();
+
+			// Render to each camera.
 			for (const auto& camera : cameras) {
 				if (!camera->mEnabled) {
 					continue;
@@ -198,11 +202,16 @@ namespace playground
 				MainSceneRenderer.RenderScene(*mainScene, *camera);
 			}
 
-			MainSceneRenderer.EndRender();
-
+			// Finish up debug render stuff.
 			ImguiRendererEndFrame();
-			Playground_Renderer->EndRender();
 
+			// Finish main scene render.
+			MainSceneRenderer.EndRender(*mainScene);
+
+			// Present to the screen.
+			Playground_Renderer->Present();
+
+			// Start the next render timer.
 			RenderFrameTimer.Start();
 		}
 	}

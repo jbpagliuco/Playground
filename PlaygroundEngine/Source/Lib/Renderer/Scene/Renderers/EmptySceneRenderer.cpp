@@ -14,11 +14,11 @@ namespace playground
 	{
 	}
 
-	void EmptySceneRenderer::BeginRender()
+	void EmptySceneRenderer::BeginRender(Scene& scene)
 	{
 	}
 
-	void EmptySceneRenderer::EndRender()
+	void EmptySceneRenderer::EndRender(Scene& scene)
 	{
 	}
 

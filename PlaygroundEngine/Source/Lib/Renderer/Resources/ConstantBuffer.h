@@ -17,7 +17,14 @@ namespace playground
 		bool Initialize(ConstantBufferUsage usage, void *initialData, size_t size);
 		void Shutdown();
 
-		void Map(void *pData);
+		// Map data to this buffer.
+		void Map(const void *pData, size_t size);
+
+		template <typename T>
+		void Map(const T* pData)
+		{
+			Map(pData, sizeof(T));
+		}
 
 		const NGABuffer& GetBuffer()const;
 		size_t GetSize()const;

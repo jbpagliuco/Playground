@@ -37,8 +37,7 @@ namespace playground
 		virtual bool Initialize(const RendererInitParams &params);
 		virtual void Shutdown();
 
-		virtual void BeginRender();
-		virtual void EndRender();
+		virtual void Present();
 
 		const Window& GetWindow() { return mWindow; }
 

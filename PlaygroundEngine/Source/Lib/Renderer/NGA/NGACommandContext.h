@@ -37,7 +37,7 @@ namespace playground
 		void DrawIndexed(unsigned int indexCount);
 
 		// Map data to a buffer.
-		void MapBufferData(const NGABuffer &buffer, const void *data);
+		void MapBufferData(const NGABuffer &buffer, const void *data, size_t size);
 
 		// Set the current viewport.
 		void SetViewport(const NGARect &rect, float minDepth = 0.0f, float maxDepth = 1.0f);

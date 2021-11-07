@@ -26,6 +26,8 @@ namespace playground
 
 	// Compiles a shader.
 	bool CompileHLSL(NGABlob** outBuffer, const char* filename, NGAShaderType type);
+
+	UINT CalcConstantBufferByteSize(UINT byteSize);
 }
 
 #endif // CORE_RENDER_API(DX11)

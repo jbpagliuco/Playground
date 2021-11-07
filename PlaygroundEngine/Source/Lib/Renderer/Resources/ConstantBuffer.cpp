@@ -39,10 +39,10 @@ namespace playground
 		mBuffer.Destruct();
 	}
 
-	void ConstantBuffer::Map(void *pData)
+	void ConstantBuffer::Map(const void *pData, size_t size)
 	{
 		CORE_ASSERT_RETURN(mUsage == ConstantBufferUsage::CPU_WRITE, "Trying to map data to a non-CPU writeable buffer.");
-		Playground_RendererStateManager->MapBufferData(mBuffer, pData);
+		Playground_RendererStateManager->MapBufferData(mBuffer, pData, size);
 	}
 
 	const NGABuffer& ConstantBuffer::GetBuffer()const

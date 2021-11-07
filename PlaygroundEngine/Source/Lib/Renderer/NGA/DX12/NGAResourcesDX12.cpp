@@ -98,11 +98,24 @@ namespace playground
 
 
 
+	static D3D12_HEAP_TYPE GetHeapType(const NGABufferDesc& desc)
+	{
+		if (desc.mUsage & NGA_BUFFER_USAGE_CPU_WRITE) {
+			return D3D12_HEAP_TYPE_UPLOAD;
+		}
+		
+		if (desc.mUsage & NGA_BUFFER_USAGE_CPU_READ_WRITE) {
+			return D3D12_HEAP_TYPE_READBACK;
+		}
+
+		return D3D12_HEAP_TYPE_DEFAULT;
+	}
+
 	bool NGABuffer::CreateBuffer(const NGABufferDesc& desc)
 	{
 		// Create the actual buffer resource.
 		D3D12_HEAP_PROPERTIES heapProperties{};
-		heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
+		heapProperties.Type = GetHeapType(desc);
 		heapProperties.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
 		heapProperties.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
 		heapProperties.CreationNodeMask = 1;
@@ -110,7 +123,7 @@ namespace playground
 
 		D3D12_RESOURCE_DESC bufferDesc{};
 		bufferDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-		bufferDesc.Width = desc.mSizeInBytes;
+		bufferDesc.Width = GetBufferSize();
 		bufferDesc.Height = 1;
 		bufferDesc.DepthOrArraySize = 1;
 		bufferDesc.MipLevels = 1;
@@ -120,7 +133,9 @@ namespace playground
 		bufferDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 		bufferDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
 
-		HRESULT hr = NgaDx12State.mDevice->CreateCommittedResource(&heapProperties, D3D12_HEAP_FLAG_NONE, &bufferDesc, D3D12_RESOURCE_STATE_COMMON, nullptr, IID_PPV_ARGS(&mBuffer));
+		const D3D12_RESOURCE_STATES resourceState = IsCPUWritable() ? D3D12_RESOURCE_STATE_GENERIC_READ : D3D12_RESOURCE_STATE_COMMON;
+
+		HRESULT hr = NgaDx12State.mDevice->CreateCommittedResource(&heapProperties, D3D12_HEAP_FLAG_NONE, &bufferDesc, resourceState, nullptr, IID_PPV_ARGS(&mBuffer));
 		CORE_ASSERT_RETURN_VALUE(SUCCEEDED(hr), false, "Failed to create constant buffer resource.");
 
 		return true;
@@ -138,7 +153,7 @@ namespace playground
 
 		D3D12_RESOURCE_DESC bufferDesc{};
 		bufferDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-		bufferDesc.Width = desc.mSizeInBytes;
+		bufferDesc.Width = GetBufferSize();
 		bufferDesc.Height = 1;
 		bufferDesc.DepthOrArraySize = 1;
 		bufferDesc.MipLevels = 1;
@@ -148,7 +163,7 @@ namespace playground
 		bufferDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 		bufferDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
 
-		HRESULT hr = NgaDx12State.mDevice->CreateCommittedResource(&uploadHeapProperties, D3D12_HEAP_FLAG_NONE, &bufferDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&mUploadBuffer));
+		HRESULT hr = NgaDx12State.mDevice->CreateCommittedResource(&uploadHeapProperties, D3D12_HEAP_FLAG_NONE, &bufferDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&mIntermediateUploadBuffer));
 		CORE_ASSERT_RETURN_VALUE(SUCCEEDED(hr), false, "Failed to create constant buffer upload resource.");
 
 		return true;
@@ -185,14 +200,13 @@ namespace playground
 
 		if (initialData != nullptr) {
 			// Copy into a CPU blob.
-			// TODO: Definitely shouldn't be in here. But since the upload is deferred, we need to make sure the data still exists on the CPU.
-			D3DCreateBlob(desc.mSizeInBytes, &mBlobCPU);
-			CopyMemory(mBlobCPU->GetBufferPointer(), initialData, desc.mSizeInBytes);
+			D3DCreateBlob(GetBufferSize(), &mIntermediateBlobCPU);
+			CopyMemory(mIntermediateBlobCPU->GetBufferPointer(), initialData, GetBufferSize());
 
 			// Describe the data we want to copy into the default buffer.
 			D3D12_SUBRESOURCE_DATA subResourceData = {};
 			subResourceData.pData = initialData;
-			subResourceData.RowPitch = mDesc.mSizeInBytes;
+			subResourceData.RowPitch = GetBufferSize();
 			subResourceData.SlicePitch = subResourceData.RowPitch;
 
 			// Schedule to copy the data to the default buffer resource. At a high level, the helper function UpdateSubresources
@@ -207,7 +221,7 @@ namespace playground
 			barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
 			NgaDx12State.mCommandList->ResourceBarrier(1, &barrier);
 
-			UpdateSubresources<1>(NgaDx12State.mCommandList, mBuffer, mUploadBuffer, 0, 0, 1, &subResourceData);
+			UpdateSubresources<1>(NgaDx12State.mCommandList, mBuffer, mIntermediateUploadBuffer, 0, 0, 1, &subResourceData);
 
 			barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_COPY_DEST;
 			barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_GENERIC_READ;
@@ -224,7 +238,7 @@ namespace playground
 
 			mVertexBufferView.BufferLocation = mBuffer->GetGPUVirtualAddress();
 			mVertexBufferView.StrideInBytes = desc.mVertexStride;
-			mVertexBufferView.SizeInBytes = desc.mSizeInBytes;
+			mVertexBufferView.SizeInBytes = GetBufferSize();
 			
 			return true;
 		}
@@ -233,13 +247,13 @@ namespace playground
 
 			mIndexBufferView.BufferLocation = mBuffer->GetGPUVirtualAddress();
 			mIndexBufferView.Format = NGAFormatToDXGI(desc.mIndexFormat);
-			mIndexBufferView.SizeInBytes = desc.mSizeInBytes;
+			mIndexBufferView.SizeInBytes = GetBufferSize();
 
 			return true;
 		}
 		else if (IsConstantBuffer()) {
 			mConstantBufferView.BufferLocation = mBuffer->GetGPUVirtualAddress();
-			mConstantBufferView.SizeInBytes = desc.mSizeInBytes;
+			mConstantBufferView.SizeInBytes = GetBufferSize();
 
 			return true;
 		}
@@ -251,8 +265,8 @@ namespace playground
 	void NGABuffer::Destruct()
 	{
 		COM_SAFE_RELEASE(mBuffer);
-		COM_SAFE_RELEASE(mUploadBuffer);
-		COM_SAFE_RELEASE(mBlobCPU);
+		COM_SAFE_RELEASE(mIntermediateUploadBuffer);
+		COM_SAFE_RELEASE(mIntermediateBlobCPU);
 	}
 
 	bool NGABuffer::IsConstructed()const
