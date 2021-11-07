@@ -19,6 +19,12 @@ namespace playground
 
 		inline Shader* GetShader()const { return mShader; }
 
+#if RENDER_DEBUG_FEATURE(STORE_NAMES)
+		std::string GetName()const { return mDebugName; }
+#else
+		std::string GetName()const { return ""; }
+#endif
+
 	private:
 		Shader* mShader;
 

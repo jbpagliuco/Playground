@@ -62,6 +62,9 @@ namespace playground
 		ID3D12RootSignature* mRootSignature = nullptr;
 #endif
 
+	private:
+		NGAPipelineStateDesc mDesc;
+
 		friend class NGACommandContext;
 	};
 }

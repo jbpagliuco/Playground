@@ -2,9 +2,10 @@
 
 #include "Core/Util/Color.h"
 
-#include "Rect.h"
-#include "Scene/Camera.h"
-#include "RenderingSystem.h"
+#include "Renderer/Material/Material.h"
+#include "Renderer/Rect.h"
+#include "Renderer/RenderingSystem.h"
+#include "Renderer/Scene/Camera.h"
 
 namespace playground
 {
@@ -56,5 +57,30 @@ namespace playground
 		Playground_RendererStateManager->CloseCommandList();
 
 		mSwapChain.Present();
+	}
+
+	const NGAPipelineState* Renderer::FindOrCreatePSO(const Material* material)
+	{
+		// Compute the checksum of the PSO.
+		Checksum32 checksum = 0;
+		checksum = crc32(material->GetShader(), checksum);
+		checksum = crc32(material->GetShader()->GetVertexFormat(), checksum);
+
+		// Check if this PSO already exists.
+		if (mPSOs.find(checksum) != mPSOs.end()) {
+			return &mPSOs[checksum];
+		}
+
+		// Create the new PSO.
+		NGAPipelineStateDesc psoDesc;
+		psoDesc.mVertexFormat = material->GetShader()->GetVertexFormat();
+		psoDesc.mVertexShader = &material->GetShader()->GetVertexShader().GetShader();
+		psoDesc.mPixelShader = &material->GetShader()->GetPixelShader().GetShader();
+
+		NGAPipelineState& pso = mPSOs[checksum];
+		const bool success = pso.Construct(psoDesc);
+		CORE_ASSERT_RETURN_VALUE(success, nullptr, "Failed to construct PSO for material: %s", material->GetName());
+
+		return &pso;
 	}
 }

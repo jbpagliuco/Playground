@@ -36,7 +36,9 @@ namespace playground
 
 	bool StateManager::Initialize()
 	{
-		OpenCommandList();
+		mCommandListOpenCount = 0;
+
+		COMMAND_LIST_SCOPE();
 
 		bool success = mPerFrameBuffer.Initialize(ConstantBufferUsage::CPU_WRITE, nullptr, sizeof(PerFrameData));
 		CORE_ASSERT_RETURN_VALUE(success, false, "Failed to initialize per frame buffer.");
@@ -46,8 +48,6 @@ namespace playground
 
 		success = mLightsBuffer.Initialize(ConstantBufferUsage::CPU_WRITE, nullptr, sizeof(LightsData));
 		CORE_ASSERT_RETURN_VALUE(success, false, "Failed to initialize lights buffer.");
-
-		CloseCommandList();
 
 		return true;
 	}
@@ -61,16 +61,25 @@ namespace playground
 
 	void StateManager::OpenCommandList()
 	{
-		GetCurrentCommandContext().Reset();
-	}
-
-	void StateManager::ResetCommandList()
-	{
-		GetCurrentCommandContext().Reset();
+		++mCommandListOpenCount;
+		if (mCommandListOpenCount == 1) {
+			GetCurrentCommandContext().Reset();
+		}
 	}
 
 	void StateManager::CloseCommandList()
 	{
+		CORE_ASSERT(mCommandListOpenCount > 0, "Trying to close a command list that isn't open.");
+		if (mCommandListOpenCount <= 0) {
+			mCommandListOpenCount = 0;
+			return;
+		}
+
+		--mCommandListOpenCount;
+		if (mCommandListOpenCount > 0) {
+			return;
+		}
+
 		GetCurrentCommandContext().Close();
 		GetCurrentCommandContext().Flush();
 	}
@@ -267,5 +276,17 @@ namespace playground
 	NGACommandContext& StateManager::GetCurrentCommandContext()
 	{
 		return mCommandContexts[Playground_SwapChain->GetBufferIndex()];
+	}
+
+
+
+	CommandListScope::CommandListScope()
+	{
+		Playground_RendererStateManager->OpenCommandList();
+	}
+
+	CommandListScope::~CommandListScope()
+	{
+		Playground_RendererStateManager->CloseCommandList();
 	}
 }

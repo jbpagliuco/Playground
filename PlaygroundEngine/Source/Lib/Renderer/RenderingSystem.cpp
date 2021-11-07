@@ -36,8 +36,8 @@ namespace playground
 	static Timer RenderFrameTimer;
 
 	Scene MainScene;
-	// ForwardRenderer MainSceneRenderer;
-	EmptySceneRenderer MainSceneRenderer;
+	ForwardRenderer MainSceneRenderer;
+	// EmptySceneRenderer MainSceneRenderer;
 
 	static std::map<std::string, const Texture*> EngineTextures;
 	static std::map<std::string, RenderTarget*> EngineRenderTargets;
@@ -130,7 +130,7 @@ namespace playground
 
 	bool RenderingSystemInitLate()
 	{
-		Playground_RendererStateManager->OpenCommandList();
+		COMMAND_LIST_SCOPE();
 
 		// Create engine meshes
 		RegisterEngineMesh(EngineMesh::QUAD, "quad.meshx");
@@ -146,14 +146,12 @@ namespace playground
 
 		MainSceneRenderer.Initialize();
 
-		Playground_RendererStateManager->CloseCommandList();
-
 		return true;
 	}
 
 	void RenderingSystemShutdown()
 	{
-		Playground_RendererStateManager->ResetCommandList();
+		Playground_RendererStateManager->OpenCommandList();
 		Playground_RendererStateManager->CloseCommandList();
 
 		MainSceneRenderer.Shutdown();
@@ -200,10 +198,10 @@ namespace playground
 				MainSceneRenderer.RenderScene(*mainScene, *camera);
 			}
 
+			MainSceneRenderer.EndRender();
+
 			ImguiRendererEndFrame();
 			Playground_Renderer->EndRender();
-
-			MainSceneRenderer.EndRender();
 
 			RenderFrameTimer.Start();
 		}

@@ -55,16 +55,25 @@ namespace playground
 	void NGACommandContext::BindPipelineState(const NGAPipelineState& pipelineState)
 	{
 		NgaDx12State.mCommandList->SetPipelineState(pipelineState.mPSO);
+		NgaDx12State.mCommandList->SetGraphicsRootSignature(pipelineState.mRootSignature);
 	}
 
 	void NGACommandContext::DrawIndexed(unsigned int indexCount)
 	{
-		CORE_UNIMPLEMENTED();
+		NgaDx12State.mCommandList->DrawIndexedInstanced(indexCount, 1, 0, 0, 0);
 	}
 
 	void NGACommandContext::MapBufferData(const NGABuffer& buffer, const void* data)
 	{
-		CORE_UNIMPLEMENTED();
+		const NGABufferUsage usage = buffer.mDesc.mUsage;
+		CORE_ASSERT_RETURN((usage & NGA_BUFFER_USAGE_CPU_WRITE) || (usage & NGA_BUFFER_USAGE_CPU_READ_WRITE));
+
+		BYTE* mappedData;
+		buffer.mUploadBuffer->Map(0, nullptr, reinterpret_cast<void**>(&mappedData));
+
+		memcpy(mappedData, data, buffer.mDesc.mSizeInBytes);
+
+		buffer.mUploadBuffer->Unmap(0, nullptr);
 	}
 
 	void NGACommandContext::SetViewport(const NGARect& rect, float minDepth, float maxDepth)
@@ -77,12 +86,19 @@ namespace playground
 		vp.MinDepth = minDepth;
 		vp.MaxDepth = maxDepth;
 
+		D3D12_RECT scissorRect;
+		scissorRect.left = rect.x;
+		scissorRect.top = rect.y;
+		scissorRect.right = rect.x + rect.width;
+		scissorRect.bottom = rect.y + rect.height;
+
 		NgaDx12State.mCommandList->RSSetViewports(1, &vp);
+		NgaDx12State.mCommandList->RSSetScissorRects(1, &scissorRect);
 	}
 
 	void NGACommandContext::SetPrimitiveTopology(NGAPrimitiveTopology primTopology)
 	{
-		CORE_UNIMPLEMENTED();
+		NgaDx12State.mCommandList->IASetPrimitiveTopology((D3D12_PRIMITIVE_TOPOLOGY)primTopology);
 	}
 
 	void NGACommandContext::BindIndexBuffer(const NGABuffer& indexBuffer)
@@ -102,12 +118,12 @@ namespace playground
 
 	void NGACommandContext::BindShader(const NGAShader& shader)
 	{
-		CORE_UNIMPLEMENTED();
+		// CORE_UNIMPLEMENTED();
 	}
 
 	void NGACommandContext::BindConstantBuffer(const NGABuffer& constantBuffer, NGAShaderStage stage, int slot)
 	{
-		CORE_UNIMPLEMENTED();
+		NgaDx12State.mCommandList->SetGraphicsRootConstantBufferView(slot, constantBuffer.mConstantBufferView.BufferLocation);
 	}
 
 	void NGACommandContext::BindShaderResource(const NGAShaderResourceView& view, NGAShaderStage stage, int slot)

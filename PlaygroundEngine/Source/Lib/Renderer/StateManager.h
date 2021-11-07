@@ -9,6 +9,8 @@
 #include "Renderer/Resources/ConstantBuffer.h"
 #include "Renderer/Shader/ShaderConstants.h"
 
+#define COMMAND_LIST_SCOPE() CommandListScope __commandListScope;
+
 namespace playground
 {
 	class NGABuffer;
@@ -65,8 +67,6 @@ namespace playground
 
 		// Opens the command list for commands to be added.
 		void OpenCommandList();
-		// Resets the command list.
-		void ResetCommandList();
 		// Closes and flushes the command list.
 		void CloseCommandList();
 
@@ -130,5 +130,15 @@ namespace playground
 
 		const NGARenderTargetView *mBoundRenderTarget;
 		const NGADepthStencilView *mBoundDepthStencilView;
+
+		int mCommandListOpenCount = 0;
+	};
+
+	// Opens/Closes the command list 
+	class CommandListScope
+	{
+	public:
+		CommandListScope();
+		~CommandListScope();
 	};
 }

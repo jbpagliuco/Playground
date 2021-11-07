@@ -83,13 +83,18 @@ namespace playground
 		mRenderTarget.Clear(ColorF(COLOR_WHITE).FloatArray(), true, slice);
 
 		// Render objects from the view point of the light
-		for (auto& r : scene.GetRenderables()) {
-			Matrix worldTransform = r->GetWorldTransform();
-			Playground_RendererStateManager->MapBufferData(ShadowMapPerObjectBuffer.GetBuffer(), &worldTransform);
-			Playground_RendererStateManager->BindConstantBuffer(ShadowMapPerObjectBuffer.GetBuffer(), NGA_SHADER_STAGE_VERTEX, 1);
+		for (auto& it : scene.GetRenderables()) {
+			const RenderableBucket bucket = it.second;
+			
+			// TODO: Bind shadow map pipeline
 
-			// Render without binding material
-			r->Render(false);
+			for (auto& renderable : bucket) {
+				Matrix worldTransform = renderable->GetWorldTransform();
+				Playground_RendererStateManager->MapBufferData(ShadowMapPerObjectBuffer.GetBuffer(), &worldTransform);
+				Playground_RendererStateManager->BindConstantBuffer(ShadowMapPerObjectBuffer.GetBuffer(), NGA_SHADER_STAGE_VERTEX, 1);
+
+				renderable->Render(false);
+			}
 		}
 	}
 

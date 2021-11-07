@@ -19,14 +19,15 @@ namespace playground
 
 		CD3DX12_ROOT_PARAMETER rootParameters[NUM_CONSTANT_BUFFERS + 1];
 
-		rootParameters[0].InitAsConstantBufferView(0);
-		rootParameters[1].InitAsConstantBufferView(1);
-		rootParameters[2].InitAsConstantBufferView(2);
-		rootParameters[3].InitAsConstantBufferView(3);
+		int rootParameterIndex = 0;
+
+		for (int i = 0; i < NUM_CONSTANT_BUFFERS; ++i) {
+			rootParameters[rootParameterIndex++].InitAsConstantBufferView(i);
+		}
 
 		CD3DX12_DESCRIPTOR_RANGE srvRange;
 		srvRange.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, NUM_SHADER_RESOURCE_VIEWS, 0);
-		rootParameters[4].InitAsDescriptorTable(1, &srvRange);
+		rootParameters[rootParameterIndex++].InitAsDescriptorTable(1, &srvRange);
 
 		CD3DX12_STATIC_SAMPLER_DESC staticSamplerDescs[NUM_SHADER_RESOURCE_VIEWS];
 		staticSamplerDescs[0].Init(0);
@@ -50,6 +51,8 @@ namespace playground
 		CORE_ASSERT_RETURN_VALUE(pipelineDesc.mVertexShader != nullptr, false, "Invalid vertex shader.");
 		CORE_ASSERT_RETURN_VALUE(pipelineDesc.mPixelShader != nullptr, false, "Invalid pixel shader.");
 		CORE_ASSERT_RETURN_VALUE(pipelineDesc.mVertexFormat.mAttributes.size() > 0, false, "Invalid vertex format.");
+
+		mDesc = pipelineDesc;
 
 		D3D12_GRAPHICS_PIPELINE_STATE_DESC desc{};
 		desc.pRootSignature = nullptr;
@@ -109,19 +112,22 @@ namespace playground
 
 		// Input layout
 		const refl::Enum* semanticTypeEnum = refl::GetSystemRegistry().GetEnum("playground::NGAVertexSemanticType");
-		std::vector<D3D12_INPUT_ELEMENT_DESC> elementDescs;
 		std::vector<std::string> semanticNames; // gross...
+		semanticNames.reserve(pipelineDesc.mVertexFormat.mAttributes.size());
+
+		std::vector<D3D12_INPUT_ELEMENT_DESC> elementDescs;
 		for (auto& attr : pipelineDesc.mVertexFormat.mAttributes) {
 			D3D12_INPUT_ELEMENT_DESC element;
 			element.InputSlot = 0;
 			element.InputSlotClass = D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA;
 			element.InstanceDataStepRate = 0;
 
-			element.Format = NGAFormatToDXGI(attr.mFormat);
 			semanticNames.push_back(semanticTypeEnum->GetValueString((int8_t)attr.mSemanticType));
 			element.SemanticName = semanticNames.back().c_str();
+
+			element.Format = NGAFormatToDXGI(attr.mFormat);
 			element.SemanticIndex = attr.mSemanticIndex;
-			element.AlignedByteOffset = attr.mOffset;
+			element.AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
 			elementDescs.push_back(element);
 		}
@@ -129,17 +135,21 @@ namespace playground
 
 		desc.InputLayout.pInputElementDescs = &elementDescs[0];
 		desc.InputLayout.NumElements = elementDescs.size();
-		desc.PrimitiveTopologyType = (D3D12_PRIMITIVE_TOPOLOGY_TYPE)pipelineDesc.mPrimitiveTopology;
+		desc.PrimitiveTopologyType = NGAPrimitiveTopologyToType(pipelineDesc.mPrimitiveTopology);
 
 		desc.NumRenderTargets = 1;
 		for (auto& format : desc.RTVFormats) {
 			format = DXGI_FORMAT_UNKNOWN;
 		}
-		desc.RTVFormats[0] = DXGI_FORMAT_R32G32B32A32_FLOAT;
+		desc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
 		desc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 
 		desc.SampleDesc.Count = 1;
 		desc.SampleDesc.Quality = 0;
+
+		desc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+		desc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
+		desc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
 
 		hr = NgaDx12State.mDevice->CreateGraphicsPipelineState(&desc, IID_PPV_ARGS(&mPSO));
 

@@ -7,6 +7,7 @@
 #include "Core/Util/String.h"
 
 #include "NGACoreInternalDX12.h"
+#include "Renderer/Renderer.h"
 
 namespace playground
 {
@@ -183,10 +184,15 @@ namespace playground
 		}
 
 		if (initialData != nullptr) {
+			// Copy into a CPU blob.
+			// TODO: Definitely shouldn't be in here. But since the upload is deferred, we need to make sure the data still exists on the CPU.
+			D3DCreateBlob(desc.mSizeInBytes, &mBlobCPU);
+			CopyMemory(mBlobCPU->GetBufferPointer(), initialData, desc.mSizeInBytes);
+
 			// Describe the data we want to copy into the default buffer.
 			D3D12_SUBRESOURCE_DATA subResourceData = {};
 			subResourceData.pData = initialData;
-			subResourceData.RowPitch = desc.mSizeInBytes;
+			subResourceData.RowPitch = mDesc.mSizeInBytes;
 			subResourceData.SlicePitch = subResourceData.RowPitch;
 
 			// Schedule to copy the data to the default buffer resource. At a high level, the helper function UpdateSubresources
@@ -246,6 +252,7 @@ namespace playground
 	{
 		COM_SAFE_RELEASE(mBuffer);
 		COM_SAFE_RELEASE(mUploadBuffer);
+		COM_SAFE_RELEASE(mBlobCPU);
 	}
 
 	bool NGABuffer::IsConstructed()const

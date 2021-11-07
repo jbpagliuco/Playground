@@ -23,7 +23,6 @@ namespace playground
 
 	void NGAShaderResourceView::Destruct()
 	{
-		// TODO: Free this handle from the heap.
 		mDescriptorHandle.Clear();
 	}
 

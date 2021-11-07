@@ -8,10 +8,16 @@ namespace playground
 
 	bool Shader::Initialize(const ShaderDesc& shaderDesc)
 	{
-		mVertexFormat = shaderDesc.mVertexFormatDesc;
-
+		// Load shader programs
 		mVertexShader.Initialize(shaderDesc.mFilename, shaderDesc.mVertexFormatDesc);
 		mPixelShader.Initialize(shaderDesc.mFilename);
+
+		NGAPipelineStateDesc psoDesc;
+		psoDesc.mVertexShader = &mVertexShader.GetShader();
+		psoDesc.mPixelShader = &mPixelShader.GetShader();
+		psoDesc.mVertexFormat = shaderDesc.mVertexFormatDesc;
+
+		mVertexFormat = shaderDesc.mVertexFormatDesc;
 
 #if RENDER_DEBUG_FEATURE(STORE_NAMES)
 		mDebugName = shaderDesc.mFilename;

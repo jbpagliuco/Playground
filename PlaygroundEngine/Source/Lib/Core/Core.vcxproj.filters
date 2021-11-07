@@ -146,6 +146,12 @@
     <CustomBuild Include="Util\Color.h">
       <Filter>Util</Filter>
     </CustomBuild>
+    <CustomBuild Include="Util\CRC.cpp">
+      <Filter>Util</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Util\CRC.h">
+      <Filter>Util</Filter>
+    </CustomBuild>
     <CustomBuild Include="Util\Serialize.cpp">
       <Filter>Util</Filter>
     </CustomBuild>

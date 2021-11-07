@@ -8,6 +8,8 @@ namespace playground
 {
 	bool DynamicMaterial::Initialize(const DynamicMaterialDesc& desc)
 	{
+		COMMAND_LIST_SCOPE();
+
 		if (!Material::Initialize(desc.mShader, desc.mName)) {
 			return false;
 		}

@@ -15,38 +15,6 @@ namespace playground
 		mMesh = mesh;
 		mMaterialContainer = materialContainer;
 
-		Material* material = mMaterialContainer->GetMaterial();
-
-		const VertexShader &vs = material->GetShader()->GetVertexShader();
-
-		// Build the input layout
-		NGAVertexFormatDesc vDesc;
-		for (auto &shaderInput : vs.GetVertexFormatDesc().mAttributes) {
-			NGAVertexAttribute attr;
-			
-			// Find the matching input from the mesh.
-			bool found = false;
-			for (auto &meshAttr : mMesh->GetVertexFormatDesc().mAttributes) {
-				if (shaderInput.mSemanticType == meshAttr.mSemanticType && shaderInput.mSemanticIndex == meshAttr.mSemanticIndex) {
-					attr = shaderInput;
-					attr.mOffset = meshAttr.mOffset;
-					found = true;
-					break;
-				}
-			}
-
-			CORE_ASSERT_RETURN_VALUE(found, false,
-				"Shader '%s' requires %s%d, but mesh '%s' does not supply it.",
-				GetAssetFilename(material->GetShader()->GetID()),
-				GetSemanticName(shaderInput.mSemanticType),
-				shaderInput.mSemanticIndex,
-				GetAssetFilename(mMesh->GetID()));
-
-			vDesc.mAttributes.push_back(attr);
-		}
-
-		mInputLayout.Construct(vDesc, vs.GetShader());
-
 		return true;
 	}
 	
@@ -54,8 +22,6 @@ namespace playground
 	{
 		mMesh = nullptr;
 		mMaterialContainer = nullptr;
-
-		mInputLayout.Destruct();
 	}
 
 	void MeshInstance::Render(bool bindMaterial)
@@ -64,7 +30,11 @@ namespace playground
 			mMaterialContainer->Bind();
 		}
 
-		Playground_RendererStateManager->BindInputLayout(mInputLayout);
 		mMesh->Render();
+	}
+
+	Material* MeshInstance::GetMaterial()const
+	{
+		return mMaterialContainer->GetMaterial();
 	}
 }

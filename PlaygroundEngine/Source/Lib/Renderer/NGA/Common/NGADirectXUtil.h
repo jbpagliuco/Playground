@@ -22,6 +22,8 @@ namespace playground
 
 	NGAFormat DXGIFormatToNGA(DXGI_FORMAT format);
 
+	D3D12_PRIMITIVE_TOPOLOGY_TYPE NGAPrimitiveTopologyToType(NGAPrimitiveTopology topology);
+
 	// Compiles a shader.
 	bool CompileHLSL(NGABlob** outBuffer, const char* filename, NGAShaderType type);
 }

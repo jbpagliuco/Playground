@@ -12,6 +12,8 @@ namespace playground
 		mDebugName = meshData.mName;
 #endif
 
+		COMMAND_LIST_SCOPE();
+
 		if (!mVertexBuffer.Initialize(meshData.vertices, meshData.numVertices, meshData.vertexStride)) {
 			return false;
 		}

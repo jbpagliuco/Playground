@@ -122,6 +122,17 @@ namespace playground
 		return CONV[format];
 	}
 
+	D3D12_PRIMITIVE_TOPOLOGY_TYPE NGAPrimitiveTopologyToType(NGAPrimitiveTopology topology)
+	{
+		switch (topology) {
+		case NGAPrimitiveTopology::TRIANGLE_LIST:
+			return D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+		};
+
+		CORE_UNIMPLEMENTED();
+		return D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	}
+
 	
 
 

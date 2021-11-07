@@ -2,6 +2,7 @@
 
 #include "Core/DataStructures/Singleton.h"
 #include "Core/OS/OS.h"
+#include "Core/Util/CRC.h"
 
 #include "RenderDefs.h"
 #include "StateManager.h"
@@ -20,6 +21,8 @@
 namespace playground
 {
 	class Camera;
+	class Material;
+	class NGAPipelineState;
 
 	struct RendererInitParams
 	{
@@ -42,6 +45,9 @@ namespace playground
 		StateManager* GetStateManager() { return &mStateManager; }
 		NGASwapChain* GetSwapChain() { return &mSwapChain; }
 		RenderTarget* GetRenderTarget() { return &mMainRenderTarget; }
+
+		// Finds or creates a pipeline state object based off the material.
+		const NGAPipelineState* FindOrCreatePSO(const Material* material);
 		
 	private:
 		Window mWindow;
@@ -50,5 +56,8 @@ namespace playground
 		RenderTarget mMainRenderTarget;
 		
 		StateManager mStateManager;
+
+		// List of all loaded PSOs.
+		std::map<Checksum32, NGAPipelineState> mPSOs;
 	};
 }

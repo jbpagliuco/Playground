@@ -68,6 +68,7 @@
     <CustomBuild Include="worlds\test.xml" />
     <CustomBuild Include="worlds\test_empty.xml" />
     <CustomBuild Include="worlds\test_physics.xml" />
+    <CustomBuild Include="worlds\test_red_cube.xml" />
     <CustomBuild Include="worlds\test_render_target.xml" />
     <CustomBuild Include="worlds\test_shader2.xml" />
     <CustomBuild Include="worlds\world.xml" />

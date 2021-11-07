@@ -142,6 +142,7 @@ namespace playground
 
 		ID3D12Resource* mBuffer = nullptr;
 		ID3D12Resource* mUploadBuffer = nullptr;
+		ID3DBlob* mBlobCPU = nullptr;
 
 		// View to this buffer.
 		union {

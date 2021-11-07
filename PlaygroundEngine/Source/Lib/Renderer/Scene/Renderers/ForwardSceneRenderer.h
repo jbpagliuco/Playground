@@ -29,11 +29,11 @@ namespace playground
 		void RenderSceneToBackBuffer(Scene &scene, const Camera &camera);
 
 	private:
-		NGAPipelineState mRenderPipelineState;
-
+#if RENDER_FEATURE(SHADOWS)
 		Light* mShadowCastingLights[MAX_SHADOWMAPS];
 		int mNumShadowCastingLights;
 
 		ShadowMapBuilder mShadowMapBuilder;
+#endif
 	};
 }

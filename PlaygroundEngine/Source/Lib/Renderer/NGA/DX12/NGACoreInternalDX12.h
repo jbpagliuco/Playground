@@ -7,6 +7,7 @@
 #include "DirectX/d3d12.h"
 #include <dxgi.h>
 #include "DirectX/d3dx12.h"
+#include <d3dcompiler.h>
 
 #include "NGA/Common/NGADirectXUtil.h"
 #include "NGA/DX12/NGADescriptorHeapDX12.h"

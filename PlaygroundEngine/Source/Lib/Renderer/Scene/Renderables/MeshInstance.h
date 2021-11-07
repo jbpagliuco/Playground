@@ -18,10 +18,11 @@ namespace playground
 
 		virtual void Render(bool bindMaterial = true) override;
 
+		// Gets this mesh instance's material.
+		virtual Material* GetMaterial()const override;
+
 	private:
 		Mesh *mMesh;
 		MaterialContainer *mMaterialContainer;
-
-		NGAInputLayout mInputLayout;
 	};
 }

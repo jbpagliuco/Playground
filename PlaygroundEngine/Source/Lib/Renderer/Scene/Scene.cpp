@@ -2,21 +2,33 @@
 
 #include <algorithm>
 
-#include "Camera.h"
-#include "Renderables/RenderableInstance.h"
+#include "Renderer/Renderer.h"
+#include "Renderer/Scene/Camera.h"
+#include "Renderer/Scene/Renderables/RenderableInstance.h"
 
 namespace playground
 {
 	CORE_CREATE_SINGLETON_INSTANCE(Scene);
 
-	void Scene::AddRenderable(RenderableInstance *r)
+
+	RenderableBucket& Scene::GetRenderableBucket(const RenderableInstance* renderable)
 	{
-		mRenderables.push_back(r);
+		// Find the PSO used for this renderable
+		Material* material = renderable->GetMaterial();
+		const NGAPipelineState* pso = Renderer::Get()->FindOrCreatePSO(material);
+
+		return mRenderables[pso];
 	}
 
-	void Scene::RemoveRenderable(RenderableInstance *r)
+	void Scene::AddRenderable(RenderableInstance *renderable)
 	{
-		mRenderables.erase(std::remove(mRenderables.begin(), mRenderables.end(), r), mRenderables.end());
+		GetRenderableBucket(renderable).push_back(renderable);
+	}
+
+	void Scene::RemoveRenderable(RenderableInstance *renderable)
+	{
+		RenderableBucket& bucket = GetRenderableBucket(renderable);
+		bucket.erase(std::remove(bucket.begin(), bucket.end(), renderable), bucket.end());
 	}
 
 	void Scene::AddLight(Light *light)
@@ -39,7 +51,7 @@ namespace playground
 		mCameras.erase(std::remove(mCameras.begin(), mCameras.end(), camera), mCameras.end());
 	}
 
-	const std::vector<RenderableInstance*>& Scene::GetRenderables()const
+	const Renderables& Scene::GetRenderables()const
 	{
 		return mRenderables;
 	}

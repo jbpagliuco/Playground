@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+
+<root>
+	<gameobject>
+		<name>Camera</name>
+		<transform>
+			<position>
+				<x>10</x>
+				<y>5</y>
+				<z>-10</z>
+			</position>
+			<rotation>
+				<x>10</x>
+				<y>-45</y>
+				<z>0</z>
+			</rotation>
+		</transform>
+		<components>
+			<component type="CameraComponent">
+				<mCamera>
+					<mEnabled>true</mEnabled>
+					<mFOV>45</mFOV>
+					<mNear>0.1</mNear>
+					<mFar>100</mFar>
+				</mCamera>
+			</component>
+			<component type="BasicMovementComponent">
+				<mSensitivity>0.1</mSensitivity>
+			</component>
+		</components>
+	</gameobject>
+
+	<!-- Objects -->
+	<gameobject>
+		<name>Cube</name>
+		<transform>
+			<position>
+				<x>0</x>
+				<y>0</y>
+			</position>
+		</transform>
+		<components>
+			<component type="StaticMeshComponent">
+				<mesh>cube.meshx</mesh>
+				<material>red.matx</material>
+			</component>
+		</components>
+	</gameobject>
+</root>

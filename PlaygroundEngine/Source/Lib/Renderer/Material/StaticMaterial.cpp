@@ -7,6 +7,8 @@ namespace playground
 {
 	bool StaticMaterial::Initialize(const StaticMaterialDesc& desc)
 	{
+		COMMAND_LIST_SCOPE();
+
 		if (!Material::Initialize(desc.mShader, desc.mName)) {
 			return false;
 		}

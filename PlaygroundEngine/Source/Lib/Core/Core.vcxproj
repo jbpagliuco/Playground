@@ -69,6 +69,8 @@
     <CustomBuild Include="Util\BitUtil.h" />
     <CustomBuild Include="Util\Color.cpp" />
     <CustomBuild Include="Util\Color.h" />
+    <CustomBuild Include="Util\CRC.cpp" />
+    <CustomBuild Include="Util\CRC.h" />
     <CustomBuild Include="Util\Serialize.cpp" />
     <CustomBuild Include="Util\Serialize.h" />
     <CustomBuild Include="Util\String.cpp" />

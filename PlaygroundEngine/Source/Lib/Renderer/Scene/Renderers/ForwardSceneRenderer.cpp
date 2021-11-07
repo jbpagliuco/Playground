@@ -16,23 +16,22 @@ namespace playground
 {
 	bool ForwardRenderer::Initialize()
 	{
+#if RENDER_FEATURE(SHADOWS)
 		bool success = mShadowMapBuilder.Initialize(MAX_SHADOWMAPS);
 		CORE_ASSERT_RETURN_VALUE(success, false, "Failed to initialize shadowmap builder.");
 
-		//success = mRenderPipelineState.Construct(NGAFixedFunctionStateDesc(), NGAGraphicsPipelineInputAssemblyDesc());
-		CORE_ASSERT_RETURN_VALUE(success, false, "Failed to render pipeline state.");
-
 		// Register engine assets
 		RegisterEngineRenderTarget("shadowMap", &mShadowMapBuilder.GetRenderTarget());
+#endif
 
 		return true;
 	}
 
 	void ForwardRenderer::Shutdown()
 	{
+#if RENDER_FEATURE(SHADOWS)
 		mShadowMapBuilder.Shutdown();
-
-		mRenderPipelineState.Destruct();
+#endif
 	}
 
 	void ForwardRenderer::BeginRender()
@@ -47,7 +46,9 @@ namespace playground
 
 	void ForwardRenderer::RenderScene(Scene &scene, const Camera &camera)
 	{
+#if RENDER_FEATURE(SHADOWS)
 		CollectShadowCastingLights(scene);
+#endif
 
 		NGARect r;
 		r.x = 0.0f;
@@ -56,9 +57,9 @@ namespace playground
 		r.height = (float)Playground_Renderer->GetWindow().height;
 		Playground_RendererStateManager->SetViewport(r);
 
-		Playground_RendererStateManager->BindPipelineState(mRenderPipelineState);
-
+#if RENDER_FEATURE(SHADOWS)
 		BuildShadowMaps(scene, camera);
+#endif
 
 		RenderSceneToBackBuffer(scene, camera);
 
@@ -70,6 +71,7 @@ namespace playground
 
 	void ForwardRenderer::CollectShadowCastingLights(Scene& scene)
 	{
+#if RENDER_FEATURE(SHADOWS)
 		// Clear out our shadow casting light list
 		for (int i = 0; i < MAX_SHADOWMAPS; ++i) {
 			mShadowCastingLights[i] = nullptr;
@@ -93,27 +95,30 @@ namespace playground
 		}
 
 		mNumShadowCastingLights = shadowCasterIndex;
+#endif
 	}
 
 	void ForwardRenderer::BuildShadowMaps(Scene &scene, const Camera &camera)
 	{
+#if RENDER_FEATURE(SHADOWS)
 		mShadowMapBuilder.BuildAll(scene, (const Light**)mShadowCastingLights, mNumShadowCastingLights);
+#endif
 	}
 	
 	void ForwardRenderer::RenderSceneToBackBuffer(Scene &scene, const Camera &camera)
 	{
 		Playground_RendererStateManager->ClearAllUserResources();
 
+		const auto& window = Playground_Renderer->GetWindow();
 		NGARect r;
 		r.x = 0.0f;
 		r.y = 0.0f;
-		r.width = (float)Playground_Renderer->GetWindow().width;
-		r.height = (float)Playground_Renderer->GetWindow().height;
+		r.width = (float)window.width;
+		r.height = (float)window.height;
 		Playground_RendererStateManager->SetViewport(r);
 
-		Playground_RendererStateManager->BindPipelineState(mRenderPipelineState);
-
 		// Set per frame data
+#if RENDER_FEATURE(SHADOWS)
 		Matrix shadowCasterMatrices[MAX_SHADOWMAPS];
 		for (int i = 0; i < MAX_SHADOWMAPS; ++i) {
 			if (mShadowCastingLights[i] != nullptr) {
@@ -122,16 +127,19 @@ namespace playground
 		}
 
 		Playground_RendererStateManager->SetPerFrameData(camera.GetViewProj(), shadowCasterMatrices, mNumShadowCastingLights);
+#endif
 
 		// Bind render target
 		RenderTarget* rt = (camera.mRenderTarget == nullptr) ? Playground_MainRenderTarget : camera.mRenderTarget;
-		rt->Bind();
-		rt->Clear(ColorF(COLOR_CORNFLOWERBLUE).FloatArray(), true);
+		rt->Bind(Playground_SwapChain->GetBufferIndex());
+		rt->Clear(ColorF(COLOR_CORNFLOWERBLUE).FloatArray(), true, Playground_SwapChain->GetBufferIndex());
 
 		// Bind shadow map textures
+#if RENDER_FEATURE(SHADOWS)
 		const Texture &depthMap = mShadowMapBuilder.GetRenderTarget().GetDepthMap();
 		Playground_RendererStateManager->BindShaderResource(depthMap.GetShaderResourceView(), NGA_SHADER_STAGE_PIXEL, (int)TextureRegisters::SHADOWMAP);
 		Playground_RendererStateManager->BindSamplerState(depthMap.GetSamplerState(), NGA_SHADER_STAGE_PIXEL, (int)SamplerStateRegisters::SHADOWMAP);
+#endif
 
 		// Set up shader data
 		auto &lights = scene.GetLights();
@@ -146,12 +154,20 @@ namespace playground
 		for (int i = 0; i < lightsData.numLights; ++i) {
 			lightsData.lights[i] = *lights[i];
 		}
-		Playground_RendererStateManager->SetLightsData(lightsData);
 
 		// Render all the renderables in the scene
-		for (auto &r : scene.GetRenderables()) {
-			Playground_RendererStateManager->SetObjectTransform(r->GetWorldTransform());
-			r->Render();
+		for (auto &it : scene.GetRenderables()) {
+			const NGAPipelineState* pso = it.first;
+			const RenderableBucket bucket = it.second;
+
+			Playground_RendererStateManager->BindPipelineState(*pso);
+
+			Playground_RendererStateManager->SetLightsData(lightsData);
+
+			for (auto& renderable : bucket) {
+				Playground_RendererStateManager->SetObjectTransform(renderable->GetWorldTransform());
+				renderable->Render();
+			}
 		}
 
 		// Draw skybox last
@@ -160,7 +176,6 @@ namespace playground
 		}
 
 		// Draw debug texture, if set
-		Playground_RendererStateManager->BindPipelineState(mRenderPipelineState);
 		RenderDebugTexture();
 	}
 }
