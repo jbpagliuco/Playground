@@ -5,15 +5,8 @@
 		<name>Camera</name>
 		<transform>
 			<position>
-				<x>10</x>
-				<y>5</y>
 				<z>-10</z>
 			</position>
-			<rotation>
-				<x>10</x>
-				<y>-45</y>
-				<z>0</z>
-			</rotation>
 		</transform>
 		<components>
 			<component type="CameraComponent">
