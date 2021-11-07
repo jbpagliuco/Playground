@@ -147,10 +147,6 @@ namespace playground
 		desc.SampleDesc.Count = 1;
 		desc.SampleDesc.Quality = 0;
 
-		desc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
-		desc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
-		desc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
-
 		hr = NgaDx12State.mDevice->CreateGraphicsPipelineState(&desc, IID_PPV_ARGS(&mPSO));
 
 		COM_SAFE_RELEASE(serializedRootSignature);
