@@ -107,7 +107,7 @@ namespace playground
 		size_t mVertexStride = 0;
 
 		// Index buffer info
-		NGAFormat mIndexFormat = NGAFormat::R16_UINT;
+		NGAFormat mIndexFormat = NGAFormat::R32_UINT;
 	};
 
 	class NGABuffer
