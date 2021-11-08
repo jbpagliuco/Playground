@@ -115,9 +115,6 @@
     <CustomBuild Include="NGA\DX11\NGACoreInternalDX11.h">
       <Filter>NGA\DX11</Filter>
     </CustomBuild>
-    <CustomBuild Include="NGA\DX11\NGAInputLayoutDX11.cpp">
-      <Filter>NGA\DX11</Filter>
-    </CustomBuild>
     <CustomBuild Include="NGA\DX11\NGAPipelineStateDX11.cpp">
       <Filter>NGA\DX11</Filter>
     </CustomBuild>
@@ -154,9 +151,6 @@
     <CustomBuild Include="NGA\DX12\NGADescriptorHeapDX12.h">
       <Filter>NGA\DX12</Filter>
     </CustomBuild>
-    <CustomBuild Include="NGA\DX12\NGAInputLayoutDX12.cpp">
-      <Filter>NGA\DX12</Filter>
-    </CustomBuild>
     <CustomBuild Include="NGA\DX12\NGAPipelineStateDX12.cpp">
       <Filter>NGA\DX12</Filter>
     </CustomBuild>
@@ -188,9 +182,6 @@
       <Filter>NGA</Filter>
     </CustomBuild>
     <CustomBuild Include="NGA\NGADefs.h">
-      <Filter>NGA</Filter>
-    </CustomBuild>
-    <CustomBuild Include="NGA\NGAInputLayout.h">
       <Filter>NGA</Filter>
     </CustomBuild>
     <CustomBuild Include="NGA\NGAPipelineState.h">

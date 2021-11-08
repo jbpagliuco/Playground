@@ -19,6 +19,8 @@ namespace playground
 		if (data != nullptr) {
 			CopyMemory(mBlob->GetBufferPointer(), data, size);
 		}
+
+		return true;
 	}
 
 	void NGABlob::Destruct()

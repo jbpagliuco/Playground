@@ -9,7 +9,6 @@ namespace playground
 {
 	class NGABuffer;
 	class NGADepthStencilView;
-	class NGAInputLayout;
 	class NGAPipelineState;
 	class NGARasterizerState;
 	class NGARenderTargetView;
@@ -51,8 +50,6 @@ namespace playground
 
 		void BindIndexBuffer(const NGABuffer &indexBuffer);
 		void BindVertexBuffer(const NGABuffer &vertexBuffer);
-
-		void BindInputLayout(const NGAInputLayout &inputLayout);
 
 		void BindShader(const NGAShader &shader);
 

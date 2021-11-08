@@ -137,11 +137,6 @@ namespace playground
 		GetCurrentCommandContext().BindVertexBuffer(vb.GetBuffer());
 	}
 
-	void StateManager::BindInputLayout(const NGAInputLayout& inputLayout)
-	{
-		GetCurrentCommandContext().BindInputLayout(inputLayout);
-	}
-
 	void StateManager::BindShader(const ShaderProgram& shader)
 	{
 		GetCurrentCommandContext().BindShader(shader.GetShader());

@@ -3,7 +3,6 @@
 #include "RenderableInstance.h"
 
 #include "Core/Streaming/Stream.h"
-#include "Renderer/NGA/NGAInputLayout.h"
 
 namespace playground
 {

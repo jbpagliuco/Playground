@@ -5,7 +5,6 @@
 #include "Core/Debug/Log.h"
 #include "Core/Util/Timer.h"
 
-#include "NGA/NGAInputLayout.h"
 #include "NGA/NGAResources.h"
 #include "NGA/NGAResourceViews.h"
 #include "NGA/NGASamplerState.h"
@@ -112,11 +111,6 @@ namespace playground
 	void NGACommandContext::BindVertexBuffer(const NGABuffer& vertexBuffer)
 	{
 		NgaDx12State.mCommandList->IASetVertexBuffers(0, 1, &vertexBuffer.mVertexBufferView);
-	}
-
-	void NGACommandContext::BindInputLayout(const NGAInputLayout& inputLayout)
-	{
-		CORE_UNIMPLEMENTED();
 	}
 
 	void NGACommandContext::BindShader(const NGAShader& shader)

@@ -59,7 +59,6 @@
     <CustomBuild Include="NGA\DX11\NGACoreDX11.cpp" />
     <CustomBuild Include="NGA\DX11\NGACoreInternalDX11.cpp" />
     <CustomBuild Include="NGA\DX11\NGACoreInternalDX11.h" />
-    <CustomBuild Include="NGA\DX11\NGAInputLayoutDX11.cpp" />
     <CustomBuild Include="NGA\DX11\NGAPipelineStateDX11.cpp" />
     <CustomBuild Include="NGA\DX11\NGAResourcesDX11.cpp" />
     <CustomBuild Include="NGA\DX11\NGAResourceViewsDX11.cpp" />
@@ -72,7 +71,6 @@
     <CustomBuild Include="NGA\DX12\NGACoreInternalDX12.h" />
     <CustomBuild Include="NGA\DX12\NGADescriptorHeapDX12.cpp" />
     <CustomBuild Include="NGA\DX12\NGADescriptorHeapDX12.h" />
-    <CustomBuild Include="NGA\DX12\NGAInputLayoutDX12.cpp" />
     <CustomBuild Include="NGA\DX12\NGAPipelineStateDX12.cpp" />
     <CustomBuild Include="NGA\DX12\NGAResourcesDX12.cpp" />
     <CustomBuild Include="NGA\DX12\NGAResourceViewsDX12.cpp" />
@@ -84,7 +82,6 @@
     <CustomBuild Include="NGA\NGACommon.h" />
     <CustomBuild Include="NGA\NGACore.h" />
     <CustomBuild Include="NGA\NGADefs.h" />
-    <CustomBuild Include="NGA\NGAInputLayout.h" />
     <CustomBuild Include="NGA\NGAPipelineState.h" />
     <CustomBuild Include="NGA\NGAPipelineStateDefs.h" />
     <CustomBuild Include="NGA\NGAResources.h" />
