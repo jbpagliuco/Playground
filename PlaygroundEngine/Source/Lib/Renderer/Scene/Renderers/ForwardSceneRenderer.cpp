@@ -100,6 +100,7 @@ namespace playground
 			}
 
 			Playground_RendererStateManager->MapPerFrameData(camera->GetViewProj(), shadowCasterMatrices, mNumShadowCastingLights);
+			Playground_RendererStateManager->MapLightsData(lightsData);
 		}
 	}
 
