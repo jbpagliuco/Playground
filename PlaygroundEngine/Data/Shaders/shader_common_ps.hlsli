@@ -31,10 +31,10 @@ float ComputeShadowFactor(float4 projTexCoord, int shadowMapIndex)
 	float depth = projTexCoord.z - SHADOW_BIAS;
 
 	// Sample shadow map to get nearest depth to light
-	float s0 = shadowMaps.Sample(shadowMapSampler, float3(projTexCoord.xy, shadowMapIndex)).r;
-	float s1 = shadowMaps.Sample(shadowMapSampler, float3(projTexCoord.xy + float2(SMAP_DX, 0.0f), shadowMapIndex)).r;
-	float s2 = shadowMaps.Sample(shadowMapSampler, float3(projTexCoord.xy + float2(0.0f, SMAP_DX), shadowMapIndex)).r;
-	float s3 = shadowMaps.Sample(shadowMapSampler, float3(projTexCoord.xy + float2(SMAP_DX, SMAP_DX), shadowMapIndex)).r;
+	float s0 = shadowMaps.Sample(SAMPLER_SHADOW_MAP, float3(projTexCoord.xy, shadowMapIndex)).r;
+	float s1 = shadowMaps.Sample(SAMPLER_SHADOW_MAP, float3(projTexCoord.xy + float2(SMAP_DX, 0.0f), shadowMapIndex)).r;
+	float s2 = shadowMaps.Sample(SAMPLER_SHADOW_MAP, float3(projTexCoord.xy + float2(0.0f, SMAP_DX), shadowMapIndex)).r;
+	float s3 = shadowMaps.Sample(SAMPLER_SHADOW_MAP, float3(projTexCoord.xy + float2(SMAP_DX, SMAP_DX), shadowMapIndex)).r;
 
 	float result0 = depth <= s0 + SHADOW_EPSILON;
 	float result1 = depth <= s1 + SHADOW_EPSILON;

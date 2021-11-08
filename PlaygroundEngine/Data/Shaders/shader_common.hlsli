@@ -5,7 +5,7 @@
 #include <light.hlsli>
 
 // Constant Buffers
-cbuffer cbCamera : register(CB_REGISTER_PER_FRAME)
+cbuffer cbPerFrame : register(CB_REGISTER_PER_FRAME)
 {
 	matrix viewProj;
 	matrix lightViewProj[MAX_SHADOWMAPS];
@@ -26,9 +26,20 @@ cbuffer cbLights : register(CB_REGISTER_LIGHTS)
 	Light lights[MAX_LIGHTS];
 };
 
+// Engine textures
 Texture2DArray shadowMaps : register(TEX_REGISTER_SHADOWMAP);
-SamplerState shadowMapSampler : register(SAM_REGISTER_SHADOWMAP);
 
+// Sampler states
+SamplerState samplerPointWrap : register(SAM_REGISTER_POINT_WRAP);
+SamplerState samplerPointClamp : register(SAM_REGISTER_POINT_CLAMP);
+SamplerState samplerLinearWrap : register(SAM_REGISTER_LINEAR_WRAP);
+SamplerState samplerLinearClamp : register(SAM_REGISTER_LINEAR_CLAMP);
+SamplerState samplerAnisotropicWrap : register(SAM_REGISTER_ANISOTROPIC_WRAP);
+SamplerState samplerAnisotropicClamp : register(SAM_REGISTER_ANISOTROPIC_CLAMP);
+
+#define SAMPLER_SHADOW_MAP samplerPointClamp
+
+// Common vertex input struct
 struct CommonVertexInput
 {
 	float3 position : POSITION0;
@@ -36,6 +47,7 @@ struct CommonVertexInput
 	float2 texCoord : TEXCOORD0;
 };
 
+// Common pixel input struct
 struct CommonPixelInput
 {
 	float4 svpos : SV_POSITION;

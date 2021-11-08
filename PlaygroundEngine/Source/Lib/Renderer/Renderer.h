@@ -1,5 +1,7 @@
 #pragma once
 
+#include <array>
+
 #include "Core/DataStructures/Singleton.h"
 #include "Core/OS/OS.h"
 #include "Core/Util/CRC.h"
@@ -7,6 +9,7 @@
 #include "RenderDefs.h"
 #include "StateManager.h"
 #include "Renderer/NGA/NGAResourceViews.h"
+#include "Renderer/NGA/NGASamplerState.h"
 #include "Renderer/NGA/NGASwapChain.h"
 #include "Renderer/NGA/NGAPipelineState.h"
 #include "Renderer/Resources/RenderTarget.h"
@@ -17,6 +20,19 @@
 #define Playground_RendererStateManager		Renderer::Get()->GetStateManager()
 #define Playground_SwapChain				Renderer::Get()->GetSwapChain()
 #define Playground_MainRenderTarget			Renderer::Get()->GetRenderTarget()
+
+// Enumeration of all always loaded samplers.
+enum class StaticSamplers
+{
+	POINT_WRAP = 0,
+	POINT_CLAMP,
+	LINEAR_WRAP,
+	LINEAR_CLAMP,
+	ANISOTROPIC_WRAP,
+	ANISOTROPIC_CLAMP,
+
+	SIZE
+};
 
 namespace playground
 {
@@ -48,7 +64,13 @@ namespace playground
 		// Finds or creates a pipeline state object based off the material.
 		const NGAPipelineState* FindOrCreatePSO(const NGAPipelineStateDesc& desc, const char* name);
 		const NGAPipelineState* FindOrCreatePSO(const Material* material);
+
+		// Returns the static sampler of the given type.
+		const NGASamplerState& GetStaticSampler(StaticSamplers type)const;
 		
+	private:
+		bool CreateStaticSamplers();
+
 	private:
 		Window mWindow;
 		NGASwapChain mSwapChain;
@@ -59,5 +81,8 @@ namespace playground
 
 		// List of all loaded PSOs.
 		std::map<Checksum32, NGAPipelineState> mPSOs;
+
+		// List of static samplers available for shaders.
+		std::array<NGASamplerState, (size_t)StaticSamplers::SIZE> mStaticSamplers;
 	};
 }

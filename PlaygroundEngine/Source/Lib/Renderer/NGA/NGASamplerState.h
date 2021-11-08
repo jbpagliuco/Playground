@@ -36,7 +36,13 @@ namespace playground
 
 #if CORE_RENDER_API(DX11)
 	private:
-		struct ID3D11SamplerState *mSamplerState;
+		struct ID3D11SamplerState* mSamplerState;
+#elif CORE_RENDER_API(DX12)
+	public:
+		inline D3D12_STATIC_SAMPLER_DESC GetDesc()const { return mSamplerDesc; }
+	private:
+		D3D12_STATIC_SAMPLER_DESC mSamplerDesc;
+		bool mConstructed = false;
 #endif
 
 		friend class NGACommandContext;

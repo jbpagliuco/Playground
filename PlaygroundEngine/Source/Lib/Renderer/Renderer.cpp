@@ -32,6 +32,8 @@ namespace playground
 		// Register the back buffer render target as an engine resource
 		RegisterEngineRenderTarget("backBuffer", &mMainRenderTarget);
 
+		CreateStaticSamplers();
+
 		if (!mStateManager.Initialize()) {
 			return false;
 		}
@@ -79,5 +81,45 @@ namespace playground
 		psoDesc.mPixelShader = &material->GetShader()->GetPixelShader().GetShader();
 
 		return FindOrCreatePSO(psoDesc, material->GetName().c_str());
+	}
+
+	bool Renderer::CreateStaticSamplers()
+	{
+		bool success = true;
+
+		NGASamplerStateDesc wrapDesc;
+		wrapDesc.mAddressU = NGATextureAddressMode::WRAP;
+		wrapDesc.mAddressV = NGATextureAddressMode::WRAP;
+		wrapDesc.mAddressW = NGATextureAddressMode::WRAP;
+
+		NGASamplerStateDesc clampDesc;
+		clampDesc.mAddressU = NGATextureAddressMode::CLAMP;
+		clampDesc.mAddressV = NGATextureAddressMode::CLAMP;
+		clampDesc.mAddressW = NGATextureAddressMode::CLAMP;
+
+		// Point filters
+		wrapDesc.mFilter = NGATextureFilter::MIN_MAG_MIP_POINT;
+		success &= mStaticSamplers[(int)StaticSamplers::POINT_WRAP].Construct(wrapDesc);
+		clampDesc.mFilter = NGATextureFilter::MIN_MAG_MIP_POINT;
+		success &= mStaticSamplers[(int)StaticSamplers::POINT_CLAMP].Construct(clampDesc);
+
+		// Linear filters
+		wrapDesc.mFilter = NGATextureFilter::MIN_MAG_MIP_LINEAR;
+		success &= mStaticSamplers[(int)StaticSamplers::LINEAR_WRAP].Construct(wrapDesc);
+		clampDesc.mFilter = NGATextureFilter::MIN_MAG_MIP_LINEAR;
+		success &= mStaticSamplers[(int)StaticSamplers::LINEAR_CLAMP].Construct(clampDesc);
+
+		// Anisotropic filters
+		wrapDesc.mFilter = NGATextureFilter::ANISOTROPIC;
+		success &= mStaticSamplers[(int)StaticSamplers::ANISOTROPIC_WRAP].Construct(wrapDesc);
+		clampDesc.mFilter = NGATextureFilter::ANISOTROPIC;
+		success &= mStaticSamplers[(int)StaticSamplers::ANISOTROPIC_CLAMP].Construct(clampDesc);
+
+		return success;
+	}
+
+	const NGASamplerState& Renderer::GetStaticSampler(StaticSamplers type)const
+	{
+		return mStaticSamplers[(int)type];
 	}
 }

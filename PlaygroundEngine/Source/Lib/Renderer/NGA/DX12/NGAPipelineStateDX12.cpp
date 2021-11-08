@@ -5,8 +5,10 @@
 #include "ReflectionRegistry.h"
 
 #include "Core/Util/Util.h"
-#include "NGA/NGAShader.h"
-#include "NGACoreInternalDX12.h"
+
+#include "Renderer/NGA/NGAShader.h"
+#include "Renderer/NGA/DX12/NGACoreInternalDX12.h"
+#include "Renderer/Renderer.h"
 
 namespace playground
 {
@@ -29,11 +31,11 @@ namespace playground
 		srvRange.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, NUM_SHADER_RESOURCE_VIEWS, 0);
 		rootParameters[rootParameterIndex++].InitAsDescriptorTable(1, &srvRange);
 
-		CD3DX12_STATIC_SAMPLER_DESC staticSamplerDescs[NUM_SHADER_RESOURCE_VIEWS];
-		staticSamplerDescs[0].Init(0);
-		staticSamplerDescs[1].Init(1);
-		staticSamplerDescs[2].Init(2);
-		staticSamplerDescs[3].Init(3);
+		D3D12_STATIC_SAMPLER_DESC staticSamplerDescs[(int)StaticSamplers::SIZE];
+		for (int i = 0; i < (int)StaticSamplers::SIZE; ++i) {
+			staticSamplerDescs[i] = Playground_Renderer->GetStaticSampler((StaticSamplers)i).GetDesc();
+			staticSamplerDescs[i].ShaderRegister = i;
+		}
 
 		D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc;
 		rootSignatureDesc.NumParameters = STATIC_ARRAY_SIZE(rootParameters);
