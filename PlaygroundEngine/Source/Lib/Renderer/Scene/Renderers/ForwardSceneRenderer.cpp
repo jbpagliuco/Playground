@@ -79,14 +79,12 @@ namespace playground
 		PerFrameData perFrameData;
 
 		// Collect shadow casting lights from the scene.
-#if RENDER_FEATURE(SHADOWS)
 		CollectShadowCastingLights(scene);
 		for (int i = 0; i < MAX_SHADOWMAPS; ++i) {
 			if (mShadowCastingLights[i] != nullptr) {
 				perFrameData.lightViewProj[i] = mShadowCastingLights[i]->GetViewProj();
 			}
 		}
-#endif
 
 		// Map per frame data.
 		// TODO: Doesn't work with multiple cameras.
@@ -124,7 +122,6 @@ namespace playground
 
 	void ForwardRenderer::CollectShadowCastingLights(Scene& scene)
 	{
-#if RENDER_FEATURE(SHADOWS)
 		// Clear out our shadow casting light list
 		for (int i = 0; i < MAX_SHADOWMAPS; ++i) {
 			mShadowCastingLights[i] = nullptr;
@@ -148,7 +145,6 @@ namespace playground
 		}
 
 		mNumShadowCastingLights = shadowCasterIndex;
-#endif
 	}
 
 	void ForwardRenderer::BuildShadowMaps(Scene &scene, const Camera &camera)
