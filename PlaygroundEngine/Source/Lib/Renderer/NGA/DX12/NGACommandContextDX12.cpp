@@ -163,6 +163,34 @@ namespace playground
 		const D3D12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(renderTargetView.mResource, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
 		NgaDx12State.mCommandList->ResourceBarrier(1, &barrier);
 	}
+
+	
+	void NGACommandContext::UpdateResource(const NGABuffer& destBuffer, const NGABuffer& uploadBuffer, void* data)
+	{
+		// Describe the data we want to copy into the default buffer.
+		D3D12_SUBRESOURCE_DATA subResourceData = {};
+		subResourceData.pData = data;
+		subResourceData.RowPitch = uploadBuffer.GetBufferSize();
+		subResourceData.SlicePitch = subResourceData.RowPitch;
+
+		// Schedule to copy the data to the default buffer resource. At a high level, the helper function UpdateSubresources
+		// will copy the CPU memory into the intermediate upload heap. Then, using ID3D12CommandList::CopySubresourceRegion,
+		// the intermediate upload heap data will be copied to mBuffer.
+		D3D12_RESOURCE_BARRIER barrier{};
+		barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+		barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+		barrier.Transition.pResource = destBuffer.mBuffer;
+		barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_COMMON;
+		barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_COPY_DEST;
+		barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+		NgaDx12State.mCommandList->ResourceBarrier(1, &barrier);
+
+		UpdateSubresources<1>(NgaDx12State.mCommandList, destBuffer.mBuffer, uploadBuffer.mBuffer, 0, 0, 1, &subResourceData);
+
+		barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_COPY_DEST;
+		barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_GENERIC_READ;
+		NgaDx12State.mCommandList->ResourceBarrier(1, &barrier);
+	}
 }
 
 #endif // CORE_RENDER_API(DX11)

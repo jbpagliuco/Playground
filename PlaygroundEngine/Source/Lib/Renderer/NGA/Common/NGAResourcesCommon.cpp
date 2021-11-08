@@ -23,6 +23,27 @@ namespace playground
 
 
 
+	const NGABufferDesc& NGABuffer::GetDesc()const
+	{
+		return mDesc;
+	}
+
+	NGABufferUsage NGABuffer::GetBufferType()const
+	{
+		if (IsVertexBuffer()) {
+			return NGA_BUFFER_USAGE_VERTEX;
+		}
+		if (IsIndexBuffer()) {
+			return NGA_BUFFER_USAGE_INDEX;
+		}
+		if (IsConstantBuffer()) {
+			return NGA_BUFFER_USAGE_CONSTANT;
+		}
+
+		CORE_UNIMPLEMENTED();
+		return NGA_BUFFER_USAGE_NONE;
+	}
+
 	bool NGABuffer::IsVertexBuffer()const
 	{
 		return mDesc.mUsage & NGABufferUsage::NGA_BUFFER_USAGE_VERTEX;

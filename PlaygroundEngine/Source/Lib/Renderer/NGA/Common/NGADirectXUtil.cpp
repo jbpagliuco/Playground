@@ -10,6 +10,10 @@
 #include "Core/Util/String.h"
 #include "Core/Util/Util.h"
 
+#if CORE_RENDER_API(DX12)
+#include "NGA/DX12/NGACoreInternalDX12.h"
+#endif
+
 namespace playground
 {
 	// Entry point function names for shaders
@@ -193,7 +197,7 @@ namespace playground
 
 	};
 
-	bool CompileHLSL(NGABlob** outBuffer, const char* filename, NGAShaderType type)
+	bool CompileHLSL(NGABlob& outBuffer, const char* filename, NGAShaderType type)
 	{
 		const char* entrypoint = SHADER_ENTRYPOINTS[(int)type];
 		const char* target = COMPILE_TARGETS[(int)type];
@@ -202,12 +206,12 @@ namespace playground
 
 		ShaderProgramInclude includer;
 
-		NGABlob* errorMessage = nullptr;
-		
+		ID3DBlob* errorMessage = nullptr;
+
 #if CORE_RENDER_API(DX11)
 		HRESULT hr = D3DCompileFromFile(wfile.c_str(), nullptr, &includer, entrypoint, target, D3D10_SHADER_ENABLE_STRICTNESS, 0, outBuffer, &errorMessage);
 #elif CORE_RENDER_API(DX12)
-		HRESULT hr = D3DCompileFromFile(wfile.c_str(), nullptr, &includer, entrypoint, target, 0, 0, outBuffer, &errorMessage);
+		HRESULT hr = D3DCompileFromFile(wfile.c_str(), nullptr, &includer, entrypoint, target, 0, 0, &outBuffer.GetBlob(), &errorMessage);
 #endif
 
 		if (FAILED(hr)) {
@@ -217,9 +221,11 @@ namespace playground
 			else {
 				CORE_ASSERT(false, "Failed to compile HLSL shader '%ls' with unknown error", wfile.c_str());
 			}
+			COM_SAFE_RELEASE(errorMessage);
 			return false;
 		}
 
+		COM_SAFE_RELEASE(errorMessage);
 		return true;
 	}
 

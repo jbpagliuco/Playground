@@ -1,5 +1,6 @@
 #pragma once
 
+#include "NGA/NGABlob.h"
 #include "NGA/NGACommon.h"
 
 namespace playground
@@ -31,6 +32,7 @@ namespace playground
 
 	private:
 		NGAShaderType mType;
+		NGABlob mBytecode;
 
 #if CORE_RENDER_API(DX11)
 	private:
@@ -38,11 +40,6 @@ namespace playground
 			struct ID3D11VertexShader *mVertexShader;
 			struct ID3D11PixelShader *mPixelShader;
 		};
-
-		struct ID3D10Blob *mBytecode;
-#elif CORE_RENDER_API(DX12)
-	private:
-		ID3DBlob* mBytecode = nullptr;
 #endif
 
 		friend class NGACommandContext;

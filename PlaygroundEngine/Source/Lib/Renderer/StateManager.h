@@ -2,6 +2,7 @@
 
 #include "Core/Math/Matrix.h"
 
+#include "NGA/NGABlob.h"
 #include "NGA/NGACommandContext.h"
 #include "NGA/NGASwapChain.h"
 
@@ -29,6 +30,8 @@ namespace playground
 	constexpr int MAX_NUM_USER_SAMPLER_STATES = MAX_NUM_USER_SHADER_RESOURCES;
 
 	constexpr int MAX_RENDER_OBJECTS = 64;
+
+	constexpr int MAX_RESOURCE_UPDATES = 64;
 
 	enum class ShaderConstantBuffers
 	{
@@ -140,6 +143,9 @@ namespace playground
 		void DrawIndexed(const IndexBuffer &buffer);
 
 		void BindPipelineState(const NGAPipelineState& state);
+
+		// Updates a resource. This should be used upon creation of an immutable resource to set its initial data.
+		void UpdateResource(NGABuffer& buffer, void* data, size_t size);
 		
 	private:
 		NGACommandContext& GetCurrentCommandContext();
@@ -156,6 +162,23 @@ namespace playground
 		const NGADepthStencilView *mBoundDepthStencilView;
 
 		int mCommandListOpenCount = 0;
+	
+		// List of pending resource uploads. Once the command list has been flushed, these can be destroyed.
+		struct PendingResourceUpdate
+		{
+			// The intermediate upload buffer.
+			NGABuffer mUploadBuffer;
+			// The blob containing the upload data.
+			NGABlob mUploadBlob;
+
+			void Shutdown()
+			{
+				mUploadBlob.Destruct();
+				mUploadBuffer.Destruct();
+			}
+		};
+		PendingResourceUpdate mPendingResourceUploads[MAX_RESOURCE_UPDATES];
+		int mNumPendingResourceUploads = 0;
 	};
 
 	// Opens/Closes the command list 

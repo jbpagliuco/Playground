@@ -36,8 +36,11 @@ namespace playground
 		// Draw an indexed mesh.
 		void DrawIndexed(unsigned int indexCount);
 
-		// Map data to a buffer.
+		// Map data to a CPU buffer.
 		void MapBufferData(const NGABuffer &buffer, const void *data, size_t size, int arrayIndex = 0);
+
+		// Update a resource.
+		void UpdateResource(const NGABuffer& destBuffer, const NGABuffer& uploadBuffer, void* data);
 
 		// Set the current viewport.
 		void SetViewport(const NGARect &rect, float minDepth = 0.0f, float maxDepth = 1.0f);

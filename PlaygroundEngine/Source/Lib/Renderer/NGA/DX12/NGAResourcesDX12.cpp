@@ -141,34 +141,6 @@ namespace playground
 		return true;
 	}
 
-	bool NGABuffer::CreateUploadBuffer(const NGABufferDesc& desc)
-	{
-		// In order to copy CPU memory data into our default buffer, we need to create an intermediate upload heap.
-		D3D12_HEAP_PROPERTIES uploadHeapProperties{};
-		uploadHeapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
-		uploadHeapProperties.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
-		uploadHeapProperties.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
-		uploadHeapProperties.CreationNodeMask = 1;
-		uploadHeapProperties.VisibleNodeMask = 1;
-
-		D3D12_RESOURCE_DESC bufferDesc{};
-		bufferDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-		bufferDesc.Width = GetBufferSize();
-		bufferDesc.Height = 1;
-		bufferDesc.DepthOrArraySize = 1;
-		bufferDesc.MipLevels = 1;
-		bufferDesc.Format = DXGI_FORMAT_UNKNOWN;
-		bufferDesc.SampleDesc.Count = 1;
-		bufferDesc.SampleDesc.Quality = 0;
-		bufferDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-		bufferDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
-
-		HRESULT hr = NgaDx12State.mDevice->CreateCommittedResource(&uploadHeapProperties, D3D12_HEAP_FLAG_NONE, &bufferDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&mIntermediateUploadBuffer));
-		CORE_ASSERT_RETURN_VALUE(SUCCEEDED(hr), false, "Failed to create constant buffer upload resource.");
-
-		return true;
-	}
-
 	bool NGABuffer::Construct(const NGABufferDesc& desc)
 	{
 		mDesc = desc;
@@ -179,11 +151,6 @@ namespace playground
 		}
 
 		if (!CreateView(desc)) {
-			Destruct();
-			return false;
-		}
-
-		if (!CreateUploadBuffer(desc)) {
 			Destruct();
 			return false;
 		}
@@ -199,33 +166,7 @@ namespace playground
 		}
 
 		if (initialData != nullptr) {
-			// Copy into a CPU blob.
-			D3DCreateBlob(GetBufferSize(), &mIntermediateBlobCPU);
-			CopyMemory(mIntermediateBlobCPU->GetBufferPointer(), initialData, GetBufferSize());
-
-			// Describe the data we want to copy into the default buffer.
-			D3D12_SUBRESOURCE_DATA subResourceData = {};
-			subResourceData.pData = initialData;
-			subResourceData.RowPitch = GetBufferSize();
-			subResourceData.SlicePitch = subResourceData.RowPitch;
-
-			// Schedule to copy the data to the default buffer resource. At a high level, the helper function UpdateSubresources
-			// will copy the CPU memory into the intermediate upload heap. Then, using ID3D12CommandList::CopySubresourceRegion,
-			// the intermediate upload heap data will be copied to mBuffer.
-			D3D12_RESOURCE_BARRIER barrier{};
-			barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
-			barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-			barrier.Transition.pResource = mBuffer;
-			barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_COMMON;
-			barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_COPY_DEST;
-			barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
-			NgaDx12State.mCommandList->ResourceBarrier(1, &barrier);
-
-			UpdateSubresources<1>(NgaDx12State.mCommandList, mBuffer, mIntermediateUploadBuffer, 0, 0, 1, &subResourceData);
-
-			barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_COPY_DEST;
-			barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_GENERIC_READ;
-			NgaDx12State.mCommandList->ResourceBarrier(1, &barrier);
+			Playground_RendererStateManager->UpdateResource(*this, initialData, GetBufferSize());
 		}
 
 		return true;
@@ -265,8 +206,6 @@ namespace playground
 	void NGABuffer::Destruct()
 	{
 		COM_SAFE_RELEASE(mBuffer);
-		COM_SAFE_RELEASE(mIntermediateUploadBuffer);
-		COM_SAFE_RELEASE(mIntermediateBlobCPU);
 	}
 
 	bool NGABuffer::IsConstructed()const

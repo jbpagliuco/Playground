@@ -142,6 +142,10 @@
     <CustomBuild Include="StateManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="NGA\NGABlob.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="NGA\DX12\NGABlobDX12.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6245f607-6c94-4f93-bc2a-7f5284b7d434}</ProjectGuid>

@@ -67,6 +67,12 @@ namespace playground
 
 		GetCurrentCommandContext().Close();
 		GetCurrentCommandContext().Flush();
+
+		// Release all pending resource updates.
+		for (int i = 0; i < mNumPendingResourceUploads; ++i) {
+			mPendingResourceUploads[i].Shutdown();
+		}
+		mNumPendingResourceUploads = 0;
 	}
 
 	void StateManager::ClearAllUserResources()
@@ -252,6 +258,35 @@ namespace playground
 	void StateManager::BindPipelineState(const NGAPipelineState& state)
 	{
 		GetCurrentCommandContext().BindPipelineState(state);
+	}
+
+	void StateManager::UpdateResource(NGABuffer& buffer, void* data, size_t size)
+	{
+		CORE_ASSERT_RETURN(mNumPendingResourceUploads < MAX_RESOURCE_UPDATES, "Too many pending resource updates.");
+
+		PendingResourceUpdate& pendingData = mPendingResourceUploads[mNumPendingResourceUploads];
+
+		// Copy the data to our blob.
+		bool success = pendingData.mUploadBlob.Construct(size, data);
+		CORE_ASSERT(success, "Failed to create upload blob.");
+		if (!success) {
+			pendingData.Shutdown();
+			return;
+		}
+
+		// Create the upload buffer.
+		NGABufferDesc uploadBufferDesc = buffer.GetDesc();
+		uploadBufferDesc.mUsage = buffer.GetBufferType() | NGA_BUFFER_USAGE_CPU_WRITE;
+
+		success = pendingData.mUploadBuffer.Construct(uploadBufferDesc);
+		CORE_ASSERT(success, "Failed to create upload buffer.");
+		if (!success) {
+			pendingData.Shutdown();
+			return;
+		}
+
+		++mNumPendingResourceUploads;
+		GetCurrentCommandContext().UpdateResource(buffer, pendingData.mUploadBuffer, pendingData.mUploadBlob.GetBufferPointer());
 	}
 
 

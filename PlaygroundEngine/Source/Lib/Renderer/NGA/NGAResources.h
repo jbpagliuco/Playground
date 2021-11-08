@@ -122,10 +122,13 @@ namespace playground
 
 		bool IsConstructed()const;
 
+		const NGABufferDesc& GetDesc()const;
+
 		size_t GetBufferElementSize()const;
 		size_t GetBufferSize()const;
 
 		// Buffer type
+		NGABufferUsage GetBufferType()const;
 		bool IsVertexBuffer()const;
 		bool IsIndexBuffer()const;
 		bool IsConstantBuffer()const;
@@ -150,15 +153,9 @@ namespace playground
 #elif CORE_RENDER_API(DX12)
 	private:
 		bool CreateBuffer(const NGABufferDesc &desc);
-		bool CreateUploadBuffer(const NGABufferDesc &desc);
 		bool CreateView(const NGABufferDesc &desc);
 
 		ID3D12Resource* mBuffer = nullptr;
-
-		// TODO: Ideally these shouldn't be stored here. These two fields are used for uploading the
-		// initial data to the constant buffer. We must keep references to these since the upload is deferred.
-		ID3D12Resource* mIntermediateUploadBuffer = nullptr;
-		ID3DBlob* mIntermediateBlobCPU = nullptr;
 
 		// View to this buffer.
 		union {

@@ -21,7 +21,7 @@ namespace playground
 		
 		mType = type;
 
-		const bool compiled = CompileHLSL(&mBytecode, filename, type);
+		const bool compiled = CompileHLSL(mBytecode, filename, type);
 		if (!compiled) {
 			CORE_ASSERT("Failed to compile shader %s", filename);
 			Destruct();
@@ -33,26 +33,22 @@ namespace playground
 
 	void NGAShader::Destruct()
 	{
-		COM_SAFE_RELEASE(mBytecode);
+		mBytecode.Destruct();
 	}
 
 	bool NGAShader::IsConstructed()const
 	{
-		return mBytecode != nullptr;
+		return mBytecode.IsConstructed();
 	}
 	
 	void* NGAShader::GetBytecode()const
 	{
-		CORE_ASSERT_RETURN_VALUE(mBytecode != nullptr, nullptr, "Tried to get bytecode of uncompiled shader.");
-
-		return mBytecode->GetBufferPointer();
+		return mBytecode.GetBufferPointer();
 	}
 
 	size_t NGAShader::GetBytecodeSize()const
 	{
-		CORE_ASSERT_RETURN_VALUE(mBytecode != nullptr, -1, "Tried to get bytecode size of uncompiled shader.");
-
-		return mBytecode->GetBufferSize();
+		return mBytecode.GetBufferSize();
 	}
 
 	NGAShader::operator D3D12_SHADER_BYTECODE()const
