@@ -10,6 +10,8 @@ namespace playground
 {
 	CORE_CREATE_SINGLETON_INSTANCE(Scene);
 
+	static int NextRenderableIndex = 0;
+
 
 	RenderableBucket& Scene::GetRenderableBucket(const RenderableInstance* renderable)
 	{
@@ -22,13 +24,23 @@ namespace playground
 
 	void Scene::AddRenderable(RenderableInstance *renderable)
 	{
-		GetRenderableBucket(renderable).push_back(renderable);
+		// Assign this renderable an index
+		SceneRenderable sceneRenderable;
+		sceneRenderable.mRenderable = renderable;
+		sceneRenderable.mObjectIndex = NextRenderableIndex;
+		++NextRenderableIndex;
+
+		GetRenderableBucket(renderable).push_back(sceneRenderable);
 	}
 
 	void Scene::RemoveRenderable(RenderableInstance *renderable)
 	{
 		RenderableBucket& bucket = GetRenderableBucket(renderable);
-		bucket.erase(std::remove(bucket.begin(), bucket.end(), renderable), bucket.end());
+
+		const auto predicate = [renderable](const SceneRenderable& it) {
+			return it.mRenderable == renderable;
+		};
+		bucket.erase(std::remove_if(bucket.begin(), bucket.end(), predicate), bucket.end());
 	}
 
 	void Scene::AddLight(Light *light)

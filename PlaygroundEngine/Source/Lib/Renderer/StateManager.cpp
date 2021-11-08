@@ -13,21 +13,6 @@ namespace playground
 	StateManager RendererStateManager;
 
 
-	struct PerFrameData
-	{
-		Matrix cameraViewProj;
-		Matrix lightViewProj[MAX_SHADOWMAPS];
-		int mNumShadowCasters;
-	};
-
-	struct PerObjectData
-	{
-		Matrix world;
-		Matrix worldInverseTranspose;
-	};
-
-
-
 	StateManager::StateManager() :
 		mBoundRenderTarget(&NGARenderTargetView::INVALID),
 		mBoundDepthStencilView(&NGADepthStencilView::INVALID)
@@ -43,7 +28,7 @@ namespace playground
 		bool success = mPerFrameBuffer.Initialize(ConstantBufferUsage::CPU_WRITE, nullptr, sizeof(PerFrameData));
 		CORE_ASSERT_RETURN_VALUE(success, false, "Failed to initialize per frame buffer.");
 
-		success = mObjectDataBuffer.Initialize(ConstantBufferUsage::CPU_WRITE, nullptr, sizeof(PerObjectData));
+		success = mPerObjectBuffer.Initialize(ConstantBufferUsage::CPU_WRITE, nullptr, sizeof(PerObjectData), MAX_RENDER_OBJECTS);
 		CORE_ASSERT_RETURN_VALUE(success, false, "Failed to initialize object data buffer.");
 
 		success = mLightsBuffer.Initialize(ConstantBufferUsage::CPU_WRITE, nullptr, sizeof(LightsData));
@@ -55,7 +40,7 @@ namespace playground
 	void StateManager::Shutdown()
 	{
 		mPerFrameBuffer.Shutdown();
-		mObjectDataBuffer.Shutdown();
+		mPerObjectBuffer.Shutdown();
 		mLightsBuffer.Shutdown();
 	}
 
@@ -95,18 +80,9 @@ namespace playground
 		}
 	}
 
-	void StateManager::MapPerFrameData(const Matrix& cameraViewProj, Matrix lightViewProj[MAX_SHADOWMAPS], int numShadowCasters)
+	void StateManager::MapPerFrameData(const PerFrameData& perFrameData)
 	{
-		PerFrameData data;
-		data.cameraViewProj = cameraViewProj;
-
-		for (int i = 0; i < STATIC_ARRAY_SIZE(data.lightViewProj); ++i) {
-			data.lightViewProj[i] = lightViewProj[i];
-		}
-
-		data.mNumShadowCasters = numShadowCasters;
-
-		mPerFrameBuffer.Map(&data);
+		mPerFrameBuffer.Map(&perFrameData);
 	}
 
 	void StateManager::BindPerFrameData()
@@ -114,15 +90,15 @@ namespace playground
 		GetCurrentCommandContext().BindConstantBuffer(mPerFrameBuffer.GetBuffer(), NGA_SHADER_STAGE_VERTEX, (int)ShaderConstantBuffers::PERFRAME);
 	}
 
-	void StateManager::SetObjectTransform(const Matrix& transform)
+	void StateManager::MapPerObjectData(const PerObjectData* perObjectData, size_t numObjects)
 	{
-		PerObjectData data;
-		data.world = transform;
-		data.worldInverseTranspose = transform.Inverted().Transposed();
+		// Map all objects at once.
+		mPerObjectBuffer.Map(perObjectData, numObjects * sizeof(PerObjectData));
+	}
 
-		mObjectDataBuffer.Map(&data);
-
-		GetCurrentCommandContext().BindConstantBuffer(mObjectDataBuffer.GetBuffer(), NGA_SHADER_STAGE_VERTEX, (int)ShaderConstantBuffers::OBJECTDATA);
+	void StateManager::BindPerObjectData(int index)
+	{
+		GetCurrentCommandContext().BindConstantBuffer(mPerObjectBuffer.GetBuffer(), NGA_SHADER_STAGE_VERTEX, (int)ShaderConstantBuffers::OBJECTDATA, index);
 	}
 
 	void StateManager::MapLightsData(const LightsData& lights)

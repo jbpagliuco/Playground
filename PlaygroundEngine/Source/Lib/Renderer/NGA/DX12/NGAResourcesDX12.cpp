@@ -273,6 +273,13 @@ namespace playground
 	{
 		return mBuffer != nullptr;
 	}
+
+	D3D12_GPU_VIRTUAL_ADDRESS NGABuffer::GetGPUVirtualAddress(int arrayIndex)const
+	{
+		CORE_ASSERT(IsConstantBuffer());
+
+		return mConstantBufferView.BufferLocation + (GetBufferElementSize() * arrayIndex);
+	}
 }
 
 #endif // CORE_RENDER_API(DX11)

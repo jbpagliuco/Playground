@@ -37,7 +37,7 @@ namespace playground
 		void DrawIndexed(unsigned int indexCount);
 
 		// Map data to a buffer.
-		void MapBufferData(const NGABuffer &buffer, const void *data, size_t size);
+		void MapBufferData(const NGABuffer &buffer, const void *data, size_t size, int arrayIndex = 0);
 
 		// Set the current viewport.
 		void SetViewport(const NGARect &rect, float minDepth = 0.0f, float maxDepth = 1.0f);
@@ -53,7 +53,7 @@ namespace playground
 
 		void BindShader(const NGAShader &shader);
 
-		void BindConstantBuffer(const NGABuffer &constantBuffer, NGAShaderStage stage, int slot);
+		void BindConstantBuffer(const NGABuffer &constantBuffer, NGAShaderStage stage, int slot, int arrayIndex = 0);
 		void BindShaderResource(const NGAShaderResourceView &view, NGAShaderStage stage, int slot);
 		void BindSamplerState(const NGASamplerState &samplerState, NGAShaderStage stage, int slot);
 

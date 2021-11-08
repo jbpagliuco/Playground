@@ -52,11 +52,16 @@ namespace playground
 		return mDesc.mIndexFormat;
 	}
 
-	size_t NGABuffer::GetBufferSize()const
+	size_t NGABuffer::GetBufferElementSize()const
 	{
 #if CORE_RENDER_API(DX11) || CORE_RENDER_API(DX12)
 		return IsConstantBuffer() ? CalcConstantBufferByteSize(mDesc.mSizeInBytes) : mDesc.mSizeInBytes;
 #endif
+	}
+
+	size_t NGABuffer::GetBufferSize()const
+	{
+		return GetBufferElementSize() * mDesc.mArraySize;
 	}
 
 	bool NGABuffer::IsCPUWritable()const

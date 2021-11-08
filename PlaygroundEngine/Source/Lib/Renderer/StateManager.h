@@ -28,6 +28,8 @@ namespace playground
 	constexpr int MAX_NUM_USER_SHADER_RESOURCES = 4;
 	constexpr int MAX_NUM_USER_SAMPLER_STATES = MAX_NUM_USER_SHADER_RESOURCES;
 
+	constexpr int MAX_RENDER_OBJECTS = 64;
+
 	enum class ShaderConstantBuffers
 	{
 		PERFRAME = 0,
@@ -48,6 +50,19 @@ namespace playground
 		USER
 	};
 
+	// Constant buffers
+	struct PerFrameData
+	{
+		Matrix cameraViewProj;
+		Matrix lightViewProj[MAX_SHADOWMAPS];
+		int mNumShadowCasters;
+	};
+
+	CORE_ALIGN_MS(256) struct PerObjectData
+	{
+		Matrix mWorld;
+		Matrix mWorldInverseTranspose;
+	} CORE_ALIGN_GCC(256);
 
 	struct LightsData
 	{
@@ -74,11 +89,12 @@ namespace playground
 		void ClearAllUserResources();
 
 		// Sets per-frame data. Should be called once before rendering the scene.
-		void MapPerFrameData(const Matrix& cameraViewProj, Matrix lightViewProj[MAX_SHADOWMAPS], int numShadowCasters);
+		void MapPerFrameData(const PerFrameData& perFrameData);
 		void BindPerFrameData();
 		
 		// Sets data for the object about to be rendered.
-		void SetObjectTransform(const Matrix &transform);
+		void MapPerObjectData(const PerObjectData* perObjectData, size_t numObjects);
+		void BindPerObjectData(int index);
 
 		// Sets light data.
 		void MapLightsData(const LightsData& lights);
@@ -132,7 +148,7 @@ namespace playground
 		NGACommandContext mCommandContexts[MAX_SWAP_CHAIN_BUFFERS];
 
 		ConstantBuffer mPerFrameBuffer;
-		ConstantBuffer mObjectDataBuffer;
+		ConstantBuffer mPerObjectBuffer;
 
 		ConstantBuffer mLightsBuffer;
 

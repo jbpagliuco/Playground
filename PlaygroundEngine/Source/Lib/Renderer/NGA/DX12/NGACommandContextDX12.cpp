@@ -63,16 +63,18 @@ namespace playground
 		NgaDx12State.mCommandList->DrawIndexedInstanced(indexCount, 1, 0, 0, 0);
 	}
 
-	void NGACommandContext::MapBufferData(const NGABuffer& buffer, const void* data, size_t size)
+	void NGACommandContext::MapBufferData(const NGABuffer& buffer, const void* data, size_t size, int arrayIndex)
 	{
 		const NGABufferUsage usage = buffer.mDesc.mUsage;
 		CORE_ASSERT_RETURN((usage & NGA_BUFFER_USAGE_CPU_WRITE) || (usage & NGA_BUFFER_USAGE_CPU_READ_WRITE));
+
+		CORE_ASSERT_RETURN(arrayIndex >= 0 && arrayIndex < buffer.mDesc.mArraySize, "Trying to write to an invalid array index %d", arrayIndex);
 
 		BYTE* mappedData;
 		HRESULT hr = buffer.mBuffer->Map(0, nullptr, reinterpret_cast<void**>(&mappedData));
 		CORE_ASSERT_RETURN(SUCCEEDED(hr), "Failed to map constant buffer data.");
 
-		memcpy(mappedData, data, size);
+		memcpy(mappedData + (buffer.GetBufferElementSize() * arrayIndex), data, size);
 
 		buffer.mBuffer->Unmap(0, nullptr);
 	}
@@ -122,9 +124,9 @@ namespace playground
 		// CORE_UNIMPLEMENTED();
 	}
 
-	void NGACommandContext::BindConstantBuffer(const NGABuffer& constantBuffer, NGAShaderStage stage, int slot)
+	void NGACommandContext::BindConstantBuffer(const NGABuffer& constantBuffer, NGAShaderStage stage, int slot, int arrayIndex)
 	{
-		NgaDx12State.mCommandList->SetGraphicsRootConstantBufferView(slot, constantBuffer.mConstantBufferView.BufferLocation);
+		NgaDx12State.mCommandList->SetGraphicsRootConstantBufferView(slot, constantBuffer.GetGPUVirtualAddress(arrayIndex));
 	}
 
 	void NGACommandContext::BindShaderResource(const NGAShaderResourceView& view, NGAShaderStage stage, int slot)

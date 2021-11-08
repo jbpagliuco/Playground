@@ -13,7 +13,14 @@ namespace playground
 	class NGAPipelineState;
 	class RenderableInstance;
 
-	typedef std::vector<RenderableInstance*> RenderableBucket;
+	struct SceneRenderable
+	{
+	public:
+		RenderableInstance* mRenderable;
+		int mObjectIndex;
+	};
+
+	typedef std::vector<SceneRenderable> RenderableBucket;
 	typedef std::map<const NGAPipelineState*, RenderableBucket> Renderables;
 
 	class Scene : public Singleton<Scene>
@@ -42,6 +49,8 @@ namespace playground
 		const std::vector<Camera*>& GetCameras()const;
 
 	private:
+
+
 		// Returns the bucket that this renderable belongs to.
 		RenderableBucket& GetRenderableBucket(const RenderableInstance* renderable);
 

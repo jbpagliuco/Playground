@@ -89,11 +89,10 @@ namespace playground
 			// TODO: Bind shadow map pipeline
 
 			for (auto& renderable : bucket) {
-				Matrix worldTransform = renderable->GetWorldTransform();
-				Playground_RendererStateManager->MapBufferData(ShadowMapPerObjectBuffer.GetBuffer(), &worldTransform);
+				Playground_RendererStateManager->BindPerObjectData(renderable.mObjectIndex);
 				Playground_RendererStateManager->BindConstantBuffer(ShadowMapPerObjectBuffer.GetBuffer(), NGA_SHADER_STAGE_VERTEX, 1);
 
-				renderable->Render(false);
+				renderable.mRenderable->Render(false);
 			}
 		}
 	}

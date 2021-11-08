@@ -5,13 +5,14 @@
 
 namespace playground
 {
-	bool ConstantBuffer::Initialize(ConstantBufferUsage usage, void *initialData, size_t size)
+	bool ConstantBuffer::Initialize(ConstantBufferUsage usage, void *initialData, size_t size, int arraySize)
 	{
 		CORE_ASSERT_RETURN_VALUE(!mBuffer.IsConstructed(), false);
 		
 		NGABufferDesc desc;
 		desc.mUsage = NGA_BUFFER_USAGE_CONSTANT;
-		desc.mSizeInBytes = RoundToNearestMultiple((int)size, 16);
+		desc.mSizeInBytes = size;
+		desc.mArraySize = arraySize;
 
 		switch (usage) {
 		case ConstantBufferUsage::IMMUTABLE:

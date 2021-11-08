@@ -76,16 +76,20 @@ namespace playground
 
 	void ForwardRenderer::MapPerFrameData(Scene& scene)
 	{
-		Matrix shadowCasterMatrices[MAX_SHADOWMAPS];
+		PerFrameData perFrameData;
+
+		// Collect shadow casting lights from the scene.
 #if RENDER_FEATURE(SHADOWS)
 		CollectShadowCastingLights(scene);
 		for (int i = 0; i < MAX_SHADOWMAPS; ++i) {
 			if (mShadowCastingLights[i] != nullptr) {
-				shadowCasterMatrices[i] = mShadowCastingLights[i]->GetViewProj();
+				perFrameData.lightViewProj[i] = mShadowCastingLights[i]->GetViewProj();
 			}
 		}
 #endif
 
+		// Map per frame data.
+		// TODO: Doesn't work with multiple cameras.
 		auto& lights = scene.GetLights();
 		for (const auto& camera : scene.GetCameras()) {
 			constexpr float ambient = 0.3f;
@@ -99,9 +103,23 @@ namespace playground
 				lightsData.lights[i] = *lights[i];
 			}
 
-			Playground_RendererStateManager->MapPerFrameData(camera->GetViewProj(), shadowCasterMatrices, mNumShadowCastingLights);
+			perFrameData.cameraViewProj = camera->GetViewProj();
+			perFrameData.mNumShadowCasters = mNumShadowCastingLights;
+
+			Playground_RendererStateManager->MapPerFrameData(perFrameData);
 			Playground_RendererStateManager->MapLightsData(lightsData);
 		}
+
+		// Map per object data for all objects
+		PerObjectData perObjectData[MAX_RENDER_OBJECTS];
+		for (const auto& it : scene.GetRenderables()) {
+			const auto& bucket = it.second;
+			for (const auto& renderable : bucket) {
+				perObjectData[renderable.mObjectIndex].mWorld = renderable.mRenderable->GetWorldTransform();
+				perObjectData[renderable.mObjectIndex].mWorldInverseTranspose = perObjectData[renderable.mObjectIndex].mWorld.Inverted().Transposed();
+			}
+		}
+		Playground_RendererStateManager->MapPerObjectData(perObjectData, MAX_RENDER_OBJECTS);
 	}
 
 	void ForwardRenderer::CollectShadowCastingLights(Scene& scene)
@@ -167,8 +185,8 @@ namespace playground
 			Playground_RendererStateManager->BindLightsData();
 
 			for (auto& renderable : bucket) {
-				Playground_RendererStateManager->SetObjectTransform(renderable->GetWorldTransform());
-				renderable->Render();
+				Playground_RendererStateManager->BindPerObjectData(renderable.mObjectIndex);
+				renderable.mRenderable->Render();
 			}
 		}
 

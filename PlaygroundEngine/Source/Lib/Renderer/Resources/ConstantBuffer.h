@@ -14,7 +14,7 @@ namespace playground
 	class ConstantBuffer
 	{
 	public:
-		bool Initialize(ConstantBufferUsage usage, void *initialData, size_t size);
+		bool Initialize(ConstantBufferUsage usage, void *initialData, size_t size, int arraySize = 1);
 		void Shutdown();
 
 		// Map data to this buffer.

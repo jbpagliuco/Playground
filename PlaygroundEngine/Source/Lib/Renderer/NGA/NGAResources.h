@@ -102,6 +102,7 @@ namespace playground
 		// General buffer info
 		NGABufferUsage mUsage = NGA_BUFFER_USAGE_NONE;
 		uint32_t mSizeInBytes = 0;
+		uint32_t mArraySize = 1;
 
 		// Vertex buffer info
 		size_t mVertexStride = 0;
@@ -121,6 +122,7 @@ namespace playground
 
 		bool IsConstructed()const;
 
+		size_t GetBufferElementSize()const;
 		size_t GetBufferSize()const;
 
 		// Buffer type
@@ -130,6 +132,10 @@ namespace playground
 
 		// Read/Write access
 		bool IsCPUWritable()const;
+		
+#if CORE_RENDER_API(DX12)
+		D3D12_GPU_VIRTUAL_ADDRESS GetGPUVirtualAddress(int arrayIndex = 0)const;
+#endif
 
 		// Vertex buffers
 		size_t GetVertexStride()const;
