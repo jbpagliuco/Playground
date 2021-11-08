@@ -6,15 +6,20 @@
 #include "Renderer/Resources/ConstantBuffer.h"
 #include "Renderer/Resources/Texture.h"
 #include "Renderer/Shader/Shader.h"
+#include "Renderer/Util/RendererUtil.h"
 
 namespace playground
 {
 	static ConstantBuffer DebugTextureCB;
+	static const NGAPipelineState* DebugTexturePSO = nullptr;
 
 	bool DebugTextureSystemInitialize()
 	{
 		bool success = DebugTextureCB.Initialize(ConstantBufferUsage::CPU_WRITE, nullptr, sizeof(Matrix));
 		CORE_ASSERT_RETURN_VALUE(success, false, "Failed to initialize debug texture constant buffer.");
+
+		PipelineStateDesc psoDesc(*GetEngineShader(EngineShader::DEBUG_TEXTURE));
+		DebugTexturePSO = Playground_Renderer->FindOrCreatePSO(psoDesc, "Debug Texture");
 
 		return true;
 	}
@@ -29,8 +34,7 @@ namespace playground
 		const Texture* debugTex = TryGetEngineTexture("debug");
 		if (debugTex != nullptr) {
 			// Bind shader
-			Playground_RendererStateManager->BindShader(GetEngineShader(EngineShader::DEBUG_TEXTURE)->GetVertexShader());
-			Playground_RendererStateManager->BindShader(GetEngineShader(EngineShader::DEBUG_TEXTURE)->GetPixelShader());
+			Playground_RendererStateManager->BindPipelineState(*DebugTexturePSO);
 
 			// Scale and shift quad to lower-right corner.
 			Matrix world = Matrix::Translation(Vector(0.5f, -0.5f, 0.0f, 1.0f)) * Matrix::Scaling(Vector(0.5f, 0.5f, 1.0f, 1.0f));

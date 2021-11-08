@@ -11,6 +11,7 @@
 #include "Renderer/Scene/Renderables/RenderableInstance.h"
 #include "Renderer/Shader/Shader.h"
 #include "Renderer/Shader/ShaderConstants.h"
+#include "Renderer/Util/RendererUtil.h"
 
 namespace playground
 {
@@ -18,6 +19,8 @@ namespace playground
 
 	static ConstantBuffer ShadowMapPerFrameBuffer;
 	static ConstantBuffer ShadowMapPerObjectBuffer;
+
+	static const NGAPipelineState* ShadowMapPSO = nullptr;
 
 
 	bool ShadowMapBuilder::Initialize(int numShadowMaps)
@@ -44,6 +47,9 @@ namespace playground
 		bool success = mRenderTarget.Initialize(desc);
 		CORE_ASSERT_RETURN_VALUE(success, false, "Failed to initialize shadow map render target.");
 
+		PipelineStateDesc psoDesc(*GetEngineShader(EngineShader::SHADOWMAP));
+		ShadowMapPSO = Playground_Renderer->FindOrCreatePSO(psoDesc, "ShadowMap Builder");
+
 		return true;
 	}
 	
@@ -57,9 +63,8 @@ namespace playground
 		// Set viewport
 		Playground_RendererStateManager->SetViewport(ShadowMapViewport);
 
-		// Set shaders
-		Playground_RendererStateManager->BindShader(GetEngineShader(EngineShader::SHADOWMAP)->GetVertexShader());
-		Playground_RendererStateManager->BindShader(GetEngineShader(EngineShader::SHADOWMAP)->GetPixelShader());
+		// Set pipeline
+		Playground_RendererStateManager->BindPipelineState(*ShadowMapPSO);
 
 		for (int i = 0; i < numLights; ++i) {
 			BuildSlice(scene, *lights[i], i);

@@ -113,11 +113,6 @@ namespace playground
 		NgaDx12State.mCommandList->IASetVertexBuffers(0, 1, &vertexBuffer.mVertexBufferView);
 	}
 
-	void NGACommandContext::BindShader(const NGAShader& shader)
-	{
-		// CORE_UNIMPLEMENTED();
-	}
-
 	void NGACommandContext::BindConstantBuffer(const NGABuffer& constantBuffer, NGAShaderStage stage, int slot, int arrayIndex)
 	{
 		NgaDx12State.mCommandList->SetGraphicsRootConstantBufferView(slot, constantBuffer.GetGPUVirtualAddress(arrayIndex));

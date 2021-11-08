@@ -23,6 +23,5 @@ namespace playground
 
 	void Material::Bind()
 	{
-		mShader->Bind();
 	}
 }

@@ -74,20 +74,6 @@ namespace playground
 		NgaDx11State.mContext->IASetInputLayout(inputLayout.mInputLayout);
 	}
 
-	void NGACommandContext::BindShader(const NGAShader &shader)
-	{
-		switch (shader.GetType())
-		{
-		case NGAShaderType::VERTEX:
-			NgaDx11State.mContext->VSSetShader(shader.mVertexShader, nullptr, 0);
-			break;
-
-		case NGAShaderType::PIXEL:
-			NgaDx11State.mContext->PSSetShader(shader.mPixelShader, nullptr, 0);
-			break;
-		}
-	}
-
 	void NGACommandContext::BindConstantBuffer(const NGABuffer &constantBuffer, NGAShaderStage stage, int slot)
 	{
 		if (stage & NGA_SHADER_STAGE_VERTEX) {

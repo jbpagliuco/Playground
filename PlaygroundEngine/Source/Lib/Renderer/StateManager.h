@@ -113,8 +113,6 @@ namespace playground
 
 		void BindInputLayout(const NGAInputLayout &inputLayout);
 
-		void BindShader(const ShaderProgram &shader);
-
 		void BindUserConstantBuffer(const NGABuffer &constantBuffer, NGAShaderStage stage, int slot);
 		void BindConstantBuffer(const NGABuffer &constantBuffer, NGAShaderStage stage, int slot);
 

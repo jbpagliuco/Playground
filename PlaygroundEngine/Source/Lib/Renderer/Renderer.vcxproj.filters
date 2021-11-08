@@ -402,8 +402,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NGA\NGABlob.h" />
+    <ClInclude Include="Util\RendererUtil.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NGA\DX12\NGABlobDX12.cpp" />
+    <ClCompile Include="Util\RendererUtil.cpp" />
   </ItemGroup>
 </Project>

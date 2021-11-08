@@ -137,11 +137,6 @@ namespace playground
 		GetCurrentCommandContext().BindVertexBuffer(vb.GetBuffer());
 	}
 
-	void StateManager::BindShader(const ShaderProgram& shader)
-	{
-		GetCurrentCommandContext().BindShader(shader.GetShader());
-	}
-
 
 	void StateManager::BindUserShaderResource(const Texture& texture, NGAShaderStage stage, int slot)
 	{

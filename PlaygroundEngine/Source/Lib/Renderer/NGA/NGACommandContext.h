@@ -51,8 +51,6 @@ namespace playground
 		void BindIndexBuffer(const NGABuffer &indexBuffer);
 		void BindVertexBuffer(const NGABuffer &vertexBuffer);
 
-		void BindShader(const NGAShader &shader);
-
 		void BindConstantBuffer(const NGABuffer &constantBuffer, NGAShaderStage stage, int slot, int arrayIndex = 0);
 		void BindShaderResource(const NGAShaderResourceView &view, NGAShaderStage stage, int slot);
 		void BindSamplerState(const NGASamplerState &samplerState, NGAShaderStage stage, int slot);

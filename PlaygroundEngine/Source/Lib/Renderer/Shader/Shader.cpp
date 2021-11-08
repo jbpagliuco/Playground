@@ -31,10 +31,4 @@ namespace playground
 		mVertexShader.Shutdown();
 		mPixelShader.Shutdown();
 	}
-
-	void Shader::Bind()
-	{
-		Playground_RendererStateManager->BindShader(mVertexShader);
-		Playground_RendererStateManager->BindShader(mPixelShader);
-	}
 }

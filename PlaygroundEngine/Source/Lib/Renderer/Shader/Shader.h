@@ -25,8 +25,6 @@ namespace playground
 		bool Initialize(const ShaderDesc& shaderDesc);
 		void Shutdown();
 
-		void Bind();
-
 		inline const NGAVertexFormatDesc& GetVertexFormat()const { return mVertexFormat; }
 
 		inline const VertexShader& GetVertexShader()const { return mVertexShader; }

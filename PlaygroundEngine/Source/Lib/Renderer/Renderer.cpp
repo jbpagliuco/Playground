@@ -51,28 +51,33 @@ namespace playground
 		mSwapChain.Present();
 	}
 
-	const NGAPipelineState* Renderer::FindOrCreatePSO(const Material* material)
+
+	const NGAPipelineState* Renderer::FindOrCreatePSO(const NGAPipelineStateDesc& desc, const char* name)
 	{
 		// Compute the checksum of the PSO.
 		Checksum32 checksum = 0;
-		checksum = crc32(material->GetShader(), checksum);
-		checksum = crc32(material->GetShader()->GetVertexFormat(), checksum);
+		checksum = crc32(desc, checksum);
 
 		// Check if this PSO already exists.
 		if (mPSOs.find(checksum) != mPSOs.end()) {
 			return &mPSOs[checksum];
 		}
 
+		NGAPipelineState& pso = mPSOs[checksum];
+		const bool success = pso.Construct(desc);
+		CORE_ASSERT_RETURN_VALUE(success, nullptr, "Failed to construct PSO for material: %s", name);
+
+		return &pso;
+	}
+
+	const NGAPipelineState* Renderer::FindOrCreatePSO(const Material* material)
+	{
 		// Create the new PSO.
 		NGAPipelineStateDesc psoDesc;
 		psoDesc.mVertexFormat = material->GetShader()->GetVertexFormat();
 		psoDesc.mVertexShader = &material->GetShader()->GetVertexShader().GetShader();
 		psoDesc.mPixelShader = &material->GetShader()->GetPixelShader().GetShader();
 
-		NGAPipelineState& pso = mPSOs[checksum];
-		const bool success = pso.Construct(psoDesc);
-		CORE_ASSERT_RETURN_VALUE(success, nullptr, "Failed to construct PSO for material: %s", material->GetName());
-
-		return &pso;
+		return FindOrCreatePSO(psoDesc, material->GetName().c_str());
 	}
 }

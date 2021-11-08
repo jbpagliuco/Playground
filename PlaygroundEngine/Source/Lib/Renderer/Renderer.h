@@ -46,6 +46,7 @@ namespace playground
 		RenderTarget* GetRenderTarget() { return &mMainRenderTarget; }
 
 		// Finds or creates a pipeline state object based off the material.
+		const NGAPipelineState* FindOrCreatePSO(const NGAPipelineStateDesc& desc, const char* name);
 		const NGAPipelineState* FindOrCreatePSO(const Material* material);
 		
 	private:
